@@ -10,9 +10,10 @@ footer
     padding: 5vh 3vw
     background: $clr-contrast
     span
-      width: 25vw
+      width: 30vw
       font-size: 2.5em
       color: $clr-background
+      text-transform: uppercase
     div.combined-input
       width: 30vw
     ul.shortcuts
@@ -52,3 +53,16 @@ footer
             left: 25px
           li
             font-size: 1.1em
+  div.rights
+    @include flexing($justify: space-between)
+    padding: 3vh 3vw
+    background: $clr-contrast
+    width: 100%
+    span
+      font-size: 1.1em
+      color: $clr-background
+      width: 60vw
+    ul.shortcuts
+      height: 4vh
+      width: 25vw
+      gap: 20px

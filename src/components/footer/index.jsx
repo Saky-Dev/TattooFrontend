@@ -65,7 +65,9 @@ const Footer = () => {
         <span className='title'>Contacto</span>
         <ul className='content'>
           {contact.map((item, index) => (
-            <li key={index}>{item}</li>
+            <li key={index}>
+              <span>{item}</span>
+            </li>
           ))}
         </ul>
       </div>
@@ -90,7 +92,12 @@ const Footer = () => {
       {!authValue.admin.isLoggedIn
         ? getInformation()
         : <></>}
-      <div className='rights' />
+      <div className='rights'>
+        <span>Todos los derechos reservados SHOGUN.INK © | Terminos de uso | Política de provacidad</span>
+        {authValue.admin.isLoggedIn
+          ? <Shortcuts list={socialMedia} />
+          : <></>}
+      </div>
     </footer>
   )
 }
