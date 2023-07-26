@@ -28,7 +28,28 @@ const Footer = () => {
     }
   ]
 
-  const subscribe = () => (
+  const contact = [
+    'Av. Miguel Hidalgo y Costilla 811,Centro, Guadalajara, Jal. 44200T.',
+    '800 607 0027',
+    'CONTACTO@SHOGUN.INK'
+  ]
+
+  const information = [
+    {
+      title: 'Información',
+      description: ['Ayuda', 'Garantia', 'Privacidad', 'Metodos de pago']
+    },
+    {
+      title: 'Tienda',
+      description: ['Productos', 'Novedades', 'Descuentos', 'Mi carrito']
+    },
+    {
+      title: 'Cuenta',
+      description: ['Crear cuenta', 'Entrar', 'Reservaciones']
+    }
+  ]
+
+  const getSubscribe = () => (
     <div className='subscribe'>
       <span>Recibe las ultimas novedades, descuentos y promociones</span>
       <CombinedInput type='email' color='second'>
@@ -38,12 +59,37 @@ const Footer = () => {
     </div>
   )
 
+  const getInformation = () => (
+    <div className='information'>
+      <div className='contact'>
+        <span className='title'>Contacto</span>
+        <ul className='content'>
+          {contact.map((item, index) => (
+            <li key={index}>{item}</li>
+          ))}
+        </ul>
+      </div>
+      <div className='extra'>
+        {information.map((item, index) => (
+          <div className='list' key={index}>
+            <span className='title'>{item.title}</span>
+            <ul className='content'>
+              {item.description.map((text, i) => (<li key={i}>{text}</li>))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+
   return (
     <footer>
       {!authValue.user.isAuthenticated
-        ? subscribe()
+        ? getSubscribe()
         : <></>}
-      <div className='information' />
+      {!authValue.admin.isLoggedIn
+        ? getInformation()
+        : <></>}
       <div className='rights' />
     </footer>
   )
