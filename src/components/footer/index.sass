@@ -1,0 +1,21 @@
+@import ../../common/styles/variables
+@import ../../common/styles/mixins
+
+footer
+  @include flexing($direction: column, $justify: flex-start)
+  width: 100%
+  div.subscribe
+    @include flexing($justify: space-between)
+    width: 100%
+    padding: 5vh 90px
+    background: $clr-contrast
+    span
+      width: 25vw
+      font-size: 2.5em
+      color: $clr-background
+    div.combined-input
+      width: 30vw
+    ul.shortcuts
+      height: 4vh
+      width: 25vw
+      gap: 20px
