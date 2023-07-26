@@ -1,5 +1,5 @@
-@import ../../global/styles/variables
-@import ../../global/styles/mixins
+@import ../../common/styles/variables
+@import ../../common/styles/mixins
 
 header
   @include flexing($justify: space-between)
@@ -14,13 +14,14 @@ header
     gap: 10px
     img
       height: 6.5vh
-    h1
-      color: transparent
-      background: linear-gradient(to right, $clr-background 72%, $clr-main 72%)
-      background-clip: text
-      -webkit-background-clip: text
-      font-weight: 400
-      width: 30vw
+    a
+      text-decoration: none
+      h1
+        color: transparent
+        background: linear-gradient(to right, $clr-background 72%, $clr-main 72%)
+        background-clip: text
+        -webkit-background-clip: text
+        font-weight: 400
   div.center
     nav
       width: inherit
