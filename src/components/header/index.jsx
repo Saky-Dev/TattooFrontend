@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import AuthContext from '../../common/context/auth'
+import Shortcuts from '../shortcuts'
 import logo from '../../assets/icons/shogunink.svg'
 import shopping from '../../assets/icons/shopping-bag.svg'
 import user from '../../assets/icons/user-circle.svg'
@@ -62,22 +63,6 @@ const Header = () => {
     )
   }
 
-  const listShortcuts = () => {
-    const shortcuts = authValue.admin.isLoggedIn
-      ? adminItems.shortcuts
-      : userItems.shortcuts
-
-    return (
-      shortcuts.map((item, index) => (
-        <li key={index}>
-          <Link to={item.path} onClick={item.handleClick}>
-            <img src={item.img} alt={item.text} />
-          </Link>
-        </li>
-      ))
-    )
-  }
-
   return (
     <header>
       <div className='west'>
@@ -94,9 +79,11 @@ const Header = () => {
         </nav>
       </div>
       <div className='east'>
-        <ul>
-          {listShortcuts()}
-        </ul>
+        <Shortcuts
+          list={authValue.admin.isLoggedIn
+            ? adminItems.shortcuts
+            : userItems.shortcuts}
+        />
       </div>
     </header>
   )
