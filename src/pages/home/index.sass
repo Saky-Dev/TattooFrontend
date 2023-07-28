@@ -1,0 +1,23 @@
+@import ../../common/styles/variables
+@import ../../common/styles/mixins
+
+main.home
+  width: 100%
+  padding: 5vh 0
+  section.almost
+    width: 100%
+    padding: 0 3vw
+    div.carousel
+      span.text
+        @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+        div.line
+          &:nth-child(1)
+            @include flexing($align: flex-end, $justify: flex-start)
+            gap: 40px
+            span.red
+              color: $clr-main
+              font-weight: 600
+          &:nth-child(2)
+            margin:
+              left: 5vw
+            font-weight: 600

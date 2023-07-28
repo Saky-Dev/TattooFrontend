@@ -6,9 +6,20 @@ import './index.sass'
 
 const Home = () => {
   return (
-    <main>
+    <main className='home'>
       <section className='almost'>
-        <Carousel pictures={[landing01, landing02, landing03]} />
+        <Carousel
+          pictures={[landing01, landing02, landing03]}
+          text={
+            <>
+              <div className='line'>
+                <span className='red'>Conoce</span>Nuestras
+              </div>
+              <div className='line'>Sucursales</div>
+            </>
+          }
+          isParagraph={false}
+        />
       </section>
       <section className='full' />
       <section className='almost' />
