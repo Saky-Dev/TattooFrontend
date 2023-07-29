@@ -2,10 +2,13 @@
 @import ../../common/styles/mixins
 
 main.home
+  @include flexing($direction: column, $justify: flex-start)
   width: 100%
   padding: 5vh 0
-  section.almost
+  gap: 5vh
+  section.almost, section.full
     width: 100%
+  section.almost
     padding: 0 3vw
     div.carousel
       span.text
@@ -21,3 +24,7 @@ main.home
             margin:
               left: 5vw
             font-weight: 600
+  section.full
+    div.spectacular
+      span
+        @include logo()

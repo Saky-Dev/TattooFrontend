@@ -20,7 +20,15 @@ const Header = () => {
     ],
     shortcuts: [
       { img: shopping, text: 'carrito', path: '/cart' },
-      { img: user, text: 'perfil', path: '/profile' }
+      {
+        img: user,
+        text: authValue.user.isAuthenticated
+          ? 'perfil'
+          : 'login',
+        path: authValue.user.isAuthenticated
+          ? '/profile'
+          : '/login'
+      }
     ]
   }
 

@@ -27,11 +27,9 @@ const Carousel = ({ pictures = [], text = '', isParagraph = false }) => {
 
   return (
     <div className='carousel'>
-      {
-        isParagraph
-          ? <p className='text'>{text}</p>
-          : <span className='text'>{text}</span>
-      }
+      {isParagraph
+        ? <p className='text'>{text}</p>
+        : <span className='text'>{text}</span>}
       <div className='selector-container'>
         {pictures.map((_, index) => (
           <button
