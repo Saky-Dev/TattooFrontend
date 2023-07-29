@@ -76,7 +76,7 @@ const Header = () => {
       <div className='west'>
         <img src={logo} alt='logo' />
         <Link to={authValue.admin.isLoggedIn ? '/admin/users' : '/'}>
-          <h1>SHOGUN.INK</h1>
+          <span>SHOGUN.INK</span>
         </Link>
       </div>
       <div className='center'>
