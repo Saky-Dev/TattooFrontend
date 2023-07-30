@@ -5,7 +5,7 @@ const EmailInput = ({ setEmail = () => {} }) => (
     <input
       required
       type='email'
-      onChange={(e) => setEmail(e.target.value)}
+      onInput={(e) => setEmail(e.target.value)}
       placeholder='Correo'
     />
   </div>

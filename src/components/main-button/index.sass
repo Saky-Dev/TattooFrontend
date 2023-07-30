@@ -5,8 +5,14 @@ button.main-button
   border: none
   color: $clr-background
   font-weight: 400
-  font-size: 1.1em
+  font-size: 1.2em
+  transition: 0.15s ease
+  cursor: pointer
   &.type-main
     background: $clr-main
+    &:is(:hover, :focus)
+      background: $clr-main-dark
   &.type-second
     background: $clr-second
+    &:is(:hover, :focus)
+      background: $clr-contrast

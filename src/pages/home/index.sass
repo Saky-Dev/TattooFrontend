@@ -34,14 +34,14 @@ main.home
         font-size: $fnt-subtitle
       div.grid
         width: calc(100% - 15px * 3)
-        height: calc(150vh)
+        height: calc(130vh)
         display: grid
         grid-template-columns: 30% 20% 20% 30%
-        grid-template-rows: 25% 50% 25%
+        grid-template-rows: 30% 40% 30%
         gap: 15px
         align-items: center
         justify-items: center
-        a
+        div
           @include flexing()
           width: 100%
           height: 100%
@@ -65,16 +65,17 @@ main.home
           &:nth-child(5)
             grid-column: 3 / 5
           &:is(:hover, :focus)
-            span
+            a
               opacity: 1
             img
               transform: scale(1.1)
-          span
+          a
             @include flexing()
             font-size: 1.8em
             width: 100%
             height: 100%
             color: $clr-background
+            text-decoration: none
             background: transparentize($clr-contrast, 0.4)
             opacity: 0
             transition: 0.15s ease
@@ -87,7 +88,69 @@ main.home
             z-index: -1
             object-fit: cover
             transition: 0.15s ease
+    &.slogan
+      @include flexing()
+      gap: 10vw
+      img
+        height: 70vh
+        aspect-ratio: 3 / 4
+        object-fit: cover
+      div.slogan-text
+        @include flexing($direction: column, $align: flex-start)
+        gap: 2.5vh
+        div.text
+          @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+          span
+            @include flexing($justify: flex-start)
+            gap: 10px
+            color: $clr-contrast
+            text-transform: uppercase
+            font-size: 3em
+            div.bold
+              font-weight: 700
+            div.red
+              color: $clr-main
+        div.line
+          width: 50%
+          height: 2px
+          background: $clr-main
   section.full
     div.spectacular
       h1
         @include logo()
+    &.preregister
+      @include flexing($justify: space-between)
+      height: 60vh
+      background: $clr-contrast
+      form
+        @include flexing($direction: column, $align: flex-start)
+        gap: 2.5vh
+        width: 50vw
+        padding: 0 3vw
+        h2
+          font-size: $fnt-subtitle
+          color: $clr-background
+          font-weight: 400
+        p
+          color: $clr-background
+          font-size: 1.3em
+        div.data-container
+          @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+          gap: 15px
+          width: 80%
+          div.combined-input
+            width: 100%
+      div.picture-container
+        position: relative
+        height: 100%
+        div.mask
+          position: absolute
+          top: 0
+          left: 0
+          width: 100%
+          height: 100%
+          background: linear-gradient(to right, $clr-contrast, transparent 50%)
+        img
+          height: 100%
+          aspect-ratio: 4 / 3
+          object-fit: cover
