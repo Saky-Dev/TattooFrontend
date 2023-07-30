@@ -112,9 +112,11 @@ const Home = () => {
             <span>Tu <div className='red'>piel,</div>nuestra tinta</span>
           </div>
           <div className='line' />
-          <MainButton>
-            Descubrir
-          </MainButton>
+          <Link to='/tattoo'>
+            <MainButton>
+              Descubrir
+            </MainButton>
+          </Link>
         </div>
       </section>
     </main>

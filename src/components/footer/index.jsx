@@ -49,12 +49,16 @@ const Footer = () => {
     }
   ]
 
+  const handleSubmit = e => e.preventDefault()
+
   const getSubscribe = () => (
     <div className='subscribe'>
       <span>Recibe las ultimas novedades, descuentos y promociones</span>
-      <CombinedInput type='email' color='second'>
-        Suscribete ahora
-      </CombinedInput>
+      <form onSubmit={handleSubmit}>
+        <CombinedInput type='email' color='second'>
+          Suscribete ahora
+        </CombinedInput>
+      </form>
       <Shortcuts list={socialMedia} />
     </div>
   )
