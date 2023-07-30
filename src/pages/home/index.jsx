@@ -91,7 +91,7 @@ const Home = () => {
       <section className='full preregister'>
         <form onSubmit={handleSubmit}>
           <h2>Registro</h2>
-          <p>Si estás buscando plasmar tu estilo único y personalidad en un tatuaje impresionante, estás en el lugar adecuado. Regístrate en nuestra página de tatuajes y déjanos ayudarte a encontrar al artista perfecto para que tu piel cuente la historia que deseas compartir con el mundo.</p>
+          <p>Busca plasmar tu estilo único y personalidad a traves de la tinta. Regístrate ahora y déjanos ayudarte a encontrar al artista perfecto para que tu piel cuente la historia que deseas compartir con el mundo.</p>
           <div className='data-container'>
             <EmailInput />
             <CombinedInput type='password'>

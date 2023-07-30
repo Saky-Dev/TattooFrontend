@@ -4,6 +4,7 @@ import AuthContext, { AuthProvider } from './common/context/auth'
 import Header from './components/header'
 import Footer from './components/footer'
 import Home from './pages/home'
+import Tattoo from './pages/tattoo'
 import './App.sass'
 
 const AppPreview = () => {
@@ -18,6 +19,7 @@ const AppPreview = () => {
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/tattoo' element={<Tattoo />} />
       </Routes>
       <Footer />
     </>
