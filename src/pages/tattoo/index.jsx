@@ -36,9 +36,21 @@ const Tatto = () => {
   ]
 
   const handleClick = e => {
+    const selected = document.querySelector('ul.icon-list li.selected')
+    if (selected) { selected.classList.remove('selected') }
+    e.target.parentNode.classList.add('selected')
     console.log(e.target.getAttribute('linked'))
     setTattoosList([])
   }
+
+  const pictureLanding = () => (
+    <div className='picture-landing-container'>
+      <div className='mask'>
+        <span>Descubre nuestros nuevos diseños</span>
+      </div>
+      <img src={TattooPicture} alt='tattoo' className='landing' />
+    </div>
+  )
 
   return (
     <main className='tattoo'>
@@ -48,7 +60,7 @@ const Tatto = () => {
       </aside>
       <div className='content'>
         {tattoosList.length < 1
-          ? <img src={TattooPicture} alt='tattoo' />
+          ? pictureLanding()
           : <></>}
       </div>
     </main>

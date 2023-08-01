@@ -1,0 +1,39 @@
+@import ../../common/styles/variables
+@import ../../common/styles/mixins
+
+main.tattoo
+  @include flexing($direction: row, $align: flex-start, $justify: space-between)
+  width: 100%
+  padding: 3vh 3vw
+  aside
+    @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+    gap: 4vh
+    padding: 2vh 3.5vw 8vh 2.5vw
+    box-shadow: 0 1px 3px transparentize($clr-contrast, 0.7)
+    h2
+      color: $clr-contrast
+      font-weight: 400
+      font-size: $fnt-subtitle
+    ul
+      padding:
+        left: 15px
+  div.picture-landing-container
+    width: 75vw
+    position: relative
+    div.mask
+      @include flexing()
+      position: absolute
+      width: 100%
+      height: 100%
+      background: transparentize($clr-contrast, 0.6)
+      backdrop-filter: blur(3px)
+      span
+        width: 70%
+        color: $clr-background
+        font-size: $fnt-title
+        font-weight: 400
+        text-align: center
+    img.landing
+      width: 100%
+      aspect-ratio: 3 / 2
+      object-fit: cover
