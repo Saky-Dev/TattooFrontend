@@ -5,6 +5,7 @@ import Header from './components/header'
 import Footer from './components/footer'
 import Home from './pages/home'
 import Tattoo from './pages/tattoo'
+import Login from './pages/login'
 import './App.sass'
 
 const AppPreview = () => {
@@ -20,6 +21,7 @@ const AppPreview = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/tattoo' element={<Tattoo />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
       <Footer />
     </>
