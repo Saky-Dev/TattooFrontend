@@ -21,6 +21,22 @@ const Login = () => {
     e.preventDefault()
 
     console.log({ email, password })
+
+    /* fetch('http://localhost:3000/api/auth/login', {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify({ email, password })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        if (data.success) {
+          authValue.user.setUser(data.user)
+        } else {
+          window.alert(data.message)
+        }
+      })
+      .catch(err => console.log(err)) */
   }
 
   return (

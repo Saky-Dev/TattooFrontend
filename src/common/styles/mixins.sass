@@ -4,8 +4,8 @@
   align-items: $align
   justify-content: $justify
 
-@mixin logo()
+@mixin logo($color: $clr-background)
   color: transparent
-  background: linear-gradient(to right, $clr-background 72%, $clr-main 72%)
+  background: linear-gradient(to right, $color 72%, $clr-main 72%)
   background-clip: text
   -webkit-background-clip: text

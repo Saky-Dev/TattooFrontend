@@ -1,0 +1,39 @@
+@import ../../common/styles/variables
+@import ../../common/styles/mixins
+
+main.login
+  @include flexing()
+  width: 100%
+  min-height: 90vh
+  div.container
+    @include flexing($direction: column, $justify: space-between)
+    width: 45vw
+    height: 75vh
+    padding: 8vh 8vw 1.5vh 8vw
+    box-shadow: 0 1px 3px transparentize($clr-contrast, 0.7)
+    div.title
+      @include flexing($direction: column)
+      gap: 15px
+      span.logo
+        @include logo($color: $clr-contrast)
+        font-size: 3em
+      h2
+        color: $clr-contrast
+        font-weight: 400
+        font-size: $fnt-subtitle
+    form
+      @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+      width: 100%
+      gap: 15px
+      button.main-button
+        width: 100%
+    div.links
+      @include flexing()
+      gap: 10px
+      width: 100%
+      a
+        color: $clr-second
+      div
+        height: 100%
+        width: 1px
+        background: $clr-contrast
