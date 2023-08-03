@@ -4,6 +4,8 @@ import AuthContext from '../../common/context/auth'
 import EmailInput from '../../components/email-input'
 import PasswordInput from '../../components/password-input'
 import MainButton from '../../components/main-button'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './index.sass'
 
 const Login = () => {
@@ -13,36 +15,61 @@ const Login = () => {
   const authValue = useContext(AuthContext)
 
   useEffect(() => {
-    authValue.user.setIsAuthenticated(true)
-    return () => { authValue.user.setIsAuthenticated(false) }
+    if (authValue.user.isAuthenticated) {
+      window.location.replace('/profile')
+    }
   }, [])
+
+  const saveUser = token => {
+    const now = new Date().getTime()
+    const expTime = now + 1000 * 60 * 60 * 24 * 3
+
+    document.cookie = `token=${token}; path=/; expires=${expTime}`
+  }
+
+  const saveAdmin = token => {
+    document.cookie = `token=${token}; path=/`
+  }
 
   const handleSumbit = e => {
     e.preventDefault()
 
-    console.log({ email, password })
+    console.debug({ email, password })
 
-    fetch('/signin/', {
+    fetch('api/signin', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: {
         'Content-Type': 'application/json'
       }
     })
-      .then(response => response.text())
+      .then(response => response.json())
       .then(data => {
-        console.log(data)
-        /* if (data.success) {
-          authValue.user.setUser(data.user)
+        const saveData = {
+          user: saveUser,
+          admin: saveAdmin
+        }
+
+        if (data.success) {
+          saveData[data.type](data.token)
         } else {
-          window.alert(data.message)
-        } */
+          toast.error('Sin registros del usuario', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: 'light'
+          })
+        }
       })
       .catch(err => console.log(err))
   }
 
   return (
     <main className='login'>
+      <ToastContainer />
       <div className='container'>
         <div className='title'>
           <span className='logo'>SHOGUN.INK</span>

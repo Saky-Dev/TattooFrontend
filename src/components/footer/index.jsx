@@ -63,6 +63,16 @@ const Footer = () => {
     </div>
   )
 
+  const getSubscribeVisibility = () => {
+    const invalid = ['/login', '/register', '/forbiden-password']
+
+    if (authValue.user.isAuthenticated) { return false }
+
+    if (invalid.includes(window.location.pathname)) { return false }
+
+    return true
+  }
+
   const getInformation = () => (
     <div className='information'>
       <div className='contact'>
@@ -90,7 +100,7 @@ const Footer = () => {
 
   return (
     <footer>
-      {!authValue.user.isAuthenticated
+      {getSubscribeVisibility()
         ? getSubscribe()
         : <></>}
       {!authValue.admin.isLoggedIn
