@@ -22,21 +22,23 @@ const Login = () => {
 
     console.log({ email, password })
 
-    /* fetch('http://localhost:3000/api/auth/login', {
+    fetch('/signin/', {
       method: 'POST',
-      mode: 'no-cors',
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
-      .then(response => response.json())
+      .then(response => response.text())
       .then(data => {
         console.log(data)
-        if (data.success) {
+        /* if (data.success) {
           authValue.user.setUser(data.user)
         } else {
           window.alert(data.message)
-        }
+        } */
       })
-      .catch(err => console.log(err)) */
+      .catch(err => console.log(err))
   }
 
   return (
