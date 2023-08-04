@@ -1,37 +1,29 @@
 import { useState } from 'react'
 import IconList from '../../components/icon-list'
-import Torii from '../../assets/icons/torii.svg'
-import Paw from '../../assets/icons/paw-filled.svg'
-import Moon from '../../assets/icons/moon-filled.svg'
-import Book from '../../assets/icons/book.svg'
-import Ghost from '../../assets/icons/ghost-filled.svg'
-import Skull from '../../assets/icons/skull.svg'
-import Pacman from '../../assets/icons/pacman.svg'
-import Butterfly from '../../assets/icons/butterfly.svg'
-import Funimation from '../../assets/icons/brand-funimation.svg'
-import Leaf from '../../assets/icons/leaf.svg'
-import Cross from '../../assets/icons/cross.svg'
-import Feather from '../../assets/icons/feather.svg'
-import Axe from '../../assets/icons/axe.svg'
-import TattooPicture from '../../assets/pictures/tattoo-picture.jpg'
+import { TattooPicture } from '../../common/const/static/pictures'
 import './index.sass'
+import {
+  Japanese, Dog, Moon, Comic, Demon,
+  Skull, Videogames, Butterfly, Anime, Tree,
+  Religion, Owl, Axe
+} from '../../common/const/static/icons'
 
 const Tatto = () => {
   const [tattoosList, setTattoosList] = useState([])
 
   const items = [
-    { icon: Torii, title: 'Japones', val: 'japanese' },
-    { icon: Paw, title: 'Perros', val: 'dog' },
+    { icon: Japanese, title: 'Japones', val: 'japanese' },
+    { icon: Dog, title: 'Perros', val: 'dog' },
     { icon: Moon, title: 'Luna', val: 'moon' },
-    { icon: Book, title: 'Comics', val: 'comics' },
-    { icon: Ghost, title: 'Demonios', val: 'demons' },
+    { icon: Comic, title: 'Comics', val: 'comics' },
+    { icon: Demon, title: 'Demonios', val: 'demons' },
     { icon: Skull, title: 'Calaveras', val: 'skull' },
-    { icon: Pacman, title: 'Videojuegos', val: 'videogames' },
+    { icon: Videogames, title: 'Videojuegos', val: 'videogames' },
     { icon: Butterfly, title: 'Mariposas', val: 'butterflies' },
-    { icon: Funimation, title: 'Manga', val: 'manga' },
-    { icon: Leaf, title: 'Arboles', val: 'trees' },
-    { icon: Cross, title: 'Religiosas', val: 'religion' },
-    { icon: Feather, title: 'Búhos', val: 'owls' },
+    { icon: Anime, title: 'Manga', val: 'manga' },
+    { icon: Tree, title: 'Arboles', val: 'trees' },
+    { icon: Religion, title: 'Religiosas', val: 'religion' },
+    { icon: Owl, title: 'Búhos', val: 'owls' },
     { icon: Axe, title: 'Hachas', val: 'hachas' }
   ]
 

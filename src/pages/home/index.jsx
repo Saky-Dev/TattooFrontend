@@ -5,38 +5,29 @@ import Spectacular from '../../components/spectacular'
 import EmailInput from '../../components/email-input'
 import CombinedInput from '../../components/combined-input'
 import MainButton from '../../components/main-button'
-import landing01 from '../../assets/pictures/landing-01.jpg'
-import landing02 from '../../assets/pictures/landing-02.jpg'
-import landing03 from '../../assets/pictures/landing-03.jpg'
-import landingGridJapanese from '../../assets/pictures/landing-grid-japanese.jpg'
-import landingGridDogs from '../../assets/pictures/landing-grid-dogs.jpg'
-import landingGridMoons from '../../assets/pictures/landing-grid-moons.jpg'
-import landingGridComics from '../../assets/pictures/landing-grid-comics.jpg'
-import landingGridDemons from '../../assets/pictures/landing-grid-demons.jpg'
-import landingGridSkulls from '../../assets/pictures/landing-grid-skulls.jpg'
-import landingGridButterflies from '../../assets/pictures/landing-grid-butterflies.jpg'
-import landingGridVideogames from '../../assets/pictures/landing-grid-videogames.jpg'
-import homeSpectacular from '../../assets/pictures/home-spectacular.jpg'
-import landingRegister from '../../assets/pictures/landing-register.jpg'
-import onWhite01 from '../../assets/pictures/on-white-01.jpg'
-import onWhite02 from '../../assets/pictures/on-white-02.jpg'
-import onWhite03 from '../../assets/pictures/on-white-03.jpg'
 import './index.sass'
+import {
+  LandingCarousel01, LandingCarousel02, LandingCarousel03,
+  LandingGridButterflies, LandingGridComics, LandingGridDemons,
+  LandingGridDogs, LandingGridJapanese, LandingGridMoons,
+  LandingGridSkulls, LandingGridVideogames, LandingRegister,
+  HomeSpectacular, LandingWhite01, LandingWhite02, LandingWhite03
+} from '../../common/const/static/pictures'
 
 const Home = () => {
   const [pictureIndex, setPictureIndex] = useState(0)
 
-  const sloganPictures = [onWhite01, onWhite02, onWhite03]
+  const sloganPictures = [LandingWhite01, LandingWhite02, LandingWhite03]
 
   const categoriesGrid = [
-    { name: 'Japones', picture: landingGridJapanese },
-    { name: 'Perros', picture: landingGridDogs },
-    { name: 'Lunas', picture: landingGridMoons },
-    { name: 'Comics', picture: landingGridComics },
-    { name: 'Demonios', picture: landingGridDemons },
-    { name: 'Calaveras', picture: landingGridSkulls },
-    { name: 'Mariposas', picture: landingGridButterflies },
-    { name: 'Videojuegos', picture: landingGridVideogames }
+    { name: 'Japones', picture: LandingGridJapanese },
+    { name: 'Perros', picture: LandingGridDogs },
+    { name: 'Lunas', picture: LandingGridMoons },
+    { name: 'Comics', picture: LandingGridComics },
+    { name: 'Demonios', picture: LandingGridDemons },
+    { name: 'Calaveras', picture: LandingGridSkulls },
+    { name: 'Mariposas', picture: LandingGridButterflies },
+    { name: 'Videojuegos', picture: LandingGridVideogames }
   ]
 
   const handleGridClick = e => {
@@ -62,7 +53,7 @@ const Home = () => {
     <main className='home'>
       <section className='almost'>
         <Carousel
-          pictures={[landing01, landing02, landing03]}
+          pictures={[LandingCarousel01, LandingCarousel02, LandingCarousel03]}
           text={
             <>
               <div className='line'>
@@ -75,7 +66,7 @@ const Home = () => {
         />
       </section>
       <section className='full'>
-        <Spectacular text='SHOGUN.INK' picture={homeSpectacular} />
+        <Spectacular text='SHOGUN.INK' picture={HomeSpectacular} />
       </section>
       <section className='almost categories'>
         <h2>Categorias</h2>
@@ -101,7 +92,7 @@ const Home = () => {
         </form>
         <div className='picture-container'>
           <div className='mask' />
-          <img src={landingRegister} alt='tattoo girl' />
+          <img src={LandingRegister} alt='tattoo girl' />
         </div>
       </section>
       <section className='almost slogan'>

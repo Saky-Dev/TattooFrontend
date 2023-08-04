@@ -2,9 +2,7 @@ import { useContext } from 'react'
 import AuthContext from '../../common/context/auth'
 import CombinedInput from '../combined-input'
 import Shortcuts from '../shortcuts'
-import facebook from '../../assets/icons/brand-facebook-filled.svg'
-import twitter from '../../assets/icons/brand-twitter-filled.svg'
-import instagram from '../../assets/icons/brand-instagram.svg'
+import { Facebook, Twitter, Instagram } from '../../common/const/static/icons'
 import './index.sass'
 
 const Footer = () => {
@@ -12,17 +10,17 @@ const Footer = () => {
 
   const socialMedia = [
     {
-      img: facebook,
+      img: Facebook,
       path: 'https://www.facebook.com/shogunink/',
       text: 'Facebook'
     },
     {
-      img: twitter,
+      img: Twitter,
       path: 'https://www.twitter.com/shogunink/',
       text: 'Twitter'
     },
     {
-      img: instagram,
+      img: Instagram,
       path: 'https://www.instagram.com/shogunink/',
       text: 'Instagram'
     }

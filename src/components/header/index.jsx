@@ -2,10 +2,7 @@ import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import AuthContext from '../../common/context/auth'
 import Shortcuts from '../shortcuts'
-import logo from '../../assets/icons/shogunink.svg'
-import shopping from '../../assets/icons/shopping-bag.svg'
-import user from '../../assets/icons/user-circle.svg'
-import analytics from '../../assets/icons/brand-google-analytics.svg'
+import { BrandLogo, Shopping, User, Analytics } from '../../common/const/static/icons'
 import './index.sass'
 
 const Header = () => {
@@ -19,9 +16,9 @@ const Header = () => {
       { text: 'Nosotros', path: '/about' }
     ],
     shortcuts: [
-      { img: shopping, text: 'carrito', path: '/cart' },
+      { img: Shopping, text: 'carrito', path: '/cart' },
       {
-        img: user,
+        img: User,
         text: authValue.user.isAuthenticated
           ? 'perfil'
           : 'login',
@@ -40,9 +37,9 @@ const Header = () => {
       { text: 'Sucursales', path: '/admin/branches' }
     ],
     shortcuts: [
-      { img: analytics, text: 'analytics', path: '/admin/analytics' },
+      { img: Analytics, text: 'analytics', path: '/admin/analytics' },
       {
-        img: user,
+        img: User,
         text: 'carrito',
         path: '/',
         handleClick: e => {
@@ -74,7 +71,7 @@ const Header = () => {
   return (
     <header>
       <div className='west'>
-        <img src={logo} alt='logo' />
+        <img src={BrandLogo} alt='logo' />
         <Link to={authValue.admin.isLoggedIn ? '/admin/users' : '/'}>
           <span>SHOGUN.INK</span>
         </Link>
