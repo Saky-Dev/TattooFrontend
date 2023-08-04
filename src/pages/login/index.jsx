@@ -15,9 +15,15 @@ const Login = () => {
   const authValue = useContext(AuthContext)
 
   useEffect(() => {
+    authValue.setIsAuthProcess(true)
+
     if (authValue.user.isAuthenticated) {
-      window.location.replace('/profile')
+      authValue.admin.token
+        ? window.location.href = '/admin/accounts'
+        : window.location.href = '/profile'
     }
+
+    return () => { authValue.setIsAuthProcess(false) }
   }, [])
 
   const saveUser = token => {
@@ -25,10 +31,13 @@ const Login = () => {
     const expTime = now + 1000 * 60 * 60 * 24 * 3
 
     document.cookie = `token=${token}; path=/; expires=${expTime}`
+    window.location.href = '/profile'
   }
 
   const saveAdmin = token => {
+    authValue.admin.setToken(token)
     document.cookie = `token=${token}; path=/`
+    window.location.href = '/admin/accounts'
   }
 
   const handleSumbit = e => {
@@ -36,7 +45,7 @@ const Login = () => {
 
     console.debug({ email, password })
 
-    fetch('api/signin', {
+    fetch('/api/signin', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: {
@@ -64,7 +73,7 @@ const Login = () => {
           })
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => console.debug(err))
   }
 
   return (

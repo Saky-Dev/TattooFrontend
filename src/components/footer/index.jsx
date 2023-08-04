@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react'
+import { useContext } from 'react'
 import AuthContext from '../../common/context/auth'
 import CombinedInput from '../combined-input'
 import Shortcuts from '../shortcuts'
@@ -63,16 +63,6 @@ const Footer = () => {
     </div>
   )
 
-  const getSubscribeVisibility = () => {
-    const invalid = ['/login', '/register', '/forbiden-password']
-
-    if (authValue.user.isAuthenticated) { return false }
-
-    if (invalid.includes(window.location.pathname)) { return false }
-
-    return true
-  }
-
   const getInformation = () => (
     <div className='information'>
       <div className='contact'>
@@ -100,7 +90,7 @@ const Footer = () => {
 
   return (
     <footer>
-      {getSubscribeVisibility()
+      {!authValue.user.isAuthenticated && !authValue.isAuthProcess
         ? getSubscribe()
         : <></>}
       {!authValue.admin.isLoggedIn

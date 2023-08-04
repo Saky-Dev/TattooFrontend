@@ -3,20 +3,20 @@ import AuthContext from './Context'
 
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [id, setId] = useState(null)
+  const [isAuthProcess, setIsAuthProcess] = useState(false)
+  const [token, setToken] = useState(null)
 
   return (
     <AuthContext.Provider value={{
+      isAuthProcess,
+      setIsAuthProcess,
       user: {
         isAuthenticated,
         setIsAuthenticated
       },
       admin: {
-        isLoggedIn,
-        id,
-        setIsLoggedIn,
-        setId
+        token,
+        setToken
       }
     }}
     >
