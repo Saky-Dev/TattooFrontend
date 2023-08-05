@@ -5,6 +5,7 @@ import EmailInput from '../../components/email-input'
 import PasswordInput from '../../components/password-input'
 import MainButton from '../../components/main-button'
 import { ToastContainer, toast } from 'react-toastify'
+import PATHS from '../../common/const/paths'
 import 'react-toastify/dist/ReactToastify.css'
 import './index.sass'
 
@@ -19,8 +20,8 @@ const Login = () => {
 
     if (authValue.user.isAuthenticated) {
       authValue.admin.token
-        ? window.location.href = '/admin/accounts'
-        : window.location.href = '/profile'
+        ? window.location.href = PATHS.ADMIN.ACCOUNTS
+        : window.location.href = PATHS.USER.PROFILE
     }
 
     return () => { authValue.setIsAuthProcess(false) }
@@ -31,13 +32,13 @@ const Login = () => {
     const expTime = now + 1000 * 60 * 60 * 24 * 3
 
     document.cookie = `token=${token}; path=/; expires=${expTime}`
-    window.location.href = '/profile'
+    window.location.href = PATHS.USER.PROFILE
   }
 
   const saveAdmin = token => {
     authValue.admin.setToken(token)
     document.cookie = `token=${token}; path=/`
-    window.location.href = '/admin/accounts'
+    window.location.href = PATHS.ADMIN.ACCOUNTS
   }
 
   const handleSumbit = e => {
@@ -90,9 +91,9 @@ const Login = () => {
           <MainButton>Entrar</MainButton>
         </form>
         <div className='links'>
-          <Link to='/forgot-password'>¿Olvidaste tu contraseña?</Link>
+          <Link to={PATHS.AUTH.FORGOT}>¿Olvidaste tu contraseña?</Link>
           <div className='separator' />
-          <Link to='/register'>Registrarse</Link>
+          <Link to={PATHS.AUTH.REGISTER}>Registrarse</Link>
         </div>
       </div>
     </main>

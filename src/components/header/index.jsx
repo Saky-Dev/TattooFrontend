@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import AuthContext from '../../common/context/auth'
 import Shortcuts from '../shortcuts'
 import { BrandLogo, Shopping, User, Analytics } from '../../common/const/static/icons'
+import PATHS from '../../common/const/paths'
 import './index.sass'
 
 const Header = () => {
@@ -10,38 +11,38 @@ const Header = () => {
 
   const userItems = {
     navbar: [
-      { text: 'Tatuajes', path: '/tattoo' },
-      { text: 'Top', path: '/top' },
-      { text: 'Sucursales', path: '/branches' },
-      { text: 'Nosotros', path: '/about' }
+      { text: 'Tatuajes', path: PATHS.PUBLIC.TATTOOS },
+      { text: 'Top', path: PATHS.PUBLIC.TOP },
+      { text: 'Sucursales', path: PATHS.PUBLIC.BRANCHES },
+      { text: 'Nosotros', path: PATHS.PUBLIC.ABOUT }
     ],
     shortcuts: [
-      { img: Shopping, text: 'carrito', path: '/cart' },
+      { img: Shopping, text: 'Carrito', path: PATHS.PUBLIC.PREVIEW },
       {
         img: User,
         text: authValue.user.isAuthenticated
-          ? 'perfil'
-          : 'login',
+          ? 'Perfil'
+          : 'Login',
         path: authValue.user.isAuthenticated
-          ? '/profile'
-          : '/login'
+          ? PATHS.USER.PROFILE
+          : PATHS.AUTH.LOGIN
       }
     ]
   }
 
   const adminItems = {
     navbar: [
-      { text: 'Gestores', path: '/admin/users' },
-      { text: 'Agregar', path: '/admin/add' },
-      { text: 'Tatuajes', path: '/admin/tattoo' },
-      { text: 'Sucursales', path: '/admin/branches' }
+      { text: 'Gestores', path: PATHS.ADMIN.ACCOUNTS },
+      { text: 'Agregar', path: PATHS.ADMIN.ADD },
+      { text: 'Tatuajes', path: PATHS.ADMIN.TATTOOS },
+      { text: 'Sucursales', path: PATHS.ADMIN.BRANCHES }
     ],
     shortcuts: [
-      { img: Analytics, text: 'analytics', path: '/admin/analytics' },
+      { img: Analytics, text: 'Estadisticas', path: PATHS.ADMIN.ANALYTICS },
       {
         img: User,
-        text: 'carrito',
-        path: '/',
+        text: 'Cerrar sesion',
+        path: PATHS.PUBLIC.HOME,
         handleClick: e => {
           if (!window.confirm('¿Cerrar sesion?')) {
             e.preventDefault()
@@ -55,7 +56,7 @@ const Header = () => {
   }
 
   const listNavbar = () => {
-    const navbar = authValue.admin.isLoggedIn
+    const navbar = authValue.admin.token
       ? adminItems.navbar
       : userItems.navbar
 
@@ -72,7 +73,7 @@ const Header = () => {
     <header>
       <div className='west'>
         <img src={BrandLogo} alt='logo' />
-        <Link to={authValue.admin.isLoggedIn ? '/admin/users' : '/'}>
+        <Link to={authValue.admin.token ? PATHS.ADMIN.ACCOUNTS : PATHS.PUBLIC.HOME}>
           <span>SHOGUN.INK</span>
         </Link>
       </div>
@@ -85,7 +86,7 @@ const Header = () => {
       </div>
       <div className='east'>
         <Shortcuts
-          list={authValue.admin.isLoggedIn
+          list={authValue.admin.token
             ? adminItems.shortcuts
             : userItems.shortcuts}
         />

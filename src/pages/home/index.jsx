@@ -5,6 +5,7 @@ import Spectacular from '../../components/spectacular'
 import EmailInput from '../../components/email-input'
 import CombinedInput from '../../components/combined-input'
 import MainButton from '../../components/main-button'
+import PATHS from '../../common/const/paths'
 import './index.sass'
 import {
   LandingCarousel01, LandingCarousel02, LandingCarousel03,
@@ -15,6 +16,8 @@ import {
 } from '../../common/const/static/pictures'
 
 const Home = () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [pictureIndex, setPictureIndex] = useState(0)
 
   const sloganPictures = [LandingWhite01, LandingWhite02, LandingWhite03]
@@ -36,7 +39,16 @@ const Home = () => {
     console.log(categoriesGrid[linked])
   }
 
-  const handleSubmit = e => e.preventDefault()
+  const handleSubmit = e => {
+    const ls = window.localStorage
+
+    e.preventDefault()
+
+    ls.setItem('tempEmail', email)
+    ls.setItem('tempPasword', password)
+
+    window.location.href = PATHS.AUTH.REGISTER
+  }
 
   const handleInterval = () => {
     let index = pictureIndex + 1
@@ -84,8 +96,8 @@ const Home = () => {
           <h2>Registro</h2>
           <p>Busca plasmar tu estilo único y personalidad a traves de la tinta. Regístrate ahora y déjanos ayudarte a encontrar al artista perfecto para que tu piel cuente la historia que deseas compartir con el mundo.</p>
           <div className='data-container'>
-            <EmailInput />
-            <CombinedInput type='password'>
+            <EmailInput setEmail={setEmail} />
+            <CombinedInput type='password' setValue={setPassword}>
               Registrar
             </CombinedInput>
           </div>
@@ -103,7 +115,7 @@ const Home = () => {
             <span>Tu <div className='red'>piel,</div>nuestra tinta</span>
           </div>
           <div className='line' />
-          <Link to='/tattoo'>
+          <Link to={PATHS.PUBLIC.TATTOOS}>
             <MainButton>
               Descubrir
             </MainButton>

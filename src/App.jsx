@@ -6,6 +6,7 @@ import Footer from './components/footer'
 import Home from './pages/home'
 import Tattoo from './pages/tattoo'
 import Login from './pages/login'
+import PATHS from './common/const/paths'
 import './App.sass'
 
 const AppPreview = () => {
@@ -19,9 +20,9 @@ const AppPreview = () => {
     <>
       <Header />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/tattoo' element={<Tattoo />} />
-        <Route path='/login' element={<Login />} />
+        <Route path={PATHS.PUBLIC.HOME} element={<Home />} />
+        <Route path={PATHS.PUBLIC.TATTOOS} element={<Tattoo />} />
+        <Route path={PATHS.PUBLIC.LOGIN} element={<Login />} />
       </Routes>
       <Footer />
     </>

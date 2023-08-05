@@ -1,5 +1,5 @@
-import AuthContext from './Context'
-import AuthProvider from './Provider'
+import AuthContext from './context'
+import AuthProvider from './provider'
 
 export default AuthContext
 export { AuthProvider }

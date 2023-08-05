@@ -6,7 +6,7 @@ const Shortcuts = ({ list = [] }) => (
     {list.map((item, index) => (
       <li key={index}>
         <Link to={item.path} onClick={item.handleClick}>
-          <img src={item.img} alt={item.text} />
+          <img src={item.img} alt={item.text} title={item.text} />
         </Link>
       </li>
     ))}

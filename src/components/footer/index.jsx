@@ -91,12 +91,12 @@ const Footer = () => {
       {!authValue.user.isAuthenticated && !authValue.isAuthProcess
         ? getSubscribe()
         : <></>}
-      {!authValue.admin.isLoggedIn
+      {!authValue.admin.token
         ? getInformation()
         : <></>}
       <div className='rights'>
         <span>Todos los derechos reservados SHOGUN.INK © | Terminos de uso | Política de provacidad</span>
-        {authValue.admin.isLoggedIn
+        {authValue.admin.token
           ? <Shortcuts list={socialMedia} />
           : <></>}
       </div>
