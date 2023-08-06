@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import TempDataContext from '../../common/context/tempData'
 import Carousel from '../../components/carousel'
 import Spectacular from '../../components/spectacular'
 import EmailInput from '../../components/email-input'
@@ -19,6 +20,8 @@ const Home = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [pictureIndex, setPictureIndex] = useState(0)
+
+  const tempDataValue = useContext(TempDataContext)
 
   const sloganPictures = [LandingWhite01, LandingWhite02, LandingWhite03]
 
@@ -40,12 +43,10 @@ const Home = () => {
   }
 
   const handleSubmit = e => {
-    const ls = window.localStorage
-
     e.preventDefault()
 
-    ls.setItem('tempEmail', email)
-    ls.setItem('tempPasword', password)
+    tempDataValue.setEmail(email)
+    tempDataValue.setPassword(password)
 
     window.location.href = PATHS.AUTH.REGISTER
   }

@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AuthContext, { AuthProvider } from './common/context/auth'
+import { TempDataProvider } from './common/context/tempData'
 import Header from './components/header'
 import Footer from './components/footer'
 import Home from './pages/home'
@@ -59,8 +60,14 @@ const AppPreview = () => {
         }
 
         if (data.isValid) {
+          const now = new Date().getTime()
+          const expTime = now + 1000 * 60 * 60 * 24 * 3
+
           authValue.user.setToken(token)
           authValue.user.setIsAuthenticated(true)
+
+          document.cookie = `token=${token}; path=/; expires=${expTime}`
+          document.cookie = `csrfToken=${authValue.user.csrfToken}; path=/; expires=${expTime}`
         }
       }).catch(() => {
         throw new ConnectionError('')
@@ -82,7 +89,7 @@ const AppPreview = () => {
       cookies = parseCookies()
     }
 
-    if ('CSRFToken' in cookies) {
+    if ('csrfToken' in cookies) {
       authValue.user.setCSRFToken(cookies.CSRFToken)
 
       if ('token' in cookies) {
@@ -127,9 +134,15 @@ const AppPreview = () => {
   )
 }
 
+const DataApp = () => (
+  <TempDataProvider>
+    <AppPreview />
+  </TempDataProvider>
+)
+
 const App = () => (
   <AuthProvider>
-    <AppPreview />
+    <DataApp />
   </AuthProvider>
 )
 
