@@ -63,7 +63,7 @@ const Footer = () => {
       method: 'POST',
       body: JSON.stringify({ email }),
       headers: {
-        'conten-type': 'application/json',
+        'Conten-Type': 'application/json',
         'X-CSRFToken': authValue.csrfToken
       }
     })

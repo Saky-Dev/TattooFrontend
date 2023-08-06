@@ -28,6 +28,7 @@ const PATHS = {
 
 const ENDPOINTS = {
   COOKIE: '/api/cookie',
+  TOKEN: '/api/token-validation',
   NEWS: '/api/news',
   LOGIN: '/api/signin'
 }
