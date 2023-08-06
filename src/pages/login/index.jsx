@@ -4,8 +4,9 @@ import AuthContext from '../../common/context/auth'
 import EmailInput from '../../components/email-input'
 import PasswordInput from '../../components/password-input'
 import MainButton from '../../components/main-button'
-import { ToastContainer, toast } from 'react-toastify'
-import PATHS from '../../common/const/paths'
+import { toast } from 'react-toastify'
+import PATHS, { ENDPOINTS } from '../../common/const/paths'
+import { ConnectionError, DataError } from '../../common/const/errors'
 import 'react-toastify/dist/ReactToastify.css'
 import './index.sass'
 
@@ -19,7 +20,7 @@ const Login = () => {
     authValue.setIsAuthProcess(true)
 
     if (authValue.user.isAuthenticated) {
-      authValue.admin.token
+      authValue.user.token && authValue.user.isAdminAccess
         ? window.location.href = PATHS.ADMIN.ACCOUNTS
         : window.location.href = PATHS.USER.PROFILE
     }
@@ -31,55 +32,70 @@ const Login = () => {
     const now = new Date().getTime()
     const expTime = now + 1000 * 60 * 60 * 24 * 3
 
+    authValue.user.setToken(token)
     document.cookie = `token=${token}; path=/; expires=${expTime}`
     window.location.href = PATHS.USER.PROFILE
   }
 
   const saveAdmin = token => {
-    authValue.admin.setToken(token)
+    authValue.user.setToken(token)
     document.cookie = `token=${token}; path=/`
     window.location.href = PATHS.ADMIN.ACCOUNTS
   }
 
-  const handleSumbit = e => {
-    e.preventDefault()
-
-    console.debug({ email, password })
-
-    fetch('/api/signin', {
+  const login = () => {
+    fetch(ENDPOINTS.LOGIN, {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRFToken': authValue.csrfToken
       }
     })
       .then(response => response.json())
       .then(data => {
+        if (!('success' in data)) {
+          throw new DataError('')
+        }
+
         const saveData = {
           user: saveUser,
           admin: saveAdmin
         }
 
         if (data.success) {
+          if (!('type' in data) && !('token' in data)) {
+            throw new DataError('')
+          }
+
           saveData[data.type](data.token)
         } else {
-          toast.error('Sin registros del usuario', {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: 'light'
-          })
+          toast.error('Sin registros del usuario')
         }
       })
-      .catch(err => console.debug(err))
+      .catch(() => {
+        throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
+      })
+  }
+
+  const handleSumbit = e => {
+    e.preventDefault()
+
+    try {
+      login()
+    } catch (error) {
+      if (error instanceof ConnectionError) {
+        toast.error(error.message)
+      }
+
+      if (error instanceof DataError) {
+        console.debug('Unexpected')
+      }
+    }
   }
 
   return (
     <main className='login'>
-      <ToastContainer />
       <div className='container'>
         <div className='title'>
           <span className='logo'>SHOGUN.INK</span>

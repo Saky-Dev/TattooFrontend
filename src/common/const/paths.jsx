@@ -26,4 +26,11 @@ const PATHS = {
   }
 }
 
+const ENDPOINTS = {
+  COOKIE: '/api/cookie',
+  NEWS: '/api/news',
+  LOGIN: '/api/signin'
+}
+
 export default PATHS
+export { ENDPOINTS }

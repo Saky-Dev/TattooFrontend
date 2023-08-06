@@ -21,10 +21,10 @@ const Header = () => {
       {
         img: User,
         text: authValue.user.isAuthenticated
-          ? 'Perfil'
+          ? (authValue.user.isAdminAcess ? 'Administradores' : 'Perfil')
           : 'Login',
         path: authValue.user.isAuthenticated
-          ? PATHS.USER.PROFILE
+          ? (authValue.user.isAdminAcess ? PATHS.ADMIN.ACCOUNTS : PATHS.USER.PROFILE)
           : PATHS.AUTH.LOGIN
       }
     ]
@@ -44,11 +44,12 @@ const Header = () => {
         text: 'Cerrar sesion',
         path: PATHS.PUBLIC.HOME,
         handleClick: e => {
-          if (!window.confirm('¿Cerrar sesion?')) {
+          if (!window.confirm('¿Deseas cerrar sesion?')) {
             e.preventDefault()
           } else {
-            authValue.admin.setIsLoggedIn(false)
-            authValue.admin.setId('')
+            authValue.user.setIsAuthenticated(false)
+            authValue.user.setToken('')
+            authValue.user.setIsAdminAcess(false)
           }
         }
       }
@@ -56,7 +57,7 @@ const Header = () => {
   }
 
   const listNavbar = () => {
-    const navbar = authValue.admin.token
+    const navbar = authValue.user.token && authValue.user.isAdminAcess
       ? adminItems.navbar
       : userItems.navbar
 
@@ -73,7 +74,7 @@ const Header = () => {
     <header>
       <div className='west'>
         <img src={BrandLogo} alt='logo' />
-        <Link to={authValue.admin.token ? PATHS.ADMIN.ACCOUNTS : PATHS.PUBLIC.HOME}>
+        <Link to={PATHS.PUBLIC.HOME}>
           <span>SHOGUN.INK</span>
         </Link>
       </div>
@@ -86,7 +87,7 @@ const Header = () => {
       </div>
       <div className='east'>
         <Shortcuts
-          list={authValue.admin.token
+          list={authValue.user.token && authValue.user.isAdminAcess
             ? adminItems.shortcuts
             : userItems.shortcuts}
         />

@@ -29,9 +29,11 @@ const Tatto = () => {
 
   const handleClick = e => {
     const selected = document.querySelector('ul.icon-list li.selected')
-    if (selected) { selected.classList.remove('selected') }
+    if (selected) {
+      selected.classList.remove('selected')
+    }
     e.target.parentNode.classList.add('selected')
-    console.log(e.target.getAttribute('linked'))
+    console.debug(e.target.getAttribute('linked'))
     setTattoosList([])
   }
 
