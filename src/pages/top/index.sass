@@ -1,0 +1,36 @@
+@import ../../common/styles/variables
+@import ../../common/styles/mixins
+
+main.top
+  @include flexing($direction: column, $justify: flex-start)
+  width: 100%
+  div.spectacular
+    width: 100%
+    aspect-ratio: 30 / 9
+  div.top-content
+    @include flexing($direction: column, $justify: flex-start)
+    gap: 15px
+    width: 100%
+    padding: 5vh 3vw
+    div.main-grid
+      width: 100%
+      height: calc(94vw / 4 * 3)
+      button
+        &:is(:hover)
+          div.mask
+            img
+              transform: scale(1)
+        div.mask
+          @include flexing()
+          gap: 10px
+          opacity: 1
+          width: 100%
+          height: 4vh
+          bottom: 0
+          background: $clr-main
+          img
+            width: 3vh
+            height: 3vh
+          span
+            font-size: 1.8em
+            color: $clr-background
