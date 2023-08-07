@@ -1,0 +1,67 @@
+@import ../../common/styles/variables
+@import ../../common/styles/mixins
+
+main.branches
+  @include flexing($direction: column, $justify: flex-start)
+  width: 100%
+  div.spectacular
+    width: 100%
+    aspect-ratio: 30 / 9
+  div.branches-content
+    @include flexing($direction: column, $justify: flex-start)
+    width: 100%
+    gap: 5vh
+    padding: 5vh 3vw
+    p.presentation
+      width: 100%
+      font-size: 1.3em
+      color: $clr-contrast
+    div.map
+      @include flexing($align: flex-start, $justify: space-between)
+      width: 100%
+      aside
+        @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+        gap: 5vh
+        width: 30vw
+        box-shadow: 0 1px 3px transparentize($clr-contrast, 0.7)
+        padding: 3vh 3vw 6vh 1vw
+        h2
+          font-weight: 400
+          font-size: $fnt-subtitle
+          color: $clr-contrast
+        ul
+          list-style: none
+          width: 100%
+          li
+            width: 100%
+            &:not(:last-child)
+              button
+                border:
+                  width: 0 0 0.5px 0
+                  style: solid
+                  color: transparentize($clr-contrast, 0.5)
+            button
+              @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+              background: none
+              border: none
+              padding: 10px 0
+              &.active
+                span
+                  color: $clr-main
+              span
+                font-size: 1.6em
+                color: $clr-contrast
+                transition: 0.15s ease
+              p
+                font-size: 1.3em
+                color: $clr-second
+      div.mask
+        width: 45vw
+        height: auto
+        aspect-ratio: 4 / 3
+        background: transparentize($clr-contrast, 0.5)
+      iframe
+        width: 45vw
+        height: auto
+        aspect-ratio: 4 / 3
+        border: none
