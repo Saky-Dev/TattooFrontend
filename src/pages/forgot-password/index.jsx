@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../common/context/auth'
 import CombinedInput from '../../components/combined-input'
@@ -66,6 +66,11 @@ const ForgotPassword = () => {
     navigate(PATHS.LOGIN)
   }
 
+  useEffect(() => {
+    authValue.setIsAuthProcess(true)
+    return () => { authValue.setIsAuthProcess(false) }
+  }, [])
+
   return (
     <main className='forgot-password'>
       <div className='container'>
@@ -74,7 +79,7 @@ const ForgotPassword = () => {
           <h2>Recuperar contraseña</h2>
         </div>
         <form onSubmit={handleSubmit}>
-          <p>Proporciona tu correo y la contraseña sera enviada a traves de el</p>
+          <p>Proporciona tu correo y la contraseña sera enviada a traves de él</p>
           <CombinedInput type='email' setValue={setEmail}>
             Enviar
           </CombinedInput>
