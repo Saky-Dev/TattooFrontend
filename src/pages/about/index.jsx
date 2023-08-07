@@ -8,20 +8,7 @@ import { Test } from '../../common/const/static/icons'
 import './index.sass'
 
 const About = () => {
-  const [tattooArtists, setTattooArtists] = useState([
-    {
-      picture: About03,
-      name: 'Juan Perez'
-    },
-    {
-      picture: About03,
-      name: 'Juan Perez'
-    },
-    {
-      picture: About03,
-      name: 'Juan Perez'
-    }
-  ])
+  const [tattooArtists, setTattooArtists] = useState([])
 
   const getArtists = () => {
     fetch(ENDPOINTS.ARTISTS, {
@@ -59,7 +46,9 @@ const About = () => {
       <div className='artists'>
         {tattooArtists.map((artist, index) => (
           <div className='artist' key={index}>
-            <span>{artist.name}</span>
+            <div className='mask'>
+              <span>{artist.name}</span>
+            </div>
             <img src={artist.picture} alt='Artista' />
           </div>
         ))}
