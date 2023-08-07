@@ -36,6 +36,17 @@ const Tatto = () => {
     { icon: Axe, title: CATEGORIES.AXES.TEXT, val: CATEGORIES.AXES.VALUE }
   ]
 
+  const divideArrayIntoGroups = pictures => {
+    const result = []
+
+    for (let i = 0; i < pictures.length; i += 6) {
+      const group = pictures.slice(i, i + 6)
+      result.push(group)
+    }
+
+    return result
+  }
+
   const getPictures = catNumber => {
     fetch(ENDPOINTS.TATTOOS, {
       method: 'POST',
@@ -51,7 +62,8 @@ const Tatto = () => {
           throw new DataError('')
         }
 
-        setTattoosList(data.pictures)
+        const splitedItems = divideArrayIntoGroups(data.pictures)
+        setTattoosList(splitedItems)
       })
       .catch(() => {
         throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
@@ -91,6 +103,8 @@ const Tatto = () => {
 
         const selected = iconElements.findIndex(item => item.getAttribute('linked') === catNumber)
         iconElements[selected].parentNode.classList.add('selected')
+
+        tempDataValue.setCategory('')
       } catch (error) {
         if (error instanceof ConnectionError) { toast.error(error.message) }
         if (error instanceof DataError) { console.debug('Unexpected') }
@@ -116,7 +130,20 @@ const Tatto = () => {
       <div className='content'>
         {tattoosList.length < 1
           ? pictureLanding()
-          : <MainGrid />}
+          : tattoosList.map((pictures, index) => (
+            <MainGrid
+              key={index}
+              pictures={pictures}
+              onClick={() => {}}
+              masks={pictures.map((picture, i) => (
+                <div className='mask' key={i}>
+                  <span className='price'>{`$ ${picture.price.toLocaleString()}`}</span>
+                  <span className='size'>{`${picture.width}x${picture.height} cm`}</span>
+                </div>
+              ))}
+              reverse={index % 2 !== 0}
+            />
+          ))}
       </div>
     </main>
   )
