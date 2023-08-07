@@ -7,6 +7,7 @@ import Footer from './components/footer'
 import Home from './pages/home'
 import Tattoo from './pages/tattoo'
 import Login from './pages/login'
+import ForgotPassword from './pages/forgot-password'
 import PATHS, { ENDPOINTS } from './common/const/paths'
 import { DataError, ConnectionError } from './common/const/errors'
 import { ToastContainer } from 'react-toastify'
@@ -129,6 +130,7 @@ const AppPreview = () => {
         <Route path={PATHS.PUBLIC.HOME} element={<Home />} />
         <Route path={PATHS.PUBLIC.TATTOOS} element={<Tattoo />} />
         <Route path={PATHS.AUTH.LOGIN} element={<Login />} />
+        <Route path={PATHS.AUTH.FORGOT} element={<ForgotPassword />} />
       </Routes>
       <Footer />
     </>

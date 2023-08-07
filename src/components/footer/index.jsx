@@ -54,7 +54,9 @@ const Footer = () => {
   const validateEmail = () => {
     const regex = /^[a-zA-Z0-9._%+-]+@(gmail|outlook|hotmail)\.(com|es)$/
 
-    if (!regex.test(email)) { throw new ValidationError('El correo no es valido, proporciona un correo gmail, hotmail o outlook') }
+    if (!regex.test(email)) {
+      throw new ValidationError('El correo no es valido, proporciona un correo gmail, hotmail o outlook')
+    }
   }
 
   const registerEmail = () => {

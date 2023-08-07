@@ -31,7 +31,8 @@ const ENDPOINTS = {
   TOKEN: '/api/token-validation',
   NEWS: '/api/news',
   LOGIN: '/api/signin',
-  TATTOOS: '/api/tattoos'
+  TATTOOS: '/api/tattoos',
+  FORGOT: '/api/forgot-password'
 }
 
 export default PATHS

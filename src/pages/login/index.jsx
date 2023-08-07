@@ -78,7 +78,7 @@ const Login = () => {
       })
   }
 
-  const handleSumbit = e => {
+  const handleSubmit = e => {
     e.preventDefault()
 
     try {
@@ -101,7 +101,7 @@ const Login = () => {
           <span className='logo'>SHOGUN.INK</span>
           <h2>Iniciar sesion</h2>
         </div>
-        <form onSubmit={handleSumbit}>
+        <form onSubmit={handleSubmit}>
           <EmailInput setEmail={setEmail} />
           <PasswordInput setPassword={setPassword} />
           <MainButton>Entrar</MainButton>
