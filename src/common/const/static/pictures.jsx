@@ -1,3 +1,6 @@
+import About01 from '../../../assets/pictures/about-01.jpg'
+import About02 from '../../../assets/pictures/about-02.jpg'
+import About03 from '../../../assets/pictures/about-03.jpg'
 import AboutSpectacular from '../../../assets/pictures/about-spectacular.jpg'
 import BranchSpectacular from '../../../assets/pictures/branch-spectacular.jpg'
 import HomeSpectacular from '../../../assets/pictures/home-spectacular.jpg'
@@ -20,6 +23,7 @@ import TattooPicture from '../../../assets/pictures/tattoo-picture.jpg'
 import TopSpectacular from '../../../assets/pictures/top-spectacular.jpg'
 
 export {
+  About01, About02, About03,
   AboutSpectacular, BranchSpectacular, HomeSpectacular,
   LandingCarousel01, LandingCarousel02, LandingCarousel03,
   LandingGridButterflies, LandingGridComics, LandingGridDemons,

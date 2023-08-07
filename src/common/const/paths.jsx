@@ -32,7 +32,8 @@ const ENDPOINTS = {
   NEWS: '/api/news',
   LOGIN: '/api/signin',
   TATTOOS: '/api/tattoos',
-  FORGOT: '/api/forgot-password'
+  FORGOT: '/api/forgot-password',
+  ARTISTS: '/api/tattoo-artists'
 }
 
 export default PATHS
