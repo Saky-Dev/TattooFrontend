@@ -9,32 +9,7 @@ import { TopSpectacular } from '../../common/const/static/pictures'
 import './index.sass'
 
 const Top = () => {
-  const [tattoos, setTattoos] = useState([
-    [
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 }
-    ],
-    [
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 }
-    ],
-    [
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 },
-      { file: TopSpectacular, likes: 320 }
-    ]
-  ])
+  const [tattoos, setTattoos] = useState([])
 
   const divideArrayIntoGroups = pictures => {
     const result = []
