@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import AuthContext from '../../common/context/auth'
 import EmailInput from '../../components/email-input'
 import PasswordInput from '../../components/password-input'
@@ -14,14 +14,15 @@ const Login = () => {
   const [password, setPassword] = useState('')
 
   const authValue = useContext(AuthContext)
+  const navigate = useNavigate()
 
   useEffect(() => {
     authValue.setIsAuthProcess(true)
 
     if (authValue.user.isAuthenticated) {
       authValue.user.token && authValue.user.isAdminAccess
-        ? window.location.href = PATHS.ADMIN.ACCOUNTS
-        : window.location.href = PATHS.USER.PROFILE
+        ? navigate(PATHS.ADMIN.ACCOUNTS)
+        : navigate(PATHS.USER.PROFILE)
     }
 
     return () => { authValue.setIsAuthProcess(false) }
@@ -33,13 +34,13 @@ const Login = () => {
 
     authValue.user.setToken(token)
     document.cookie = `token=${token}; path=/; expires=${expTime}`
-    window.location.href = PATHS.USER.PROFILE
+    navigate(PATHS.USER.PROFILE)
   }
 
   const saveAdmin = token => {
     authValue.user.setToken(token)
     document.cookie = `token=${token}; path=/`
-    window.location.href = PATHS.ADMIN.ACCOUNTS
+    navigate(PATHS.ADMIN.ACCOUNTS)
   }
 
   const login = () => {

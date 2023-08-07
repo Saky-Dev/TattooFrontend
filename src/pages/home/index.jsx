@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import TempDataContext from '../../common/context/tempData'
 import Carousel from '../../components/carousel'
 import Spectacular from '../../components/spectacular'
@@ -22,6 +22,8 @@ const Home = () => {
   const [pictureIndex, setPictureIndex] = useState(0)
 
   const tempDataValue = useContext(TempDataContext)
+
+  const navigate = useNavigate()
 
   const sloganPictures = [LandingWhite01, LandingWhite02, LandingWhite03]
 
@@ -48,7 +50,7 @@ const Home = () => {
     tempDataValue.setEmail(email)
     tempDataValue.setPassword(password)
 
-    window.location.href = PATHS.AUTH.REGISTER
+    navigate(PATHS.AUTH.REGISTER)
   }
 
   const handleInterval = () => {
