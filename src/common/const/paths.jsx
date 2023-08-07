@@ -30,7 +30,8 @@ const ENDPOINTS = {
   COOKIE: '/api/cookie',
   TOKEN: '/api/token-validation',
   NEWS: '/api/news',
-  LOGIN: '/api/signin'
+  LOGIN: '/api/signin',
+  TATTOOS: '/api/tattoos'
 }
 
 export default PATHS

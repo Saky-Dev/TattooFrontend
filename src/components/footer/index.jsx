@@ -6,7 +6,6 @@ import { ENDPOINTS } from '../../common/const/paths'
 import { ConnectionError, DataError, ValidationError } from '../../common/const/errors'
 import { toast } from 'react-toastify'
 import { Facebook, Twitter, Instagram } from '../../common/const/static/icons'
-import 'react-toastify/dist/ReactToastify.css'
 import './index.sass'
 
 const Footer = () => {

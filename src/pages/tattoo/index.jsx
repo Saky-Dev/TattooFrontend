@@ -1,6 +1,13 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import AuthContext from '../../common/context/auth'
+import TempDataContext from '../../common/context/tempData'
 import IconList from '../../components/icon-list'
+import MainGrid from '../../components/main-grid'
+import CATEGORIES from '../../common/const/categories'
+import { ConnectionError, DataError } from '../../common/const/errors'
 import { TattooPicture } from '../../common/const/static/pictures'
+import { toast } from 'react-toastify'
+import { ENDPOINTS } from '../../common/const/paths'
 import './index.sass'
 import {
   Japanese, Dog, Moon, Comic, Demon,
@@ -10,32 +17,86 @@ import {
 
 const Tatto = () => {
   const [tattoosList, setTattoosList] = useState([])
+  const authValue = useContext(AuthContext)
+  const tempDataValue = useContext(TempDataContext)
 
-  const items = [
-    { icon: Japanese, title: 'Japones', val: 'japanese' },
-    { icon: Dog, title: 'Perros', val: 'dog' },
-    { icon: Moon, title: 'Luna', val: 'moon' },
-    { icon: Comic, title: 'Comics', val: 'comics' },
-    { icon: Demon, title: 'Demonios', val: 'demons' },
-    { icon: Skull, title: 'Calaveras', val: 'skull' },
-    { icon: Videogames, title: 'Videojuegos', val: 'videogames' },
-    { icon: Butterfly, title: 'Mariposas', val: 'butterflies' },
-    { icon: Anime, title: 'Manga', val: 'manga' },
-    { icon: Tree, title: 'Arboles', val: 'trees' },
-    { icon: Religion, title: 'Religiosas', val: 'religion' },
-    { icon: Owl, title: 'Búhos', val: 'owls' },
-    { icon: Axe, title: 'Hachas', val: 'hachas' }
+  const categories = [
+    { icon: Japanese, title: CATEGORIES.JAPANESE.TEXT, val: CATEGORIES.JAPANESE.VALUE },
+    { icon: Dog, title: CATEGORIES.DOGS.TEXT, val: CATEGORIES.DOGS.VALUE },
+    { icon: Moon, title: CATEGORIES.MOONS.TEXT, val: CATEGORIES.MOONS.VALUE },
+    { icon: Comic, title: CATEGORIES.COMICS.TEXT, val: CATEGORIES.COMICS.VALUE },
+    { icon: Demon, title: CATEGORIES.DEMONS.TEXT, val: CATEGORIES.DEMONS.VALUE },
+    { icon: Skull, title: CATEGORIES.SKULLS.TEXT, val: CATEGORIES.SKULLS.VALUE },
+    { icon: Videogames, title: CATEGORIES.VIDEOGAMES.TEXT, val: CATEGORIES.VIDEOGAMES.VALUE },
+    { icon: Butterfly, title: CATEGORIES.BUTTERFLIES.TEXT, val: CATEGORIES.BUTTERFLIES.VALUE },
+    { icon: Anime, title: CATEGORIES.ANIME.TEXT, val: CATEGORIES.ANIME.VALUE },
+    { icon: Tree, title: CATEGORIES.TREES.TEXT, val: CATEGORIES.TREES.VALUE },
+    { icon: Religion, title: CATEGORIES.RELIGION.TEXT, val: CATEGORIES.RELIGION.VALUE },
+    { icon: Owl, title: CATEGORIES.OWLS.TEXT, val: CATEGORIES.OWLS.VALUE },
+    { icon: Axe, title: CATEGORIES.AXES.TEXT, val: CATEGORIES.AXES.VALUE }
   ]
+
+  const getPictures = catNumber => {
+    fetch(ENDPOINTS.TATTOOS, {
+      method: 'POST',
+      body: JSON.stringify({ category: categories[catNumber].val }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': authValue.csrfToken
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!('pictures' in data)) {
+          throw new DataError('')
+        }
+
+        setTattoosList(data.pictures)
+      })
+      .catch(() => {
+        throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
+      })
+  }
 
   const handleClick = e => {
     const selected = document.querySelector('ul.icon-list li.selected')
-    if (selected) {
-      selected.classList.remove('selected')
+    const linked = Number(e.target.getAttribute('linked'))
+
+    try {
+      getPictures(linked)
+
+      if (selected) {
+        selected.classList.remove('selected')
+      }
+
+      e.target.parentNode.classList.add('selected')
+    } catch (error) {
+      if (error instanceof ConnectionError) {
+        toast.error(error.message)
+      }
+
+      if (error instanceof DataError) {
+        console.debug('Unexpected')
+      }
     }
-    e.target.parentNode.classList.add('selected')
-    console.debug(e.target.getAttribute('linked'))
-    setTattoosList([])
   }
+
+  useEffect(() => {
+    if (tempDataValue.category) {
+      const iconElements = [...document.querySelectorAll('ul.icon-list li button')]
+      const catNumber = categories.findIndex(item => item.val === tempDataValue.category)
+
+      try {
+        getPictures(catNumber)
+
+        const selected = iconElements.findIndex(item => item.getAttribute('linked') === catNumber)
+        iconElements[selected].parentNode.classList.add('selected')
+      } catch (error) {
+        if (error instanceof ConnectionError) { toast.error(error.message) }
+        if (error instanceof DataError) { console.debug('Unexpected') }
+      }
+    }
+  }, [])
 
   const pictureLanding = () => (
     <div className='picture-landing-container'>
@@ -50,12 +111,12 @@ const Tatto = () => {
     <main className='tattoo'>
       <aside>
         <h2>Categorias</h2>
-        <IconList items={items} handleClick={handleClick} />
+        <IconList items={categories} handleClick={handleClick} />
       </aside>
       <div className='content'>
         {tattoosList.length < 1
           ? pictureLanding()
-          : <></>}
+          : <MainGrid />}
       </div>
     </main>
   )

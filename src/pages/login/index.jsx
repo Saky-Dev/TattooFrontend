@@ -7,7 +7,6 @@ import MainButton from '../../components/main-button'
 import { toast } from 'react-toastify'
 import PATHS, { ENDPOINTS } from '../../common/const/paths'
 import { ConnectionError, DataError } from '../../common/const/errors'
-import 'react-toastify/dist/ReactToastify.css'
 import './index.sass'
 
 const Login = () => {

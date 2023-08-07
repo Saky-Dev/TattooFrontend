@@ -10,6 +10,7 @@ import Login from './pages/login'
 import PATHS, { ENDPOINTS } from './common/const/paths'
 import { DataError, ConnectionError } from './common/const/errors'
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './App.sass'
 
 const AppPreview = () => {
