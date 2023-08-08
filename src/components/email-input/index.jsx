@@ -1,12 +1,12 @@
 import './index.sass'
 
-const EmailInput = ({ setEmail = () => {} }) => (
+const EmailInput = ({ placeholder = 'Correo', setEmail = () => {} }) => (
   <div className='email-input input-container'>
     <input
       required
       type='email'
       onInput={(e) => setEmail(e.target.value)}
-      placeholder='Correo'
+      placeholder={placeholder}
     />
   </div>
 )

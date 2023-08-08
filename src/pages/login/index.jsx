@@ -54,7 +54,7 @@ const Login = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) {
+        if (!('success' in data || !('type' in data) || !('token' in data))) {
           throw new DataError('')
         }
 
@@ -64,10 +64,6 @@ const Login = () => {
         }
 
         if (data.success) {
-          if (!('type' in data) && !('token' in data)) {
-            throw new DataError('')
-          }
-
           saveData[data.type](data.token)
         } else {
           toast.error('Sin registros del usuario')

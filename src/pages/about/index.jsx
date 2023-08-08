@@ -17,7 +17,7 @@ const About = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data) && !('artists' in data)) {
+        if (!('success' in data) || !('artists' in data)) {
           throw new DataError('')
         }
 

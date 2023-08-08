@@ -31,7 +31,7 @@ const Top = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data) && !('pictures' in data)) {
+        if (!('success' in data) || !('pictures' in data)) {
           throw new DataError('')
         }
 

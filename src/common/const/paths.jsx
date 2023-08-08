@@ -30,7 +30,7 @@ const ENDPOINTS = {
   COOKIE: '/api/cookie',
   TOKEN: '/api/token-validation',
   NEWS: '/api/news',
-  LOGIN: '/api/signin',
+  LOGIN: '/api/singin',
   TATTOOS: '/api/tattoos',
   FORGOT: '/api/forgot-password',
   ARTISTS: '/api/tattoo-artists',

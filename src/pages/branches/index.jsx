@@ -19,7 +19,7 @@ const Branches = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data) && !('branches' in data)) {
+        if (!('success' in data) || !('branches' in data)) {
           throw new DataError('')
         }
 
@@ -34,14 +34,13 @@ const Branches = () => {
 
   const handleOnClick = e => {
     const active = document.querySelector('ul.locations li.location button.active')
-    const parent = e.target.tagName.toLowerCase() === 'button' ? e.target : e.target.parentNode
-    const src = parent.getAttribute('src')
+    const src = e.currentTarget.getAttribute('src')
 
     if (active) {
       active.classList.remove('active')
     }
 
-    parent.classList.add('active')
+    e.currentTarget.classList.add('active')
     setMapSrc(src)
   }
 
