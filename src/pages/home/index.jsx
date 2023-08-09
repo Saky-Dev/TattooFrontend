@@ -7,6 +7,7 @@ import EmailInput from '../../components/email-input'
 import CombinedInput from '../../components/combined-input'
 import MainButton from '../../components/main-button'
 import PATHS from '../../common/const/paths'
+import CATEGORIES from '../../common/const/categories'
 import './index.sass'
 import {
   LandingCarousel01, LandingCarousel02, LandingCarousel03,
@@ -28,20 +29,19 @@ const Home = () => {
   const sloganPictures = [LandingWhite01, LandingWhite02, LandingWhite03]
 
   const categoriesGrid = [
-    { name: 'Japones', picture: LandingGridJapanese },
-    { name: 'Perros', picture: LandingGridDogs },
-    { name: 'Lunas', picture: LandingGridMoons },
-    { name: 'Comics', picture: LandingGridComics },
-    { name: 'Demonios', picture: LandingGridDemons },
-    { name: 'Calaveras', picture: LandingGridSkulls },
-    { name: 'Mariposas', picture: LandingGridButterflies },
-    { name: 'Videojuegos', picture: LandingGridVideogames }
+    { name: CATEGORIES.JAPANESE.TEXT, picture: LandingGridJapanese, value: CATEGORIES.JAPANESE.VALUE },
+    { name: CATEGORIES.DOGS.TEXT, picture: LandingGridDogs, value: CATEGORIES.DOGS.VALUE },
+    { name: CATEGORIES.MOONS.TEXT, picture: LandingGridMoons, value: CATEGORIES.MOONS.VALUE },
+    { name: CATEGORIES.COMICS.TEXT, picture: LandingGridComics, value: CATEGORIES.COMICS.VALUE },
+    { name: CATEGORIES.DEMONS.TEXT, picture: LandingGridDemons, value: CATEGORIES.DEMONS.VALUE },
+    { name: CATEGORIES.SKULLS.TEXT, picture: LandingGridSkulls, value: CATEGORIES.SKULLS.VALUE },
+    { name: CATEGORIES.BUTTERFLIES.TEXT, picture: LandingGridButterflies, value: CATEGORIES.BUTTERFLIES.VALUE },
+    { name: CATEGORIES.VIDEOGAMES.TEXT, picture: LandingGridVideogames, value: CATEGORIES.VIDEOGAMES.VALUE }
   ]
 
   const handleGridClick = e => {
-    e.preventDefault()
-    const linked = Number(e.target.getAttribute('linked'))
-    console.log(categoriesGrid[linked])
+    const linked = Number(e.currentTarget.getAttribute('linked'))
+    tempDataValue.setCategory(categoriesGrid[linked].value)
   }
 
   const handleSubmit = e => {
@@ -88,7 +88,7 @@ const Home = () => {
         <div className='grid'>
           {categoriesGrid.map((category, index) => (
             <div key={index}>
-              <Link to='/categories' onClick={handleGridClick} linked={index}>{category.name}</Link>
+              <Link to={PATHS.PUBLIC.TATTOOS} onClick={handleGridClick} linked={index}>{category.name}</Link>
               <img src={category.picture} alt={category.name} />
             </div>
           ))}

@@ -5,8 +5,8 @@ import './index.sass'
 
 const CombinedInput = ({ placeholder = '', type = 'text', color = 'main', setValue = () => {}, children }) => {
   const types = {
-    email: <EmailInput setEmail={setValue} placeholder={placeholder || null} />,
-    password: <PasswordInput setPassword={setValue} placeholder={placeholder || null} />
+    email: <EmailInput setEmail={setValue} placeholder={placeholder || undefined} />,
+    password: <PasswordInput setPassword={setValue} placeholder={placeholder || undefined} />
   }
 
   return (
