@@ -40,7 +40,7 @@ const About = () => {
     }
   }, [])
 
-  const displayArtists = () => (
+  const DisplayArtists = () => (
     <section className='tattoo-artists'>
       <h2>Nuestros profesionales</h2>
       <div className='artists'>
@@ -73,7 +73,7 @@ const About = () => {
           <img src={Test} alt='Pruebas' />
         </section>
         {tattooArtists.length > 0
-          ? displayArtists()
+          ? <DisplayArtists />
           : <></>}
         <section className='text'>
           <p>Nuestro equipo de artistas talentosos y apasionados fusiona la creatividad, la pasión y el compromiso para ofrecerte una experiencia <b>personalizada y única.</b> Valoramos la comunicación abierta, comprendiendo tus deseos y necesidades para crear un diseño que refleje tu autenticidad.</p>

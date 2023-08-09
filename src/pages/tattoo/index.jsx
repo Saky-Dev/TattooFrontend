@@ -112,7 +112,7 @@ const Tatto = () => {
     }
   }, [])
 
-  const pictureLanding = () => (
+  const PictureLanding = () => (
     <div className='picture-landing-container'>
       <div className='mask'>
         <span>Descubre nuestros nuevos diseños</span>
@@ -129,7 +129,7 @@ const Tatto = () => {
       </aside>
       <div className='content'>
         {tattoosList.length < 1
-          ? pictureLanding()
+          ? <PictureLanding />
           : tattoosList.map((pictures, index) => (
             <MainGrid
               key={index}

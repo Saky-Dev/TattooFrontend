@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import AuthContext from '../../common/context/auth'
+import CombinedInput from '../../components/combined-input'
 import TextInput from '../../components/text-input'
 import NumberInput from '../../components/number-input'
 import EmailInput from '../../components/email-input'
@@ -22,6 +23,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [age, setAge] = useState(undefined)
   const [state, setState] = useState(undefined)
+  const [userCode, setUserCode] = useState(undefined)
   const [validationCode, setValidationCode] = useState(undefined)
 
   const authValue = useContext(AuthContext)
@@ -96,7 +98,7 @@ const Register = () => {
       })
   }
 
-  const handleSubmit = e => {
+  const handleRegisterSubmit = e => {
     e.preventDefault()
 
     try {
@@ -113,10 +115,47 @@ const Register = () => {
     }
   }
 
+  const handleValidationSubmit = e => {
+
+  }
+
   useEffect(() => {
     authValue.setIsAuthProcess(true)
     return () => { authValue.setIsAuthProcess(false) }
   }, [])
+
+  const FirstStep = () => (
+    <>
+      <TextInput placeholder='Nombre' setValue={setName} />
+      <TextInput placeholder='Apellido' setValue={setLastName} />
+      <EmailInput setEmail={setEmail} />
+      <Selector
+        placeholder='Género'
+        options={GENDER}
+        selected={gender}
+        setSelected={setGender}
+      />
+      <PasswordInput setPassword={setPassword} />
+      <PasswordInput placeholder='Confirmar contraseña' setPassword={setConfirmPassword} />
+      <NumberInput placeholder='Edad' setNumber={setAge} />
+      <Selector
+        placeholder='Estado'
+        options={STATES}
+        selected={state}
+        setSelected={setState}
+      />
+      <MainButton>Registrarse</MainButton>
+    </>
+  )
+
+  const NextStep = () => (
+    <>
+      <p>Se ha enviado el código de validación a tu correo</p>
+      <CombinedInput type='text' placeholder='Código de verificación' setValue={setUserCode}>
+        Completar
+      </CombinedInput>
+    </>
+  )
 
   return (
     <main className='register'>
@@ -125,26 +164,11 @@ const Register = () => {
           <span className='logo'>SHOGUN.INK</span>
           <h2>Registrar</h2>
         </div>
-        <form onSubmit={handleSubmit}>
-          <TextInput placeholder='Nombre' setValue={setName} />
-          <TextInput placeholder='Apellido' setValue={setLastName} />
-          <EmailInput setEmail={setEmail} />
-          <Selector
-            placeholder='Género'
-            options={GENDER}
-            selected={gender}
-            setSelected={setGender}
-          />
-          <PasswordInput setPassword={setPassword} />
-          <PasswordInput placeholder='Confirmar contraseña' setPassword={setConfirmPassword} />
-          <NumberInput placeholder='Edad' setNumber={setAge} />
-          <Selector
-            placeholder='Estado'
-            options={STATES}
-            selected={state}
-            setSelected={setState}
-          />
-          <MainButton>Registrarse</MainButton>
+        <form
+          onSubmit={!validationCode ? handleRegisterSubmit : handleValidationSubmit}
+          className={!validationCode ? 'first-step' : 'next-step'}
+        >
+          {!validationCode ? <FirstStep /> : <NextStep />}
         </form>
         <div className='links'>
           <Link to={PATHS.AUTH.LOGIN}>Iniciar sesión</Link>
