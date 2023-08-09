@@ -13,7 +13,7 @@ const STATES = [
   'CDMX',
   'Chiapas',
   'Chihuahua',
-  'Coahuila de Zaragoza',
+  'Coahuila',
   'Colima',
   'Durango',
   'Estado de México',
@@ -21,7 +21,7 @@ const STATES = [
   'Guerrero',
   'Hidalgo',
   'Jalisco',
-  'Michoacán de Ocampo',
+  'Michoacán',
   'Morelos',
   'Nayarit',
   'Nuevo León',
@@ -35,7 +35,7 @@ const STATES = [
   'Tabasco',
   'Tamaulipas',
   'Tlaxcala',
-  'Veracruz de Ignacio de la Llave',
+  'Veracruz',
   'Yucatán',
   'Zacatecas'
 ]

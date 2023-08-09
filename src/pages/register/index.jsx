@@ -39,7 +39,6 @@ const Register = () => {
           <Selector
             placeholder='Género'
             options={GENDER}
-            value='gender'
             selected={gender}
             setSelected={setGender}
           />
@@ -49,7 +48,6 @@ const Register = () => {
           <Selector
             placeholder='Estado'
             options={STATES}
-            value='state'
             selected={state}
             setSelected={setState}
           />

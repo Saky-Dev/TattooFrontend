@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { DownArrow } from '../../common/const/static/icons'
 import './index.sass'
 
-const Selector = ({ placeholder = '', value = '', selected = '', options = [], setSelected = () => {} }) => {
+const Selector = ({ placeholder = '', selected = '', options = [], setSelected = () => {} }) => {
   const [isVisible, setIsVisible] = useState(false)
 
   const handleVisibilityClick = e => {
@@ -18,21 +18,25 @@ const Selector = ({ placeholder = '', value = '', selected = '', options = [], s
   }
 
   return (
-    <div className={`selector ${value}`}>
+    <div className='selector'>
       <div className='header'>
-        <span className='selected'>{selected || placeholder}</span>
+        <span className={`selected${!selected ? ' placeholder' : ''}`}>{selected || placeholder}</span>
         <button className={isVisible ? 'visible' : 'hidden'} onClick={handleVisibilityClick}>
-          <img src={DownArrow} alt={isVisible ? 'ocultar' : 'mostrar'} />
+          <img
+            src={DownArrow}
+            alt={isVisible ? 'ocultar' : 'mostrar'}
+            title={isVisible ? 'ocultar' : 'mostrar'}
+          />
         </button>
       </div>
       <div className={`content ${isVisible ? 'visible' : 'hidden'}`}>
-        {options.map((option, index) => (
-          <ul className='options' key={index}>
-            <li>
+        <ul className='options'>
+          {options.map((option, index) => (
+            <li key={index}>
               <button option={option} onClick={handleOptionClick}>{option}</button>
             </li>
-          </ul>
-        ))}
+          ))}
+        </ul>
       </div>
     </div>
   )
