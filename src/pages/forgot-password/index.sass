@@ -6,12 +6,11 @@ main.forgot-password
   width: 100%
   min-height: 90vh
   div.container
-    @include flexing($direction: column, $justify: flex-start)
+    @include flexing($direction: column, $justify: space-between)
     width: 45vw
     height: 75vh
     padding: 8vh 8vw 1.5vh 8vw
     box-shadow: 0 1px 3px transparentize($clr-contrast, 0.7)
-    gap: 15vh
   div.title
     @include flexing($direction: column)
     gap: 15px
@@ -26,6 +25,13 @@ main.forgot-password
     @include flexing($direction: column, $align: flex-start, $justify: flex-start)
     width: 100%
     gap: 15px
+    margin:
+      bottom: 10vh
     p
       font-size: 1.1em
       color: $clr-contrast
+  div.links
+    @include flexing()
+    width: 100%
+    a
+      color: $clr-second

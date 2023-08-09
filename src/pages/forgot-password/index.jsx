@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import AuthContext from '../../common/context/auth'
 import CombinedInput from '../../components/combined-input'
 import PATHS, { ENDPOINTS } from '../../common/const/paths'
@@ -84,6 +84,9 @@ const ForgotPassword = () => {
             Enviar
           </CombinedInput>
         </form>
+        <div className='links'>
+          <Link to={PATHS.AUTH.LOGIN}>Iniciar sesión</Link>
+        </div>
       </div>
     </main>
   )
