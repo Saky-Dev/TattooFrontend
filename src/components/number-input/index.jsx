@@ -5,7 +5,7 @@ const NumberInput = ({ placeholder = '0', setNumber = () => {} }) => (
     <input
       required
       type='number'
-      onInput={e => setNumber(e.target.value)}
+      onInput={e => setNumber(Number(e.target.value))}
       placeholder={placeholder}
     />
   </div>
