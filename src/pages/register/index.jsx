@@ -35,6 +35,7 @@ const Register = () => {
   const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]+$/
 
   const validateData = () => {
+    let selected = -1
     const messages = [
       'El nombre y el apellido no pueden estar vacios',
       'El correo no es valido, proporciona un correo gmail, hotmail o outlook',
@@ -43,7 +44,6 @@ const Register = () => {
       'Edad no valida, debes ser mayor de edad',
       'Elige un estado de residencia'
     ]
-    let selected = -1
 
     if (name.length < 1 || lastName.length < 1) {
       selected = 0
@@ -59,9 +59,7 @@ const Register = () => {
       selected = 5
     }
 
-    if (selected >= 0) {
-      throw new ValidationError(messages[selected])
-    }
+    if (selected >= 0) { throw new ValidationError(messages[selected]) }
   }
 
   const handleRegister = () => {
@@ -85,13 +83,13 @@ const Register = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data) || !('validationCode' in data)) {
-          throw new DataError('')
-        }
+        if (!('success' in data)) { throw new DataError('') }
 
         if (!data.sucess) {
           toast.error('Algo salio mal al registrarte, intentalo de nuevo')
         } else {
+          if (!('validationCode' in data)) { throw new DataError('') }
+
           setValidationCode(data.validationCode)
         }
       })
@@ -110,9 +108,7 @@ const Register = () => {
       if (error instanceof ValidationError || error instanceof ConnectionError) {
         toast.error(error.message)
       }
-      if (error instanceof DataError) {
-        console.debug('Unexpected')
-      }
+      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }
 
@@ -133,15 +129,16 @@ const Register = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) {
-          throw new DataError('')
-        }
+        if (!('success' in data)) { throw new DataError('') }
 
         if (!data.success) {
           toast.error('Algo salio mal al validar tu cuenta, intentalo de nuevo')
         } else {
           toast.success('Registro exitoso')
-          navigate(PATHS.AUTH.LOGIN)
+
+          setTimeout(() => {
+            navigate(PATHS.AUTH.LOGIN)
+          }, 5000)
         }
       })
       .catch(() => {
@@ -159,9 +156,7 @@ const Register = () => {
       if (error instanceof ValidationError || error instanceof ConnectionError) {
         toast.error(error.message)
       }
-      if (error instanceof DataError) {
-        console.debug('Unexpected')
-      }
+      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }
 
@@ -179,13 +174,9 @@ const Register = () => {
         setValidationCode(undefined)
         setUserCode(undefined)
 
-        if (!('success' in data)) {
-          throw new DataError('')
-        }
+        if (!('success' in data)) { throw new DataError('') }
       })
-      .catch(() => {
-        throw new ConnectionError('')
-      })
+      .catch(() => { throw new ConnectionError('') })
   }
 
   const handleBack = () => {
@@ -204,9 +195,7 @@ const Register = () => {
         setUserCode(undefined)
         setValidationCode(undefined)
       }
-      if (error instanceof DataError) {
-        console.debug('Unexpected')
-      }
+      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }
 
@@ -215,7 +204,7 @@ const Register = () => {
     return () => { authValue.setIsAuthProcess(false) }
   }, [])
 
-  const FirstStep = () => (
+  const FirstStepCode = (
     <>
       <TextInput placeholder='Nombre' setValue={setName} />
       <TextInput placeholder='Apellido' setValue={setLastName} />
@@ -242,7 +231,7 @@ const Register = () => {
     </>
   )
 
-  const NextStep = () => (
+  const NextStepCode = (
     <>
       <p>Se ha enviado el código de validación a tu correo</p>
       <CombinedInput type='text' placeholder='Código de verificación' setValue={setUserCode}>
@@ -265,7 +254,7 @@ const Register = () => {
           onSubmit={!validationCode ? handleRegisterSubmit : handleValidationSubmit}
           className={!validationCode ? 'first-step' : 'next-step'}
         >
-          {!validationCode ? <FirstStep /> : <NextStep />}
+          {!validationCode ? FirstStepCode : NextStepCode}
         </form>
         <div className='links'>
           <Link to={PATHS.AUTH.LOGIN}>Iniciar sesión</Link>

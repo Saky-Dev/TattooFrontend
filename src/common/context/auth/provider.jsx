@@ -4,7 +4,7 @@ import AuthContext from './context'
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isAuthProcess, setIsAuthProcess] = useState(false)
-  const [isAdminAcess, setIsAdminAccess] = useState(false)
+  const [isAdminAccess, setIsAdminAccess] = useState(false)
   const [csrfToken, setCSRFToken] = useState(null)
   const [token, setToken] = useState(null)
 
@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
       setCSRFToken,
       user: {
         isAuthenticated,
-        isAdminAcess,
+        isAdminAccess,
         token,
         setIsAuthenticated,
         setIsAdminAccess,

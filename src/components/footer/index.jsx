@@ -94,13 +94,11 @@ const Footer = () => {
         toast.error(error.message)
       }
 
-      if (error instanceof DataError) {
-        console.debug('Unexpected')
-      }
+      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }
 
-  const getSubscribe = () => (
+  const SubscribeCode = (
     <div className='subscribe'>
       <span>Recibe las ultimas novedades, descuentos y promociones</span>
       <form onSubmit={handleSubmit}>
@@ -112,7 +110,7 @@ const Footer = () => {
     </div>
   )
 
-  const getInformation = () => (
+  const InformationCode = (
     <div className='information'>
       <div className='contact'>
         <span className='title'>Contacto</span>
@@ -140,10 +138,10 @@ const Footer = () => {
   return (
     <footer>
       {!authValue.user.isAuthenticated && !authValue.isAuthProcess
-        ? getSubscribe()
+        ? SubscribeCode
         : <></>}
       {!authValue.user.isAdminAccess
-        ? getInformation()
+        ? InformationCode
         : <></>}
       <div className='rights'>
         <span>Todos los derechos reservados SHOGUN.INK © | Terminos de uso | Política de provacidad</span>

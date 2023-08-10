@@ -30,9 +30,7 @@ const ForgotPassword = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) {
-          throw new DataError('')
-        }
+        if (!('success' in data)) { throw new DataError('') }
 
         if (!data.success) {
           toast.error('No hay registros del correo')
@@ -58,10 +56,7 @@ const ForgotPassword = () => {
       if (error instanceof ValidationError || error instanceof ConnectionError) {
         toast.error(error.message)
       }
-
-      if (error instanceof DataError) {
-        console.debug('Unexpected')
-      }
+      if (error instanceof DataError) { console.debug('Unexpected') }
     }
     navigate(PATHS.LOGIN)
   }

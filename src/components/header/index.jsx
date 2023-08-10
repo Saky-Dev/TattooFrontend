@@ -49,7 +49,7 @@ const Header = () => {
           } else {
             authValue.user.setIsAuthenticated(false)
             authValue.user.setToken('')
-            authValue.user.setIsAdminAcess(false)
+            authValue.user.setIsAdminAccess(false)
           }
         }
       }
@@ -57,7 +57,7 @@ const Header = () => {
   }
 
   const listNavbar = () => {
-    const navbar = authValue.user.token && authValue.user.isAdminAcess
+    const navbar = authValue.user.token && authValue.user.isAdminAccess
       ? adminItems.navbar
       : userItems.navbar
 
@@ -87,7 +87,7 @@ const Header = () => {
       </div>
       <div className='east'>
         <Shortcuts
-          list={authValue.user.token && authValue.user.isAdminAcess
+          list={authValue.user.token && authValue.user.isAdminAccess
             ? adminItems.shortcuts
             : userItems.shortcuts}
         />

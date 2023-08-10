@@ -13,6 +13,7 @@ import Top from './pages/top'
 import Login from './pages/login'
 import ForgotPassword from './pages/forgot-password'
 import Register from './pages/register'
+import AdminAccounts from './pages/admin/accounts'
 import PATHS, { ENDPOINTS } from './common/const/paths'
 import { DataError, ConnectionError } from './common/const/errors'
 import { ToastContainer } from 'react-toastify'
@@ -36,19 +37,22 @@ const AppPreview = () => {
 
   const getCSRFToken = () => {
     fetch(ENDPOINTS.COOKIE, {
-      method: 'GET'
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('csrfToken' in data)) {
-          throw new DataError('')
-        }
+        if (!('success' in data)) { throw new DataError('') }
 
-        authValue.user.setCSRFToken(data.csrfToken)
+        if (!data.success) {
+          throw new ConnectionError('')
+        } else {
+          if (!('csrfToken' in data)) { throw new DataError('') }
+
+          authValue.setCSRFToken(data.csrfToken)
+        }
       })
-      .catch(() => {
-        throw new ConnectionError('')
-      })
+      .catch(() => { throw new ConnectionError('') })
   }
 
   const validateToken = token => {
@@ -57,14 +61,12 @@ const AppPreview = () => {
       body: JSON.stringify({ token }),
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.user.csrfToken
+        'X-CSRFToken': authValue.csrfToken
       }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('isValid' in data)) {
-          throw new DataError('')
-        }
+        if (!('isValid' in data)) { throw new DataError('') }
 
         if (data.isValid) {
           const now = new Date().getTime()
@@ -74,22 +76,17 @@ const AppPreview = () => {
           authValue.user.setIsAuthenticated(true)
 
           document.cookie = `token=${token}; path=/; expires=${expTime}`
-          document.cookie = `csrfToken=${authValue.user.csrfToken}; path=/; expires=${expTime}`
+          document.cookie = `csrfToken=${authValue.csrfToken}; path=/; expires=${expTime}`
         }
-      }).catch(() => {
-        throw new ConnectionError('')
       })
+      .catch(() => { throw new ConnectionError('') })
   }
 
   useEffect(() => {
     let cookies = {}
     const onActionOnError = {
-      ConnectionError: (repeatFunction = () => {}) => {
-        repeatFunction()
-      },
-      DataError: () => {
-        console.debug('Unexpected')
-      }
+      ConnectionError: (func = () => {}, args) => { func(args) },
+      DataError: () => { console.debug('Unexpected') }
     }
 
     if (document.cookie) {
@@ -97,14 +94,14 @@ const AppPreview = () => {
     }
 
     if ('csrfToken' in cookies) {
-      authValue.user.setCSRFToken(cookies.CSRFToken)
+      authValue.setCSRFToken(cookies.csrfToken)
 
       if ('token' in cookies) {
         try {
           validateToken(cookies.token)
         } catch (error) {
           if (error.name in onActionOnError) {
-            onActionOnError[error.name](() => { validateToken(cookies.token) })
+            onActionOnError[error.name](validateToken, cookies.token)
           }
         }
       }
@@ -113,7 +110,7 @@ const AppPreview = () => {
         getCSRFToken()
       } catch (error) {
         if (error.name in onActionOnError) {
-          onActionOnError[error.name](() => { getCSRFToken() })
+          onActionOnError[error.name](getCSRFToken)
         }
       }
     }
@@ -140,6 +137,7 @@ const AppPreview = () => {
         <Route path={PATHS.AUTH.LOGIN} element={<Login />} />
         <Route path={PATHS.AUTH.FORGOT} element={<ForgotPassword />} />
         <Route path={PATHS.AUTH.REGISTER} element={<Register />} />
+        <Route path={PATHS.ADMIN.ACCOUNTS} element={<AdminAccounts />} />
       </Routes>
       <Footer />
     </>

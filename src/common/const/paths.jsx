@@ -38,7 +38,11 @@ const ENDPOINTS = {
   FORGOT: '/api/forgot-password',
   ARTISTS: '/api/tattoo-artists',
   BRANCHES: '/api/branches',
-  TOP: '/api/top'
+  TOP: '/api/top',
+  ADMIN: {
+    VALIDATE: '/api/admin/valid',
+    ACCOUNTS: '/api/admin/accounts'
+  }
 }
 
 export default PATHS

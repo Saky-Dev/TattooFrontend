@@ -13,17 +13,15 @@ const Branches = () => {
   const getBranches = () => {
     fetch(ENDPOINTS.BRANCHES, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'json/application'
-      }
+      headers: { 'Content-Type': 'json/application' }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data) || !('branches' in data)) {
-          throw new DataError('')
-        }
+        if (!('success' in data)) { throw new DataError('') }
 
         if (data.success) {
+          if (!('branches' in data)) { throw new DataError('') }
+
           setLocations(data.branches)
         }
       })
@@ -48,12 +46,8 @@ const Branches = () => {
     try {
       getBranches()
     } catch (error) {
-      if (error instanceof ConnectionError) {
-        toast.error(error.message)
-      }
-      if (error instanceof DataError) {
-        console.debug('Unexpected')
-      }
+      if (error instanceof ConnectionError) { toast.error(error.message) }
+      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }, [])
 

@@ -25,17 +25,15 @@ const Top = () => {
   const getPictures = () => {
     fetch(ENDPOINTS.TOP, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Content-Type': 'application/json' }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data) || !('pictures' in data)) {
-          throw new DataError('')
-        }
+        if (!('success' in data)) { throw new DataError('') }
 
         if (data.success) {
+          if (!('pictures' in data)) { throw new DataError('') }
+
           const images = divideArrayIntoGroups(data.pictures)
           setTattoos(images)
         }
@@ -49,12 +47,8 @@ const Top = () => {
     try {
       getPictures()
     } catch (error) {
-      if (error instanceof ConnectionError) {
-        toast.error(error.message)
-      }
-      if (error instanceof DataError) {
-        console.debug('Unexpected')
-      }
+      if (error instanceof ConnectionError) { toast.error(error.message) }
+      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }, [])
 

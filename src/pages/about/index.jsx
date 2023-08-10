@@ -17,17 +17,15 @@ const About = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data) || !('artists' in data)) {
-          throw new DataError('')
-        }
+        if (!('success' in data)) { throw new DataError('') }
 
         if (data.success) {
+          if (!('artists' in data)) { throw new DataError('') }
+
           setTattooArtists(data.artists)
         }
       })
-      .catch(() => {
-        throw new ConnectionError('')
-      })
+      .catch(() => { throw new ConnectionError('') })
   }
 
   useEffect(() => {
@@ -40,7 +38,7 @@ const About = () => {
     }
   }, [])
 
-  const DisplayArtists = () => (
+  const DisplayArtistsCode = (
     <section className='tattoo-artists'>
       <h2>Nuestros profesionales</h2>
       <div className='artists'>
@@ -73,7 +71,7 @@ const About = () => {
           <img src={Test} alt='Pruebas' />
         </section>
         {tattooArtists.length > 0
-          ? <DisplayArtists />
+          ? DisplayArtistsCode
           : <></>}
         <section className='text'>
           <p>Nuestro equipo de artistas talentosos y apasionados fusiona la creatividad, la pasión y el compromiso para ofrecerte una experiencia <b>personalizada y única.</b> Valoramos la comunicación abierta, comprendiendo tus deseos y necesidades para crear un diseño que refleje tu autenticidad.</p>

@@ -17,6 +17,7 @@ import {
 
 const Tatto = () => {
   const [tattoosList, setTattoosList] = useState([])
+
   const authValue = useContext(AuthContext)
   const tempDataValue = useContext(TempDataContext)
 
@@ -58,12 +59,14 @@ const Tatto = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('pictures' in data)) {
-          throw new DataError('')
-        }
+        if (!('success' in data)) { throw new DataError('') }
 
-        const splitedItems = divideArrayIntoGroups(data.pictures)
-        setTattoosList(splitedItems)
+        if (data.success) {
+          if (!('pictures' in data)) { throw new DataError('') }
+
+          const splitedItems = divideArrayIntoGroups(data.pictures)
+          setTattoosList(splitedItems)
+        }
       })
       .catch(() => {
         throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
@@ -83,13 +86,8 @@ const Tatto = () => {
 
       e.target.parentNode.classList.add('selected')
     } catch (error) {
-      if (error instanceof ConnectionError) {
-        toast.error(error.message)
-      }
-
-      if (error instanceof DataError) {
-        console.debug('Unexpected')
-      }
+      if (error instanceof ConnectionError) { toast.error(error.message) }
+      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }
 
@@ -112,7 +110,7 @@ const Tatto = () => {
     }
   }, [])
 
-  const PictureLanding = () => (
+  const PictureLandingCode = (
     <div className='picture-landing-container'>
       <div className='mask'>
         <span>Descubre nuestros nuevos diseños</span>
@@ -129,7 +127,7 @@ const Tatto = () => {
       </aside>
       <div className='content'>
         {tattoosList.length < 1
-          ? <PictureLanding />
+          ? PictureLandingCode
           : tattoosList.map((pictures, index) => (
             <MainGrid
               key={index}

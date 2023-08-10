@@ -39,6 +39,7 @@ const Login = () => {
 
   const saveAdmin = token => {
     authValue.user.setToken(token)
+    authValue.user.setIsAdminAccess(true)
     document.cookie = `token=${token}; path=/`
     navigate(PATHS.ADMIN.ACCOUNTS)
   }
@@ -54,20 +55,20 @@ const Login = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data || !('type' in data) || !('token' in data))) {
-          throw new DataError('')
-        }
+        if (!('success' in data)) { throw new DataError('') }
 
-        const saveData = {
+        const toSaveData = {
           user: saveUser,
           admin: saveAdmin
         }
 
-        if (data.success) {
-          toast.success('Acceso correcto')
-          saveData[data.type](data.token)
-        } else {
+        if (!data.success) {
           toast.error('Sin registros del usuario')
+        } else {
+          if (!('type' in data) || !('token' in data)) { throw new DataError('') }
+
+          toast.success('Acceso correcto')
+          toSaveData[data.type](data.token)
         }
       })
       .catch(() => {
@@ -81,13 +82,8 @@ const Login = () => {
     try {
       login()
     } catch (error) {
-      if (error instanceof ConnectionError) {
-        toast.error(error.message)
-      }
-
-      if (error instanceof DataError) {
-        console.debug('Unexpected')
-      }
+      if (error instanceof ConnectionError) { toast.error(error.message) }
+      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }
 
