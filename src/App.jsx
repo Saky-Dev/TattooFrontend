@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import AuthContext, { AuthProvider } from './common/context/auth'
 import { TempDataProvider } from './common/context/tempData'
+import { DetailProvider } from './common/context/detail'
 import Header from './components/header'
 import Footer from './components/footer'
 import Home from './pages/home'
@@ -151,9 +152,15 @@ const DataApp = () => (
   </TempDataProvider>
 )
 
+const DetailApp = () => (
+  <DetailProvider>
+    <DataApp />
+  </DetailProvider>
+)
+
 const App = () => (
   <AuthProvider>
-    <DataApp />
+    <DetailApp />
   </AuthProvider>
 )
 
