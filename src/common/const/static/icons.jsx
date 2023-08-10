@@ -1,4 +1,5 @@
 import Axe from '../../../assets/icons/axe.svg'
+import Back from '../../../assets/icons/arrow-left.svg'
 import Comic from '../../../assets/icons/book.svg'
 import Facebook from '../../../assets/icons/brand-facebook-filled.svg'
 import Anime from '../../../assets/icons/brand-funimation.svg'
@@ -32,7 +33,7 @@ import Wallet from '../../../assets/icons/wallet.svg'
 import Close from '../../../assets/icons/x.svg'
 
 export {
-  Axe, Comic, Facebook, Anime, Analytics,
+  Axe, Back, Comic, Facebook, Anime, Analytics,
   Instagram, Twitter, Butterfly, DownArrow, Religion,
   Money, More, Owl, Demon, HeartFilled,
   Heart, Tree, Logout, Moon, Videogames,

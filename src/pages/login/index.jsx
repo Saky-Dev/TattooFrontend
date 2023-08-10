@@ -64,6 +64,7 @@ const Login = () => {
         }
 
         if (data.success) {
+          toast.success('Acceso correcto')
           saveData[data.type](data.token)
         } else {
           toast.error('Sin registros del usuario')

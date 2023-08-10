@@ -7,11 +7,13 @@ import EmailInput from '../../components/email-input'
 import PasswordInput from '../../components/password-input'
 import Selector from '../../components/selector'
 import MainButton from '../../components/main-button'
-import { Link } from 'react-router-dom'
+import IconButton from '../../components/icon-button'
+import { Link, useNavigate } from 'react-router-dom'
 import PATHS, { ENDPOINTS } from '../../common/const/paths'
 import { ConnectionError, DataError, ValidationError } from '../../common/const/errors'
 import { toast } from 'react-toastify'
 import { GENDER, STATES } from '../../common/const/userinfo'
+import { Back } from '../../common/const/static/icons'
 import './index.sass'
 
 const Register = () => {
@@ -27,6 +29,7 @@ const Register = () => {
   const [validationCode, setValidationCode] = useState(undefined)
 
   const authValue = useContext(AuthContext)
+  const navigate = useNavigate()
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail|outlook|hotmail)\.(com|es)$/
   const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]+$/
@@ -89,7 +92,6 @@ const Register = () => {
         if (!data.sucess) {
           toast.error('Algo salio mal al registrarte, intentalo de nuevo')
         } else {
-          toast.success('Registro exitoso')
           setValidationCode(data.validationCode)
         }
       })
@@ -108,15 +110,104 @@ const Register = () => {
       if (error instanceof ValidationError || error instanceof ConnectionError) {
         toast.error(error.message)
       }
-
       if (error instanceof DataError) {
         console.debug('Unexpected')
       }
     }
   }
 
-  const handleValidationSubmit = e => {
+  const validCode = () => {
+    if (validationCode !== userCode) {
+      throw new ValidationError('El código no es correcto')
+    }
+  }
 
+  const handleValidation = () => {
+    fetch(ENDPOINTS.VALIDATE, {
+      method: 'POST',
+      body: JSON.stringify({ email, code: userCode }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': authValue.csrfToken
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!('success' in data)) {
+          throw new DataError('')
+        }
+
+        if (!data.success) {
+          toast.error('Algo salio mal al validar tu cuenta, intentalo de nuevo')
+        } else {
+          toast.success('Registro exitoso')
+          navigate(PATHS.AUTH.LOGIN)
+        }
+      })
+      .catch(() => {
+        throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
+      })
+  }
+
+  const handleValidationSubmit = e => {
+    e.preventDefault()
+
+    try {
+      validCode()
+      handleValidation()
+    } catch (error) {
+      if (error instanceof ValidationError || error instanceof ConnectionError) {
+        toast.error(error.message)
+      }
+      if (error instanceof DataError) {
+        console.debug('Unexpected')
+      }
+    }
+  }
+
+  const cancelRegister = () => {
+    fetch(ENDPOINTS.UNREGISTER, {
+      method: 'POST',
+      body: JSON.stringify({ email, code: userCode }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': authValue.csrfToken
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setValidationCode(undefined)
+        setUserCode(undefined)
+
+        if (!('success' in data)) {
+          throw new DataError('')
+        }
+      })
+      .catch(() => {
+        throw new ConnectionError('')
+      })
+  }
+
+  const handleBack = () => {
+    try {
+      cancelRegister()
+    } catch (error) {
+      if (error instanceof ConnectionError) {
+        setName('')
+        setLastName('')
+        setEmail('')
+        setGender(undefined)
+        setPassword('')
+        setConfirmPassword('')
+        setAge(undefined)
+        setState(undefined)
+        setUserCode(undefined)
+        setValidationCode(undefined)
+      }
+      if (error instanceof DataError) {
+        console.debug('Unexpected')
+      }
+    }
   }
 
   useEffect(() => {
@@ -136,7 +227,10 @@ const Register = () => {
         setSelected={setGender}
       />
       <PasswordInput setPassword={setPassword} />
-      <PasswordInput placeholder='Confirmar contraseña' setPassword={setConfirmPassword} />
+      <PasswordInput
+        placeholder='Confirmar contraseña'
+        setPassword={setConfirmPassword}
+      />
       <NumberInput placeholder='Edad' setNumber={setAge} />
       <Selector
         placeholder='Estado'
@@ -160,6 +254,9 @@ const Register = () => {
   return (
     <main className='register'>
       <div className='container'>
+        {validationCode
+          ? <IconButton name='atras' onClick={handleBack} icon={Back} />
+          : <></>}
         <div className='title'>
           <span className='logo'>SHOGUN.INK</span>
           <h2>Registrar</h2>

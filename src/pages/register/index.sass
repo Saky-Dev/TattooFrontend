@@ -11,6 +11,11 @@ main.register
     height: 75vh
     padding: 8vh 5vw 1.5vh 5vw
     box-shadow: 0 1px 3px transparentize($clr-contrast, 0.7)
+    position: relative
+    button.icon-button
+      position: absolute
+      top: 15px
+      left: 25px
     div.title
       @include flexing($direction: column)
       gap: 15px
@@ -67,7 +72,7 @@ main.register
             grid-row: 5
       &.next-step
         @include flexing($direction: column, $align: flex-start)
-        gap: 10px
+        gap: 2vh
         p
           font-size: 1.3em
         div.combined-input

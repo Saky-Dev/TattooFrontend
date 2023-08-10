@@ -32,6 +32,8 @@ const ENDPOINTS = {
   NEWS: '/api/news',
   LOGIN: '/api/singin',
   REGISTER: '/api/singup',
+  VALIDATE: '/api/singup/valid',
+  UNREGISTER: '/api/singup/cancel',
   TATTOOS: '/api/tattoos',
   FORGOT: '/api/forgot-password',
   ARTISTS: '/api/tattoo-artists',
