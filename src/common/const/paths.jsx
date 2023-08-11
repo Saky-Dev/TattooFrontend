@@ -31,9 +31,8 @@ const ENDPOINTS = {
   TOKEN: '/api/token-validation',
   NEWS: '/api/news',
   LOGIN: '/api/singin',
+  GETCODE: '/api/get-code',
   REGISTER: '/api/singup',
-  VALIDATE: '/api/singup/valid',
-  UNREGISTER: '/api/singup/cancel',
   TATTOOS: '/api/tattoos',
   FORGOT: '/api/forgot-password',
   ARTISTS: '/api/tattoo-artists',
@@ -42,7 +41,8 @@ const ENDPOINTS = {
   ADMIN: {
     VALIDATE: '/api/admin/valid',
     ACCOUNTS: '/api/admin/accounts',
-    ADDACOUNT: '/api/admin/add-account'
+    ADDACOUNT: '/api/admin/add-account',
+    REMOVEACOUNT: '/api/admin/remove-account'
   }
 }
 

@@ -65,6 +65,29 @@ const AdminAccounts = () => {
       .catch(() => { throw new ConnectionError('') })
   }
 
+  const removeAdmin = account => {
+    fetch(ENDPOINTS.ADMIN.REMOVEACOUNT, {
+      method: 'POST',
+      body: JSON.stringify({ email: account }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': authValue.csrfToken
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!('success' in data)) { throw new DataError('') }
+
+        if (!data.success) {
+          toast.error('No se pudo eliminar el administrador')
+        } else {
+          toast.error(`Se ha eliminado a ${account}`)
+          const temp = accounts.filter(item => item !== account)
+          setAccounts(temp)
+        }
+      })
+  }
+
   const validateData = () => {
     let selected = -1
     const messages = [
@@ -154,7 +177,7 @@ const AdminAccounts = () => {
                 icon={Trash}
                 color='main'
                 name='eliminar'
-                onClick={() => {}}
+                onClick={removeAdmin(account)}
               />
             </div>
           ))}

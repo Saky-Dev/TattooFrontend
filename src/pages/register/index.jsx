@@ -62,6 +62,52 @@ const Register = () => {
     if (selected >= 0) { throw new ValidationError(messages[selected]) }
   }
 
+  const getValidationCode = () => {
+    fetch(ENDPOINTS.GETCODE, {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': authValue.csrfToken
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!('success' in data)) { throw new DataError('') }
+
+        if (!data.success) {
+          toast.error('Algo salio mal en el proceso, intentalo de nuevo')
+        } else {
+          if (!('validationCode' in data)) { throw new DataError('') }
+
+          setValidationCode(data.validationCode)
+        }
+      })
+      .catch(() => {
+        throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
+      })
+  }
+
+  const handleCodeSubmit = e => {
+    e.preventDefault()
+
+    try {
+      validateData()
+      getValidationCode()
+    } catch (error) {
+      if (error instanceof DataError) { console.debug('Unexpected') }
+      if (error instanceof ValidationError || error instanceof ConnectionError) {
+        toast.error(error.message)
+      }
+    }
+  }
+
+  const validCode = () => {
+    if (validationCode !== userCode) {
+      throw new ValidationError('El código no es correcto')
+    }
+  }
+
   const handleRegister = () => {
     const userData = {
       name,
@@ -85,54 +131,8 @@ const Register = () => {
       .then(data => {
         if (!('success' in data)) { throw new DataError('') }
 
-        if (!data.sucess) {
-          toast.error('Algo salio mal al registrarte, intentalo de nuevo')
-        } else {
-          if (!('validationCode' in data)) { throw new DataError('') }
-
-          setValidationCode(data.validationCode)
-        }
-      })
-      .catch(() => {
-        throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
-      })
-  }
-
-  const handleRegisterSubmit = e => {
-    e.preventDefault()
-
-    try {
-      validateData()
-      handleRegister()
-    } catch (error) {
-      if (error instanceof DataError) { console.debug('Unexpected') }
-      if (error instanceof ValidationError || error instanceof ConnectionError) {
-        toast.error(error.message)
-      }
-    }
-  }
-
-  const validCode = () => {
-    if (validationCode !== userCode) {
-      throw new ValidationError('El código no es correcto')
-    }
-  }
-
-  const handleValidation = () => {
-    fetch(ENDPOINTS.VALIDATE, {
-      method: 'POST',
-      body: JSON.stringify({ email, code: userCode }),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
-
         if (!data.success) {
-          toast.error('Algo salio mal al validar tu cuenta, intentalo de nuevo')
+          toast.error('Algo salio mal al registrarte, intentalo de nuevo')
         } else {
           toast.success('Registro exitoso')
 
@@ -146,12 +146,12 @@ const Register = () => {
       })
   }
 
-  const handleValidationSubmit = e => {
+  const handleRegisterSubmit = e => {
     e.preventDefault()
 
     try {
       validCode()
-      handleValidation()
+      handleRegister()
     } catch (error) {
       if (error instanceof DataError) { console.debug('Unexpected') }
       if (error instanceof ValidationError || error instanceof ConnectionError) {
@@ -160,43 +160,8 @@ const Register = () => {
     }
   }
 
-  const cancelRegister = () => {
-    fetch(ENDPOINTS.UNREGISTER, {
-      method: 'POST',
-      body: JSON.stringify({ email, code: userCode }),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setValidationCode(undefined)
-        setUserCode(undefined)
-
-        if (!('success' in data)) { throw new DataError('') }
-      })
-      .catch(() => { throw new ConnectionError('') })
-  }
-
   const handleBack = () => {
-    try {
-      cancelRegister()
-    } catch (error) {
-      if (error instanceof ConnectionError) {
-        setName('')
-        setLastName('')
-        setEmail('')
-        setGender(undefined)
-        setPassword('')
-        setConfirmPassword('')
-        setAge(undefined)
-        setState(undefined)
-        setUserCode(undefined)
-        setValidationCode(undefined)
-      }
-      if (error instanceof DataError) { console.debug('Unexpected') }
-    }
+    setValidationCode(undefined)
   }
 
   useEffect(() => {
@@ -251,7 +216,7 @@ const Register = () => {
           <h2>Registrar</h2>
         </div>
         <form
-          onSubmit={!validationCode ? handleRegisterSubmit : handleValidationSubmit}
+          onSubmit={!validationCode ? handleCodeSubmit : handleRegisterSubmit}
           className={!validationCode ? 'first-step' : 'next-step'}
         >
           {!validationCode ? FirstStepCode : NextStepCode}
