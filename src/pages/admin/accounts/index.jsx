@@ -11,7 +11,7 @@ import { Trash } from '../../../common/const/static/icons'
 import './index.sass'
 
 const AdminAccounts = () => {
-  const [accounts, setAccounts] = useState([])
+  const [accounts, setAccounts] = useState(['main.1@shogun.ink', 'main.2@shogun.ink', 'main.3@shogun.ink', 'main.4@shogun.ink'])
   // const [email, setEmail] = useState('')
   // const [password, setPassword] = useState('')
   // const [confirmPassword, setConfirmPassword] = useState('')
@@ -86,7 +86,7 @@ const AdminAccounts = () => {
         <div className='accounts-list'>
           {accounts.map((account, index) => (
             <div className='account' key={index}>
-              <p><b>Usuario:</b>{account}</p>
+              <p><b>Usuario: </b>{account}</p>
               <IconButton
                 icon={Trash}
                 color='main'

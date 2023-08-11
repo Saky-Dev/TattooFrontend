@@ -1,0 +1,37 @@
+@import ../../../common/styles/variables
+@import ../../../common/styles/mixins
+
+main.admin.accounts
+  @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+  width: 100%
+  padding: 3vh 3vw
+  min-height: 82vh
+  gap: 3vh
+  section
+    h2
+      font-size: $fnt-subtitle
+      font-weight: 400
+  section.existing
+    @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+    gap: 4vh
+    width: 100%
+    div.accounts-list
+      @include flexing($justify: space-between)
+      width: 100%
+      flex-wrap: wrap
+      div.account
+        @include flexing($justify: space-between)
+        width: 32%
+        height: 90px
+        border: 1px solid $clr-contrast
+        padding:
+          left: 15px
+        &:nth-child(n+4)
+          margin:
+            top: 15px
+        p
+          width: fit-content
+          font-size: 1.3em
+        button.icon-button
+          height: 100%
+          padding: 15px 20px

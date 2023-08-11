@@ -1,15 +1,25 @@
 @import ../../common/styles/variables
+@import ../../common/styles/mixins
 
 button.icon-button
+  @include flexing()
   background: none
   border: none
   border-radius: 50%
-  width: 40px
-  height: 40px
+  width: fit-content
+  height: fit-content
   padding: none
   transition: 0.15s ease
   cursor: pointer
+  transition: 0.15s ease
+  &.main
+    padding: 15px
+    background: $clr-main
+    border-radius: 0
+    &:is(:hover, :focus)
+      background: $clr-main-dark
   &:is(:hover, :focus)
     outline: none
   img
-    width: 100%
+    width: 40px
+    height: 40px
