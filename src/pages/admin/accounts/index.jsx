@@ -1,23 +1,27 @@
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../../common/context/auth'
-// import TextInput from '../../../components/text-input'
-// import PasswordInput from '../../../components/password-input'
-// import CombinedInput from '../../../components/combined-input'
+import TextInput from '../../../components/text-input'
+import PasswordInput from '../../../components/password-input'
+import CombinedInput from '../../../components/combined-input'
 import IconButton from '../../../components/icon-button'
 import PATH, { ENDPOINTS } from '../../../common/const/paths'
-import { ConnectionError, DataError } from '../../../common/const/errors'
+import { ValidationError, ConnectionError, DataError } from '../../../common/const/errors'
+import { toast } from 'react-toastify'
 import { Trash } from '../../../common/const/static/icons'
 import './index.sass'
 
 const AdminAccounts = () => {
   const [accounts, setAccounts] = useState(['main.1@shogun.ink', 'main.2@shogun.ink', 'main.3@shogun.ink', 'main.4@shogun.ink'])
-  // const [email, setEmail] = useState('')
-  // const [password, setPassword] = useState('')
-  // const [confirmPassword, setConfirmPassword] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const authValue = useContext(AuthContext)
   const navigate = useNavigate()
+
+  const emailRegex = /^[a-zA-Z0-9.]+$/
+  const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]+$/
 
   const clearData = () => {
     authValue.user.setIsAuthenticated(false)
@@ -61,8 +65,67 @@ const AdminAccounts = () => {
       .catch(() => { throw new ConnectionError('') })
   }
 
-  const handleSubmit = () => {
+  const validateData = () => {
+    let selected = -1
+    const messages = [
+      'El correo no es valido, usa solo letras, numeros y punto',
+      'La contraseña debe tener numero, letras, y almenos 8 caracteres',
+      'Las contraseñas no coinciden'
+    ]
 
+    if (!emailRegex.test(email)) {
+      selected = 0
+    } else if (!passwordRegex.test(password) || password.length < 8) {
+      selected = 1
+    } else if (password !== confirmPassword) {
+      selected = 2
+    }
+
+    if (selected >= 0) { throw new ValidationError(messages[selected]) }
+  }
+
+  const addAdminAccount = () => {
+    fetch(ENDPOINTS.ADMIN.ADDACOUNT, {
+      method: 'POST',
+      body: JSON.stringify({ email: `${email}@shogun.ink`, password }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': authValue.csrfToken
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!('success' in data)) { throw new DataError('') }
+
+        if (!data.success) {
+          toast.error('No se pudo registrar el administrador')
+        } else {
+          toast.success('Registro completado')
+
+          setAccounts([...accounts, `${email}@shogun.ink`])
+
+          setEmail('')
+          setPassword('')
+          setConfirmPassword('')
+        }
+      })
+      .catch(() => {
+        throw new ConnectionError('Ocurrió un error, revisa tu conexión')
+      })
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+
+    try {
+      validateData()
+      addAdminAccount()
+    } catch (error) {
+      if (error instanceof DataError) { console.debug('Unexpected') }
+      if (error instanceof ValidationError || error instanceof ConnectionError) {
+        toast.error(error.message)
+      }
+    }
   }
 
   useEffect(() => {
@@ -99,7 +162,21 @@ const AdminAccounts = () => {
       </section>
       <section className='add'>
         <h2>Agregar</h2>
-        <form onSubmit={handleSubmit} />
+        <form onSubmit={handleSubmit}>
+          <TextInput
+            complement='@shogun.ink'
+            placeholder='Correo'
+            setValue={setEmail}
+          />
+          <PasswordInput setPassword={setPassword} />
+          <CombinedInput
+            type='password'
+            placeholder='Confirmar contraseña'
+            setValue={setConfirmPassword}
+          >
+            Agregar
+          </CombinedInput>
+        </form>
       </section>
     </main>
   )

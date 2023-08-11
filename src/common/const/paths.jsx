@@ -41,7 +41,8 @@ const ENDPOINTS = {
   TOP: '/api/top',
   ADMIN: {
     VALIDATE: '/api/admin/valid',
-    ACCOUNTS: '/api/admin/accounts'
+    ACCOUNTS: '/api/admin/accounts',
+    ADDACOUNT: '/api/admin/add-account'
   }
 }
 

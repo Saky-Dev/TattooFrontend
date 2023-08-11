@@ -53,10 +53,10 @@ const ForgotPassword = () => {
       validateEmail()
       sendEmail()
     } catch (error) {
+      if (error instanceof DataError) { console.debug('Unexpected') }
       if (error instanceof ValidationError || error instanceof ConnectionError) {
         toast.error(error.message)
       }
-      if (error instanceof DataError) { console.debug('Unexpected') }
     }
     navigate(PATHS.LOGIN)
   }
@@ -74,7 +74,7 @@ const ForgotPassword = () => {
           <h2>Recuperar contraseña</h2>
         </div>
         <form onSubmit={handleSubmit}>
-          <p>Proporciona tu correo y la contraseña sera enviada a traves de él</p>
+          <p>Proporciona tu correo, se enviará la contraseña a él</p>
           <CombinedInput type='email' setValue={setEmail}>
             Enviar
           </CombinedInput>

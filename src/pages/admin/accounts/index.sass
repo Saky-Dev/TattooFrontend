@@ -6,14 +6,14 @@ main.admin.accounts
   width: 100%
   padding: 3vh 3vw
   min-height: 82vh
-  gap: 3vh
+  gap: 5vh
   section
     h2
       font-size: $fnt-subtitle
       font-weight: 400
   section.existing
     @include flexing($direction: column, $align: flex-start, $justify: flex-start)
-    gap: 4vh
+    gap: 3vh
     width: 100%
     div.accounts-list
       @include flexing($justify: space-between)
@@ -35,3 +35,12 @@ main.admin.accounts
         button.icon-button
           height: 100%
           padding: 15px 20px
+  section.add
+    @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+    gap: 3vh
+    form
+      @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+      gap: 15px
+      width: 35vw
+      div.combined-input
+        width: 100%

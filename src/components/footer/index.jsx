@@ -90,11 +90,10 @@ const Footer = () => {
       validateEmail()
       registerEmail()
     } catch (error) {
+      if (error instanceof DataError) { console.debug('Unexpected') }
       if (error instanceof ValidationError || error instanceof ConnectionError) {
         toast.error(error.message)
       }
-
-      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }
 

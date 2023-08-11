@@ -105,10 +105,10 @@ const Register = () => {
       validateData()
       handleRegister()
     } catch (error) {
+      if (error instanceof DataError) { console.debug('Unexpected') }
       if (error instanceof ValidationError || error instanceof ConnectionError) {
         toast.error(error.message)
       }
-      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }
 
@@ -153,10 +153,10 @@ const Register = () => {
       validCode()
       handleValidation()
     } catch (error) {
+      if (error instanceof DataError) { console.debug('Unexpected') }
       if (error instanceof ValidationError || error instanceof ConnectionError) {
         toast.error(error.message)
       }
-      if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }
 
