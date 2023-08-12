@@ -162,6 +162,7 @@ const Register = () => {
 
   const handleBack = () => {
     setValidationCode(undefined)
+    setUserCode(undefined)
   }
 
   useEffect(() => {
