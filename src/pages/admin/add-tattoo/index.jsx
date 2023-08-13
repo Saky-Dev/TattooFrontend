@@ -1,13 +1,19 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import AuthContext from '../../../common/context/auth'
 import ImageInput from '../../../components/image-input'
 import NumberInput from '../../../components/number-input'
 import MainButton from '../../../components/main-button'
 import GhostButton from '../../../components/ghost-button'
+import { ValidationError, ConnectionError, DataError } from '../../../common/const/errors'
 import './index.sass'
+import { toast } from 'react-toastify'
+import { ENDPOINTS } from '../../../common/const/paths'
 
 const AddTattoo = () => {
   const [measures, setMearues] = useState([])
-  const [imgPreview, setImgPreview] = useState(undefined)
+  const [image, setImage] = useState(undefined)
+
+  const authValue = useContext(AuthContext)
 
   const handleAddMeasure = () => {
     setMearues([...measures, {
@@ -18,8 +24,9 @@ const AddTattoo = () => {
   }
 
   const handleSetMeasure = (value, index, param) => {
-    measures[index][param] = value
-    setMearues(measures)
+    const copy = [...measures]
+    copy[index][param] = value
+    setMearues(copy)
   }
 
   const handleDeleteMeasure = () => {
@@ -28,11 +35,67 @@ const AddTattoo = () => {
     setMearues(copy)
   }
 
+  const validateData = () => {
+    if (image === undefined) {
+      throw new ValidationError('Tienes que seleccionar una imagen')
+    }
+
+    measures.forEach(measure => {
+      if (measure.width < 1 || measure.height < 1 || measure.price < 1) {
+        throw new ValidationError('Todos los datos deben ser numeros mayores a 0')
+      }
+    })
+  }
+
+  const handleUpload = () => {
+    fetch(ENDPOINTS.ADMIN.UPLOADTATTOO, {
+      method: 'POST',
+      body: JSON.stringify({ image, measures }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': authValue.csrfToken
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!('success' in data)) {
+          throw new DataError('Error por parte del servidor, contacta a servicio tecnico')
+        }
+
+        if (!data.success) {
+          toast.error('Error al subir la información')
+        } else {
+          if (!('categories' in data)) {
+            throw new DataError('Error por parte del servidor, contacta a servicio tecnico')
+          }
+
+          toast.error(`La imagen se subio de forma correcta, clasificada como ${data.categories.map(category => category)}`)
+
+          setImage(undefined)
+          setMearues([])
+        }
+      })
+      .catch(() => {
+        throw new ConnectionError('Ocurrió un error, revisa tu conexión')
+      })
+  }
+
+  const handleClickSubmit = () => {
+    try {
+      validateData()
+      handleUpload()
+    } catch (error) {
+      if (error instanceof ValidationError || error instanceof ValidationError || error instanceof DataError) {
+        toast.error(error.message)
+      }
+    }
+  }
+
   return (
     <main className='admin add-tattoo'>
       <h2>Nuevo tatuaje</h2>
       <div className='content'>
-        <ImageInput image={imgPreview} setImage={setImgPreview} />
+        <ImageInput image={image} setImage={setImage} />
         <div className='measures'>
           <h3>Tamaños</h3>
           <div className='data'>
@@ -75,7 +138,7 @@ const AddTattoo = () => {
                 : <></>}
             </div>
           </div>
-          <MainButton>
+          <MainButton handleClick={handleClickSubmit}>
             Subir
           </MainButton>
         </div>

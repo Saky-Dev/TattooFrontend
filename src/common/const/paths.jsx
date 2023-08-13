@@ -42,7 +42,8 @@ const ENDPOINTS = {
     VALIDATE: '/api/admin/valid',
     ACCOUNTS: '/api/admin/accounts',
     ADDACOUNT: '/api/admin/add-account',
-    REMOVEACOUNT: '/api/admin/remove-account'
+    REMOVEACOUNT: '/api/admin/remove-account',
+    UPLOADTATTOO: '/api/admin/upload-tattoo'
   }
 }
 
