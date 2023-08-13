@@ -2,20 +2,51 @@
 @import ../../../common/styles/mixins
 
 main.admin.add-tattoo
+  @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+  gap: 3vh
   width: 100%
   min-height: 82vh
-  div.input-image-container
-    width: 500px
-    height: 500px
-    position: relative
-    border: 4px solid $clr-second
-    input
-      position: absolute
-      top: 0
-      left: 0
-      width: 100%
-      height: 100%
-    img
-      width: 100%
-      height: 100%
-      object-fit: cover
+  padding: 3vh 3vw
+  h2
+    font-weight: 400
+    font-size: $fnt-subtitle
+  div.content
+    @include flexing($align: stretch, $justify: flex-start)
+    height: 50vh
+    gap: 3vw
+    div.measures
+      display: grid
+      grid-template-columns: 100%
+      grid-template-rows: auto 1fr auto
+      gap: 15px
+      h3
+        font-size: $fnt-section
+        font-weight: 400
+        color: transparentize($clr-contrast, 0.3)
+      div.data
+        width: 45vw
+        height: fit-content
+        display: grid
+        grid-template-rows: auto repeat(4, 1fr)
+        grid-template-columns: auto
+        gap: 15px
+        div.headers
+          width: 100%
+          display: grid
+          grid-template-columns: 20% 20% 30% 30%
+          grid-template-rows: auto
+          gap: 15px
+          span
+            color: $clr-contrast
+            font-size: 1.3em
+        div.measure
+          width: 100%
+          height: fit-content
+          display: grid
+          grid-template-columns: 20% 20% 30% 30%
+          grid-template-rows: auto
+          gap: 15px
+        button.main-button
+          width: calc(70% + 15px * 2)
+      > button.main-button
+        width: 12vw

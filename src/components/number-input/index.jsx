@@ -1,6 +1,6 @@
 import './index.sass'
 
-const NumberInput = ({ placeholder = '0', setNumber = () => {} }) => (
+const NumberInput = ({ placeholder = '0', setNumber = () => {}, complement = '' }) => (
   <div className='number-input input-container'>
     <input
       required
@@ -8,6 +8,9 @@ const NumberInput = ({ placeholder = '0', setNumber = () => {} }) => (
       onInput={e => setNumber(Number(e.target.value))}
       placeholder={placeholder}
     />
+    {complement
+      ? <p>{complement}</p>
+      : <></>}
   </div>
 )
 

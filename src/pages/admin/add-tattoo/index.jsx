@@ -17,6 +17,17 @@ const AddTattoo = () => {
     }])
   }
 
+  const handleSetMeasure = (value, index, param) => {
+    measures[index][param] = value
+    setMearues(measures)
+  }
+
+  const handleDeleteMeasure = () => {
+    const copy = [...measures]
+    copy.shift()
+    setMearues(copy)
+  }
+
   return (
     <main className='admin add-tattoo'>
       <h2>Nuevo tatuaje</h2>
@@ -30,12 +41,32 @@ const AddTattoo = () => {
               <span>Alto</span>
               <span>Precio</span>
             </div>
-            {measures.map((measure, index) => (
+            {measures.map((_, index) => (
               <div className='measure' key={index}>
-                <NumberInput placeholder='00' />
-                <NumberInput placeholder='00' />
-                <NumberInput placeholder='00' />
-                <GhostButton>Eliminar</GhostButton>
+                <NumberInput
+                  placeholder='00'
+                  complement='cm'
+                  setNumber={value => {
+                    handleSetMeasure(value, index, 'width')
+                  }}
+                />
+                <NumberInput
+                  placeholder='00'
+                  complement='cm'
+                  setNumber={value => {
+                    handleSetMeasure(value, index, 'height')
+                  }}
+                />
+                <NumberInput
+                  placeholder='00'
+                  complement='pesos'
+                  setNumber={value => {
+                    handleSetMeasure(value, index, 'price')
+                  }}
+                />
+                {index + 1 === measures.length
+                  ? <GhostButton handleClick={handleDeleteMeasure}>Eliminar</GhostButton>
+                  : <></>}
               </div>
             ))}
             <div className='action-container'>

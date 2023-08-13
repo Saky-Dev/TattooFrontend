@@ -1,0 +1,26 @@
+@import ../../common/styles/variables
+@import ../../common/styles/mixins
+
+button.ghost-button
+  background: $clr-background
+  font-size: 1.2em
+  transition: 0.15s ease
+  cursor: pointer
+  border:
+    width: 3px
+    style: solid
+  &:is(:hover, :focus)
+    &.type-main
+      color: $clr-background
+      background: $clr-main
+    &.type-second
+      color: $clr-background
+      background: $clr-second
+  &.type-main
+    color: $clr-main
+    border:
+      color: $clr-main
+  &.type-second
+    color: $clr-second
+    border:
+      color: $clr-second
