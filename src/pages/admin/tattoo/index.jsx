@@ -118,7 +118,7 @@ const AdminTattoo = () => {
   }
 
   useEffect(() => {
-    // auth.trustAdminValidation()
+    auth.trustAdminValidation()
   }, [])
 
   return (
@@ -137,7 +137,7 @@ const AdminTattoo = () => {
               onClick={handleDeleteClick}
               masks={pictures.map((_, i) => (
                 <div className='mask' key={i}>
-                  <img src={Trash} alt='Eliminar' />
+                  <img src={Trash} alt='Eliminar' title='Eliminar' />
                 </div>
               ))}
               reverse={index % 2 !== 0}

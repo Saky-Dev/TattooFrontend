@@ -44,6 +44,8 @@ main.tattoo
     div.main-grid
       width: 100%
       height: calc(75vw / 4 * 3)
+      &.partial
+        height: calc(75vw / 7 * 3)
       div.mask
         @include flexing($direction: column, $align: flex-start, $justify: flex-end)
         padding:
