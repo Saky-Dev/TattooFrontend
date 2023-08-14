@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import AuthContext from '../../common/context/auth'
+import TempDataContext from '../../common/context/tempData'
 import CombinedInput from '../../components/combined-input'
 import TextInput from '../../components/text-input'
 import NumberInput from '../../components/number-input'
@@ -29,6 +30,7 @@ const Register = () => {
   const [validationCode, setValidationCode] = useState(undefined)
 
   const auth = useContext(AuthContext)
+  const tempData = useContext(TempDataContext)
   const navigate = useNavigate()
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail|outlook|hotmail)\.(com|es)$/
@@ -161,6 +163,16 @@ const Register = () => {
 
   useEffect(() => {
     auth.setIsAuthProcess(true)
+    if (tempData.email && tempData.password) {
+      document.querySelector('div.email-input input').value = tempData.email
+      document.querySelector('div.password-input input').value = tempData.password
+
+      setEmail(tempData.email)
+      setPassword(tempData.password)
+
+      tempData.setEmail('')
+      tempData.setPassword('')
+    }
     return () => { auth.setIsAuthProcess(false) }
   }, [])
 

@@ -22,7 +22,7 @@ const Home = () => {
   const [password, setPassword] = useState('')
   const [pictureIndex, setPictureIndex] = useState(0)
 
-  const tempDataValue = useContext(TempDataContext)
+  const tempData = useContext(TempDataContext)
 
   const navigate = useNavigate()
 
@@ -41,14 +41,14 @@ const Home = () => {
 
   const handleGridClick = e => {
     const linked = Number(e.currentTarget.getAttribute('linked'))
-    tempDataValue.setCategory(categoriesGrid[linked].value)
+    tempData.setCategory(categoriesGrid[linked].value)
   }
 
   const handleSubmit = e => {
     e.preventDefault()
 
-    tempDataValue.setEmail(email)
-    tempDataValue.setPassword(password)
+    tempData.setEmail(email)
+    tempData.setPassword(password)
 
     navigate(PATHS.AUTH.REGISTER)
   }

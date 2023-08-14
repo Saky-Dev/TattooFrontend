@@ -19,7 +19,7 @@ const Tatto = () => {
   const [tattoosList, setTattoosList] = useState([])
 
   const auth = useContext(AuthContext)
-  const tempDataValue = useContext(TempDataContext)
+  const tempData = useContext(TempDataContext)
 
   const categories = [
     { icon: Japanese, title: CATEGORIES.JAPANESE.TEXT, val: CATEGORIES.JAPANESE.VALUE },
@@ -86,9 +86,9 @@ const Tatto = () => {
   }
 
   useEffect(() => {
-    if (tempDataValue.category) {
+    if (tempData.category) {
       const iconElements = [...document.querySelectorAll('ul.icon-list li button')]
-      const catNumber = categories.findIndex(item => item.val === tempDataValue.category)
+      const catNumber = categories.findIndex(item => item.val === tempData.category)
 
       try {
         getPictures(catNumber)
@@ -96,7 +96,7 @@ const Tatto = () => {
         const selected = iconElements.findIndex(item => item.getAttribute('linked') === catNumber)
         iconElements[selected].parentNode.classList.add('selected')
 
-        tempDataValue.setCategory('')
+        tempData.setCategory('')
       } catch (error) {
         if (error instanceof ConnectionError) { toast.error(error.message) }
         if (error instanceof DataError) { console.debug('Unexpected') }
