@@ -43,7 +43,8 @@ const ENDPOINTS = {
     ACCOUNTS: '/api/admin/accounts',
     ADDACOUNT: '/api/admin/add-account',
     REMOVEACOUNT: '/api/admin/remove-account',
-    UPLOADTATTOO: '/api/admin/upload-tattoo'
+    UPLOADTATTOO: '/api/admin/upload-tattoo',
+    REMOVETATTOO: '/api/admin/remove-tattoo'
   }
 }
 

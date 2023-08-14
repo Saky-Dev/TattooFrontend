@@ -12,7 +12,7 @@ import { Trash } from '../../../common/const/static/icons'
 import './index.sass'
 
 const AdminAccounts = () => {
-  const [accounts, setAccounts] = useState(['main.1@shogun.ink', 'main.2@shogun.ink', 'main.3@shogun.ink', 'main.4@shogun.ink'])
+  const [accounts, setAccounts] = useState([])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -112,8 +112,7 @@ const AdminAccounts = () => {
       validateData()
       addAdminAccount()
     } catch (error) {
-      if (error instanceof DataError) { console.debug('Unexpected') }
-      if (error instanceof ValidationError || error instanceof ConnectionError) {
+      if (error instanceof DataError || error instanceof ValidationError || error instanceof ConnectionError) {
         toast.error(error.message)
       }
     }
