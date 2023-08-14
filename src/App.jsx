@@ -16,6 +16,7 @@ import Register from './pages/register'
 import AdminAccounts from './pages/admin/accounts'
 import AdminAddTattoo from './pages/admin/add-tattoo'
 import AdminTattoo from './pages/admin/tattoo'
+import AdminBranches from './pages/admin/branches'
 import PATHS, { ENDPOINTS } from './common/const/paths'
 import { DataError, ConnectionError } from './common/const/errors'
 import { ToastContainer } from 'react-toastify'
@@ -133,6 +134,7 @@ const AppPreview = () => {
         <Route path={PATHS.ADMIN.ACCOUNTS} element={<AdminAccounts />} />
         <Route path={PATHS.ADMIN.ADD} element={<AdminAddTattoo />} />
         <Route path={PATHS.ADMIN.TATTOOS} element={<AdminTattoo />} />
+        <Route path={PATHS.ADMIN.BRANCHES} element={<AdminBranches />} />
       </Routes>
       <Footer />
     </>
