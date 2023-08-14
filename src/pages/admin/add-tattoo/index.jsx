@@ -10,7 +10,7 @@ import './index.sass'
 import { toast } from 'react-toastify'
 import { ENDPOINTS } from '../../../common/const/paths'
 
-const AddTattoo = () => {
+const AdminAddTattoo = () => {
   const [measures, setMearues] = useState([])
   const [image, setImage] = useState(undefined)
 
@@ -146,4 +146,4 @@ const AddTattoo = () => {
   )
 }
 
-export default AddTattoo
+export default AdminAddTattoo

@@ -14,7 +14,8 @@ import Login from './pages/login'
 import ForgotPassword from './pages/forgot-password'
 import Register from './pages/register'
 import AdminAccounts from './pages/admin/accounts'
-import AddTattoo from './pages/admin/add-tattoo'
+import AdminAddTattoo from './pages/admin/add-tattoo'
+import AdminTattoo from './pages/admin/tattoo'
 import PATHS, { ENDPOINTS } from './common/const/paths'
 import { DataError, ConnectionError } from './common/const/errors'
 import { ToastContainer } from 'react-toastify'
@@ -130,7 +131,8 @@ const AppPreview = () => {
         <Route path={PATHS.AUTH.FORGOT} element={<ForgotPassword />} />
         <Route path={PATHS.AUTH.REGISTER} element={<Register />} />
         <Route path={PATHS.ADMIN.ACCOUNTS} element={<AdminAccounts />} />
-        <Route path={PATHS.ADMIN.ADD} element={<AddTattoo />} />
+        <Route path={PATHS.ADMIN.ADD} element={<AdminAddTattoo />} />
+        <Route path={PATHS.ADMIN.TATTOOS} element={<AdminTattoo />} />
       </Routes>
       <Footer />
     </>
