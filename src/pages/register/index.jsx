@@ -163,6 +163,7 @@ const Register = () => {
 
   useEffect(() => {
     auth.setIsAuthProcess(true)
+    auth.authLoginValidation()
     if (tempData.email && tempData.password) {
       document.querySelector('div.email-input input').value = tempData.email
       document.querySelector('div.password-input input').value = tempData.password

@@ -18,13 +18,7 @@ const Login = () => {
 
   useEffect(() => {
     auth.setIsAuthProcess(true)
-
-    if (auth.user.isAuthenticated) {
-      auth.user.token && auth.user.isAdminAccess
-        ? navigate(PATHS.ADMIN.ACCOUNTS)
-        : navigate(PATHS.USER.PROFILE)
-    }
-
+    auth.authLoginValidation()
     return () => { auth.setIsAuthProcess(false) }
   }, [])
 

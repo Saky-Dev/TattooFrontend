@@ -60,6 +60,7 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     auth.setIsAuthProcess(true)
+    auth.authLoginValidation()
     return () => { auth.setIsAuthProcess(false) }
   }, [])
 

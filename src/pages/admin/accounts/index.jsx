@@ -1,12 +1,11 @@
 import { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import AuthContext from '../../../common/context/auth'
 import TextInput from '../../../components/text-input'
 import PasswordInput from '../../../components/password-input'
 import CombinedInput from '../../../components/combined-input'
 import IconButton from '../../../components/icon-button'
 import Loader from '../../../components/loader'
-import PATH, { ENDPOINTS } from '../../../common/const/paths'
+import { ENDPOINTS } from '../../../common/const/paths'
 import { ValidationError, ConnectionError, DataError } from '../../../common/const/errors'
 import { toast } from 'react-toastify'
 import { Trash } from '../../../common/const/static/icons'
@@ -18,19 +17,10 @@ const AdminAccounts = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
-  const authValue = useContext(AuthContext)
-  const navigate = useNavigate()
+  const auth = useContext(AuthContext)
 
   const emailRegex = /^[a-zA-Z0-9.]+$/
   const passwordRegex = /^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9]+$/
-
-  const clearData = () => {
-    authValue.user.setIsAuthenticated(false)
-    authValue.user.setIsAdminAccess(false)
-    authValue.user.setToken(null)
-
-    navigate(PATH.PUBLIC.HOME)
-  }
 
   const getAccounts = () => {
     fetch(ENDPOINTS.ADMIN.ACCOUNTS, {
@@ -45,33 +35,13 @@ const AdminAccounts = () => {
       .catch(() => { throw new ConnectionError() })
   }
 
-  const validateAdmin = () => {
-    fetch(ENDPOINTS.ADMIN.VALIDATE, {
-      method: 'POST',
-      body: JSON.stringify({ token: authValue.user.token }),
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!('isAdmin' in data)) { throw new DataError() }
-
-        data.isAdmin
-          ? getAccounts()
-          : clearData()
-      })
-      .catch(() => { throw new ConnectionError() })
-  }
-
   const removeAdmin = account => {
     fetch(ENDPOINTS.ADMIN.REMOVEACOUNT, {
       method: 'POST',
       body: JSON.stringify({ email: account }),
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
+        'X-CSRFToken': auth.csrfToken
       }
     })
       .then(response => response.json())
@@ -114,7 +84,7 @@ const AdminAccounts = () => {
       body: JSON.stringify({ email: `${email}@shogun.ink`, password }),
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
+        'X-CSRFToken': auth.csrfToken
       }
     })
       .then(response => response.json())
@@ -150,21 +120,7 @@ const AdminAccounts = () => {
   }
 
   useEffect(() => {
-    const loader = document.querySelector('div[aria-label="rings-loading"]')
-
-    if (!authValue.user.isAuthenticated || !authValue.user.isAdminAccess || !authValue.user.token) {
-      clearData()
-    } else {
-      loader.style.display = 'none'
-    }
-
-    try {
-      validateAdmin()
-    } catch (error) {
-      // clearData()
-      if (error instanceof DataError) { console.debug('Unexpected') }
-      if (error instanceof ConnectionError) { console.debug('Connection failed') }
-    }
+    if (auth.trustAdminValidation()) { getAccounts() }
   }, [])
 
   return (

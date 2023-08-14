@@ -1,9 +1,10 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import AuthContext from '../../../common/context/auth'
 import ImageInput from '../../../components/image-input'
 import NumberInput from '../../../components/number-input'
 import MainButton from '../../../components/main-button'
 import GhostButton from '../../../components/ghost-button'
+import Loader from '../../../components/loader'
 import { ValidationError, ConnectionError, DataError } from '../../../common/const/errors'
 import './index.sass'
 import { toast } from 'react-toastify'
@@ -84,8 +85,13 @@ const AddTattoo = () => {
     }
   }
 
+  useEffect(() => {
+    auth.trustAdminValidation()
+  }, [])
+
   return (
     <main className='admin add-tattoo'>
+      <Loader />
       <h2>Nuevo tatuaje</h2>
       <div className='content'>
         <ImageInput image={image} setImage={setImage} />
