@@ -5,6 +5,7 @@ import TextInput from '../../../components/text-input'
 import PasswordInput from '../../../components/password-input'
 import CombinedInput from '../../../components/combined-input'
 import IconButton from '../../../components/icon-button'
+import Loader from '../../../components/loader'
 import PATH, { ENDPOINTS } from '../../../common/const/paths'
 import { ValidationError, ConnectionError, DataError } from '../../../common/const/errors'
 import { toast } from 'react-toastify'
@@ -152,8 +153,12 @@ const AdminAccounts = () => {
   }
 
   useEffect(() => {
+    const loader = document.querySelector('div[aria-label="rings-loading"]')
+
     if (!authValue.user.isAuthenticated || !authValue.user.isAdminAccess || !authValue.user.token) {
       clearData()
+    } else {
+      loader.style.display = 'none'
     }
 
     try {
@@ -167,6 +172,7 @@ const AdminAccounts = () => {
 
   return (
     <main className='admin accounts'>
+      <Loader />
       <section className='existing'>
         <h2>Cuentas</h2>
         <div className='accounts-list'>
