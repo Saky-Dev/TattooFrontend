@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import AuthContext from '../../common/context/auth'
 import Spectacular from '../../components/spectacular'
 import { ENDPOINTS } from '../../common/const/paths'
 import { ConnectionError, DataError } from '../../common/const/errors'
@@ -10,33 +11,33 @@ const Branches = () => {
   const [mapSrc, setMapSrc] = useState('')
   const [locations, setLocations] = useState([])
 
+  const auth = useContext(AuthContext)
+
   const getBranches = () => {
     fetch(ENDPOINTS.BRANCHES, {
       method: 'GET',
-      headers: { 'Content-Type': 'json/application' }
+      headers: {
+        'Content-Type': 'json/application',
+        'X-CSRFToken': auth.csrfToken
+      }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
         if (data.success) {
-          if (!('branches' in data)) { throw new DataError('') }
-
+          if (!('branches' in data)) { throw new DataError() }
           setLocations(data.branches)
         }
       })
-      .catch(() => {
-        throw new ConnectionError('Ha ocurrido un error, revisa tu conexión')
-      })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const handleOnClick = e => {
     const active = document.querySelector('ul.locations li.location button.active')
     const src = e.currentTarget.getAttribute('src')
 
-    if (active) {
-      active.classList.remove('active')
-    }
+    if (active) { active.classList.remove('active') }
 
     e.currentTarget.classList.add('active')
     setMapSrc(src)

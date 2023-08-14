@@ -13,7 +13,7 @@ const AddTattoo = () => {
   const [measures, setMearues] = useState([])
   const [image, setImage] = useState(undefined)
 
-  const authValue = useContext(AuthContext)
+  const auth = useContext(AuthContext)
 
   const handleAddMeasure = () => {
     setMearues([...measures, {
@@ -53,31 +53,24 @@ const AddTattoo = () => {
       body: JSON.stringify({ image, measures }),
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
+        'X-CSRFToken': auth.csrfToken
       }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) {
-          throw new DataError('Error por parte del servidor, contacta a servicio tecnico')
-        }
+        if (!('success' in data)) { throw new DataError() }
 
         if (!data.success) {
           toast.error('Error al subir la información')
         } else {
-          if (!('categories' in data)) {
-            throw new DataError('Error por parte del servidor, contacta a servicio tecnico')
-          }
-
+          if (!('categories' in data)) { throw new DataError() }
           toast.error(`La imagen se subio de forma correcta, clasificada como ${data.categories.map(category => category)}`)
 
           setImage(undefined)
           setMearues([])
         }
       })
-      .catch(() => {
-        throw new ConnectionError('Ocurrió un error, revisa tu conexión')
-      })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const handleClickSubmit = () => {

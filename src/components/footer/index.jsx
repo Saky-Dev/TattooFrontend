@@ -10,7 +10,7 @@ import './index.sass'
 
 const Footer = () => {
   const [email, setEmail] = useState('')
-  const authValue = useContext(AuthContext)
+  const auth = useContext(AuthContext)
 
   const socialMedia = [
     {
@@ -65,12 +65,12 @@ const Footer = () => {
       body: JSON.stringify({ email }),
       headers: {
         'Conten-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
+        'X-CSRFToken': auth.csrfToken
       }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('sucsess' in data)) { throw new DataError('') }
+        if (!('sucsess' in data)) { throw new DataError() }
 
         if (data.success) {
           toast.success('¡Tu subscripcion ha sido completada 😊!')
@@ -78,9 +78,7 @@ const Footer = () => {
           toast.error('Algo ha salido mal, intentalo nuevamente')
         }
       })
-      .catch(() => {
-        throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
-      })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const handleSubmit = e => {
@@ -136,15 +134,15 @@ const Footer = () => {
 
   return (
     <footer>
-      {!authValue.user.isAuthenticated && !authValue.isAuthProcess
+      {!auth.user.isAuthenticated && !auth.isAuthProcess
         ? SubscribeCode
         : <></>}
-      {!authValue.user.isAdminAccess
+      {!auth.user.isAdminAccess
         ? InformationCode
         : <></>}
       <div className='rights'>
         <span>Todos los derechos reservados SHOGUN.INK © | Terminos de uso | Política de provacidad</span>
-        {authValue.user.isAuthenticated || authValue.isAuthProcess
+        {auth.user.isAuthenticated || auth.isAuthProcess
           ? <Shortcuts list={socialMedia} />
           : <></>}
       </div>

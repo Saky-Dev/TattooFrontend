@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import AuthContext from '../../common/context/auth'
 import Carousel from '../../components/carousel'
 import Spectacular from '../../components/spectacular'
 import { ENDPOINTS } from '../../common/const/paths'
@@ -10,22 +11,26 @@ import './index.sass'
 const About = () => {
   const [tattooArtists, setTattooArtists] = useState([])
 
+  const auth = useContext(AuthContext)
+
   const getArtists = () => {
     fetch(ENDPOINTS.ARTISTS, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': auth.csrfToken
+      }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
         if (data.success) {
-          if (!('artists' in data)) { throw new DataError('') }
-
+          if (!('artists' in data)) { throw new DataError() }
           setTattooArtists(data.artists)
         }
       })
-      .catch(() => { throw new ConnectionError('') })
+      .catch(() => { throw new ConnectionError() })
   }
 
   useEffect(() => {

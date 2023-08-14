@@ -35,15 +35,14 @@ const AdminAccounts = () => {
   const getAccounts = () => {
     fetch(ENDPOINTS.ADMIN.ACCOUNTS, {
       method: 'GET',
-      headers: { 'X-CSRFToken': authValue.csrfToken }
+      headers: { 'Content-Type': 'application/json' }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('accounts' in data)) { throw new DataError('') }
-
+        if (!('accounts' in data)) { throw new DataError() }
         setAccounts(data.accounts)
       })
-      .catch(() => { throw new ConnectionError('') })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const validateAdmin = () => {
@@ -57,13 +56,13 @@ const AdminAccounts = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('isAdmin' in data)) { throw new DataError('') }
+        if (!('isAdmin' in data)) { throw new DataError() }
 
         data.isAdmin
           ? getAccounts()
           : clearData()
       })
-      .catch(() => { throw new ConnectionError('') })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const removeAdmin = account => {
@@ -77,7 +76,7 @@ const AdminAccounts = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
         if (!data.success) {
           toast.error('No se pudo eliminar el administrador')
@@ -87,6 +86,7 @@ const AdminAccounts = () => {
           setAccounts(temp)
         }
       })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const validateData = () => {
@@ -119,7 +119,7 @@ const AdminAccounts = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
         if (!data.success) {
           toast.error('No se pudo registrar el administrador')
@@ -127,15 +127,12 @@ const AdminAccounts = () => {
           toast.success('Registro completado')
 
           setAccounts([...accounts, `${email}@shogun.ink`])
-
           setEmail('')
           setPassword('')
           setConfirmPassword('')
         }
       })
-      .catch(() => {
-        throw new ConnectionError('Ocurrió un error, revisa tu conexión')
-      })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const handleSubmit = e => {

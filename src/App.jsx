@@ -22,7 +22,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import './App.sass'
 
 const AppPreview = () => {
-  const authValue = useContext(AuthContext)
+  const auth = useContext(AuthContext)
 
   const parseCookies = () => {
     const cookies = document.cookie.split(';')
@@ -43,17 +43,16 @@ const AppPreview = () => {
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
         if (!data.success) {
-          throw new ConnectionError('')
+          throw new ConnectionError()
         } else {
-          if (!('csrfToken' in data)) { throw new DataError('') }
-
-          authValue.setCSRFToken(data.csrfToken)
+          if (!('csrfToken' in data)) { throw new DataError() }
+          auth.setCSRFToken(data.csrfToken)
         }
       })
-      .catch(() => { throw new ConnectionError('') })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const validateToken = token => {
@@ -62,57 +61,49 @@ const AppPreview = () => {
       body: JSON.stringify({ token }),
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
+        'X-CSRFToken': auth.csrfToken
       }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('isValid' in data)) { throw new DataError('') }
+        if (!('isValid' in data)) { throw new DataError() }
 
         if (data.isValid) {
           const now = new Date().getTime()
           const expTime = now + 1000 * 60 * 60 * 24 * 3
 
-          authValue.user.setToken(token)
-          authValue.user.setIsAuthenticated(true)
+          auth.user.setToken(token)
+          auth.user.setIsAuthenticated(true)
 
           document.cookie = `token=${token}; path=/; expires=${expTime}`
-          document.cookie = `csrfToken=${authValue.csrfToken}; path=/; expires=${expTime}`
+          document.cookie = `csrfToken=${auth.csrfToken}; path=/; expires=${expTime}`
         }
       })
-      .catch(() => { throw new ConnectionError('') })
+      .catch(() => { throw new ConnectionError() })
   }
 
   useEffect(() => {
     let cookies = {}
-    const onActionOnError = {
-      ConnectionError: (func = () => {}, args) => { func(args) },
-      DataError: () => { console.debug('Unexpected') }
-    }
 
-    if (document.cookie) {
-      cookies = parseCookies()
-    }
+    if (document.cookie) { cookies = parseCookies() }
 
     if ('csrfToken' in cookies) {
-      authValue.setCSRFToken(cookies.csrfToken)
+      auth.setCSRFToken(cookies.csrfToken)
 
       if ('token' in cookies) {
         try {
           validateToken(cookies.token)
         } catch (error) {
-          if (error.name in onActionOnError) {
-            onActionOnError[error.name](validateToken, cookies.token)
-          }
+          if (error instanceof ConnectionError) { validateToken(cookies.token) }
+          if (error instanceof DataError) { console.debug('Unexpected') }
         }
       }
     } else {
       try {
         getCSRFToken()
       } catch (error) {
-        if (error.name in onActionOnError) {
-          onActionOnError[error.name](getCSRFToken)
-        }
+        if (error instanceof ConnectionError) { validateToken(cookies.token) }
+        if (error instanceof DataError) { console.debug('Unexpected') }
       }
     }
   })
@@ -146,21 +137,13 @@ const AppPreview = () => {
   )
 }
 
-const DataApp = () => (
-  <TempDataProvider>
-    <AppPreview />
-  </TempDataProvider>
-)
-
-const DetailApp = () => (
-  <DetailProvider>
-    <DataApp />
-  </DetailProvider>
-)
-
 const App = () => (
   <AuthProvider>
-    <DetailApp />
+    <DetailProvider>
+      <TempDataProvider>
+        <AppPreview />
+      </TempDataProvider>
+    </DetailProvider>
   </AuthProvider>
 )
 

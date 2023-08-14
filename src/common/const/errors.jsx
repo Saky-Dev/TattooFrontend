@@ -3,6 +3,7 @@ class ConnectionError extends Error {
     super(message)
     this.name = 'ConnectionError'
     this.stack = ''
+    this.message = 'Ocurrió un error, revisa tu conexión'
   }
 }
 
@@ -19,6 +20,7 @@ class DataError extends Error {
     super(message)
     this.name = 'DataError'
     this.stack = ''
+    this.message = 'Error en los datos del servidor, contacta a soporte técnico'
   }
 }
 

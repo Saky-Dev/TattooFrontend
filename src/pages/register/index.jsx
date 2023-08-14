@@ -28,7 +28,7 @@ const Register = () => {
   const [userCode, setUserCode] = useState(undefined)
   const [validationCode, setValidationCode] = useState(undefined)
 
-  const authValue = useContext(AuthContext)
+  const auth = useContext(AuthContext)
   const navigate = useNavigate()
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail|outlook|hotmail)\.(com|es)$/
@@ -68,24 +68,21 @@ const Register = () => {
       body: JSON.stringify({ email }),
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
+        'X-CSRFToken': auth.csrfToken
       }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
         if (!data.success) {
           toast.error('Algo salio mal en el proceso, intentalo de nuevo')
         } else {
-          if (!('validationCode' in data)) { throw new DataError('') }
-
+          if (!('validationCode' in data)) { throw new DataError() }
           setValidationCode(data.validationCode)
         }
       })
-      .catch(() => {
-        throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
-      })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const handleCodeSubmit = e => {
@@ -124,25 +121,22 @@ const Register = () => {
       body: JSON.stringify(userData),
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
+        'X-CSRFToken': auth.csrfToken
       }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
         if (!data.success) {
           toast.error('Algo salio mal al registrarte, intentalo de nuevo')
         } else {
           toast.success('Registro exitoso')
-
-          setTimeout(() => {
-            navigate(PATHS.AUTH.LOGIN)
-          }, 5000)
+          setTimeout(() => { navigate(PATHS.AUTH.LOGIN) }, 5000)
         }
       })
       .catch(() => {
-        throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
+        throw new ConnectionError('Ocurrió un error, revisa tu conexión')
       })
   }
 
@@ -166,8 +160,8 @@ const Register = () => {
   }
 
   useEffect(() => {
-    authValue.setIsAuthProcess(true)
-    return () => { authValue.setIsAuthProcess(false) }
+    auth.setIsAuthProcess(true)
+    return () => { auth.setIsAuthProcess(false) }
   }, [])
 
   const FirstStepCode = (

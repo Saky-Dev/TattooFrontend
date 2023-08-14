@@ -13,34 +13,35 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const authValue = useContext(AuthContext)
+  const auth = useContext(AuthContext)
   const navigate = useNavigate()
 
   useEffect(() => {
-    authValue.setIsAuthProcess(true)
+    auth.setIsAuthProcess(true)
 
-    if (authValue.user.isAuthenticated) {
-      authValue.user.token && authValue.user.isAdminAccess
+    if (auth.user.isAuthenticated) {
+      auth.user.token && auth.user.isAdminAccess
         ? navigate(PATHS.ADMIN.ACCOUNTS)
         : navigate(PATHS.USER.PROFILE)
     }
 
-    return () => { authValue.setIsAuthProcess(false) }
+    return () => { auth.setIsAuthProcess(false) }
   }, [])
 
   const saveUser = token => {
     const now = new Date().getTime()
     const expTime = now + 1000 * 60 * 60 * 24 * 3
 
-    authValue.user.setToken(token)
+    auth.user.setToken(token)
+    auth.user.isAuthenticated(true)
     document.cookie = `token=${token}; path=/; expires=${expTime}`
     navigate(PATHS.USER.PROFILE)
   }
 
   const saveAdmin = token => {
-    authValue.user.setToken(token)
-    authValue.user.setIsAdminAccess(true)
-    document.cookie = `token=${token}; path=/`
+    auth.user.setToken(token)
+    auth.user.isAuthenticated(true)
+    auth.user.setIsAdminAccess(true)
     navigate(PATHS.ADMIN.ACCOUNTS)
   }
 
@@ -50,30 +51,25 @@ const Login = () => {
       body: JSON.stringify({ email, password }),
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
+        'X-CSRFToken': auth.csrfToken
       }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
-        const toSaveData = {
-          user: saveUser,
-          admin: saveAdmin
-        }
+        const toSaveData = { user: saveUser, admin: saveAdmin }
 
         if (!data.success) {
           toast.error('Sin registros del usuario')
         } else {
-          if (!('type' in data) || !('token' in data)) { throw new DataError('') }
+          if (!('type' in data) || !('token' in data)) { throw new DataError() }
 
           toast.success('Acceso correcto')
           toSaveData[data.type](data.token)
         }
       })
-      .catch(() => {
-        throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
-      })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const handleSubmit = e => {

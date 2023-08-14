@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import AuthContext from '../../common/context/auth'
 import MainGrid from '../../components/main-grid'
 import Spectacular from '../../components/spectacular'
 import { ENDPOINTS } from '../../common/const/paths'
@@ -10,6 +11,8 @@ import './index.sass'
 
 const Top = () => {
   const [tattoos, setTattoos] = useState([])
+
+  const auth = useContext(AuthContext)
 
   const divideArrayIntoGroups = pictures => {
     const result = []
@@ -25,22 +28,23 @@ const Top = () => {
   const getPictures = () => {
     fetch(ENDPOINTS.TOP, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': auth.csrfToken
+      }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
         if (data.success) {
-          if (!('pictures' in data)) { throw new DataError('') }
+          if (!('pictures' in data)) { throw new DataError() }
 
           const images = divideArrayIntoGroups(data.pictures)
           setTattoos(images)
         }
       })
-      .catch(() => {
-        throw new ConnectionError('Ha ocurrido un error, revisa tu conexión')
-      })
+      .catch(() => { throw new ConnectionError() })
   }
 
   useEffect(() => {

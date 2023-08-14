@@ -7,7 +7,7 @@ import PATHS from '../../common/const/paths'
 import './index.sass'
 
 const Header = () => {
-  const authValue = useContext(AuthContext)
+  const auth = useContext(AuthContext)
 
   const userItems = {
     navbar: [
@@ -20,11 +20,11 @@ const Header = () => {
       { img: Shopping, text: 'Carrito', path: PATHS.PUBLIC.PREVIEW },
       {
         img: User,
-        text: authValue.user.isAuthenticated
-          ? (authValue.user.isAdminAcess ? 'Administradores' : 'Perfil')
+        text: auth.user.isAuthenticated
+          ? (auth.user.isAdminAcess ? 'Administradores' : 'Perfil')
           : 'Login',
-        path: authValue.user.isAuthenticated
-          ? (authValue.user.isAdminAcess ? PATHS.ADMIN.ACCOUNTS : PATHS.USER.PROFILE)
+        path: auth.user.isAuthenticated
+          ? (auth.user.isAdminAcess ? PATHS.ADMIN.ACCOUNTS : PATHS.USER.PROFILE)
           : PATHS.AUTH.LOGIN
       }
     ]
@@ -47,9 +47,9 @@ const Header = () => {
           if (!window.confirm('¿Deseas cerrar sesion?')) {
             e.preventDefault()
           } else {
-            authValue.user.setIsAuthenticated(false)
-            authValue.user.setToken('')
-            authValue.user.setIsAdminAccess(false)
+            auth.user.setIsAuthenticated(false)
+            auth.user.setToken('')
+            auth.user.setIsAdminAccess(false)
           }
         }
       }
@@ -57,7 +57,7 @@ const Header = () => {
   }
 
   const listNavbar = () => {
-    const navbar = authValue.user.token && authValue.user.isAdminAccess
+    const navbar = auth.user.token && auth.user.isAdminAccess
       ? adminItems.navbar
       : userItems.navbar
 
@@ -87,7 +87,7 @@ const Header = () => {
       </div>
       <div className='east'>
         <Shortcuts
-          list={authValue.user.token && authValue.user.isAdminAccess
+          list={auth.user.token && auth.user.isAdminAccess
             ? adminItems.shortcuts
             : userItems.shortcuts}
         />

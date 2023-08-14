@@ -11,12 +11,13 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState('')
   const navigate = useNavigate()
 
-  const authValue = useContext(AuthContext)
+  const auth = useContext(AuthContext)
 
   const validateEmail = () => {
     const regex = /^[a-zA-Z0-9._%+-]+@(gmail|outlook|hotmail)\.(com|es)$/
-
-    if (!regex.test(email)) { throw new ValidationError('El correo no es valido, proporciona un correo gmail, hotmail o outlook') }
+    if (!regex.test(email)) {
+      throw new ValidationError('El correo no es valido, proporciona un correo gmail, hotmail o outlook')
+    }
   }
 
   const sendEmail = () => {
@@ -25,45 +26,41 @@ const ForgotPassword = () => {
       body: JSON.stringify({ email }),
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
+        'X-CSRFToken': auth.csrfToken
       }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
         if (!data.success) {
           toast.error('No hay registros del correo')
         } else {
           toast.success('Se ha enviado un correo con la contraseña')
-
-          setTimeout(() => {
-            navigate(PATHS.LOGIN)
-          }, 5000)
+          setTimeout(() => { navigate(PATHS.LOGIN) }, 5000)
         }
       })
-      .catch(() => {
-        throw new ConnectionError('Ha ocurrido un error, revisa tu conexión')
-      })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const handleSubmit = e => {
     e.preventDefault()
+
     try {
       validateEmail()
       sendEmail()
+      navigate(PATHS.LOGIN)
     } catch (error) {
       if (error instanceof DataError) { console.debug('Unexpected') }
       if (error instanceof ValidationError || error instanceof ConnectionError) {
         toast.error(error.message)
       }
     }
-    navigate(PATHS.LOGIN)
   }
 
   useEffect(() => {
-    authValue.setIsAuthProcess(true)
-    return () => { authValue.setIsAuthProcess(false) }
+    auth.setIsAuthProcess(true)
+    return () => { auth.setIsAuthProcess(false) }
   }, [])
 
   return (

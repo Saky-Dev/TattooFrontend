@@ -18,7 +18,7 @@ import {
 const Tatto = () => {
   const [tattoosList, setTattoosList] = useState([])
 
-  const authValue = useContext(AuthContext)
+  const auth = useContext(AuthContext)
   const tempDataValue = useContext(TempDataContext)
 
   const categories = [
@@ -54,23 +54,21 @@ const Tatto = () => {
       body: JSON.stringify({ category: categories[catNumber].val }),
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRFToken': authValue.csrfToken
+        'X-CSRFToken': auth.csrfToken
       }
     })
       .then(response => response.json())
       .then(data => {
-        if (!('success' in data)) { throw new DataError('') }
+        if (!('success' in data)) { throw new DataError() }
 
         if (data.success) {
-          if (!('pictures' in data)) { throw new DataError('') }
+          if (!('pictures' in data)) { throw new DataError() }
 
           const splitedItems = divideArrayIntoGroups(data.pictures)
           setTattoosList(splitedItems)
         }
       })
-      .catch(() => {
-        throw new ConnectionError('Ah ocurrido un error, revisa tu conexión')
-      })
+      .catch(() => { throw new ConnectionError() })
   }
 
   const handleClick = e => {
@@ -79,11 +77,7 @@ const Tatto = () => {
 
     try {
       getPictures(linked)
-
-      if (selected) {
-        selected.classList.remove('selected')
-      }
-
+      if (selected) { selected.classList.remove('selected') }
       e.target.parentNode.classList.add('selected')
     } catch (error) {
       if (error instanceof ConnectionError) { toast.error(error.message) }
