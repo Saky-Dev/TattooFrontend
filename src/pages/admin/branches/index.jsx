@@ -135,13 +135,14 @@ const AdminBranches = () => {
   }
 
   useEffect(() => {
-    /* if (auth.trustAdminValidation()) {
+    if (auth.trustAdminValidation()) {
       getBranches()
-    } */
+    }
   }, [])
 
   return (
-    <main className='admin brancnes'>
+    <main className='admin branches'>
+      <Loader />
       <section className='existing'>
         <h2>Sucursales</h2>
         <div className='list'>
@@ -163,6 +164,7 @@ const AdminBranches = () => {
       </section>
       <section className='add'>
         <div className='location-data'>
+          <h2>Agregar</h2>
           <form className='input' onSubmit={handleSumbit}>
             <TextInput placeholder='Dirección' setValue={setDirection} />
             <TextInput placeholder='CP' setValue={setCP} />
@@ -195,8 +197,10 @@ const AdminBranches = () => {
         </div>
         <div className='artist-data'>
           <h2>Tatuador</h2>
-          <TextInput placeholder='Nombre' setValue={setaArtistName} />
-          <ImageInput image={artistPicture} setImage={setArtistPicture} />
+          <div className='input'>
+            <TextInput placeholder='Nombre' setValue={setaArtistName} />
+            <ImageInput image={artistPicture} setImage={setArtistPicture} />
+          </div>
         </div>
       </section>
     </main>

@@ -1,0 +1,97 @@
+@import ../../../common/styles/variables
+@import ../../../common/styles/mixins
+
+main.admin.branches
+  @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+  width: 100%
+  padding: 3vh 3vw
+  min-height: 82vh
+  gap: 5vh
+  section
+    h2
+      font-size: $fnt-subtitle
+      font-weight: 400
+  section.existing
+    @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+    gap: 3vh
+    width: 100%
+    div.list
+      @include flexing($justify: space-between)
+      width: 100%
+      flex-wrap: wrap
+      div.branch
+        @include flexing($justify: space-between)
+        width: 32%
+        height: 90px
+        border: 1px solid $clr-contrast
+        padding:
+          left: 15px
+        &:nth-child(n+4)
+          margin:
+            top: 15px
+        div
+          @include flexing($direction: column, $align: flex-start)
+          span
+            font-size: 1.3em
+            color: $clr-contrast
+            transition: 0.15s ease
+          p
+            font-size: 1em
+            color: $clr-second
+        button.icon-button
+          height: 100%
+          padding: 15px 20px
+  section.add
+    @include flexing($align: flex-start, $justify: space-between)
+    width: 100%
+    div.location-data
+      @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+      width: 52%
+      gap: 3vh
+      form
+        display: grid
+        grid-template-columns: repeat(12, 1fr)
+        grid-template-rows: repeat(3, 1fr)
+        gap: 15px
+        div.text-input
+          &:nth-child(1)
+            grid-column: 1 / 10
+            grid-row: 1
+          &:nth-child(2)
+            grid-column: 10 / 13
+            grid-row: 1
+          &:nth-child(3)
+            grid-column: 1 / 9
+            grid-row: 2
+        div.selector
+          &:nth-child(4)
+            grid-column: 9 / 13
+            grid-row: 2
+        div.combined-input
+          width: 100%
+          grid-template-columns: 75% 25%
+          &:nth-child(5)
+            grid-column: 1 / 13
+            grid-row: 3
+      div.preview
+        @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+        gap: 3vh
+        width: 100%
+        div.mask, iframe
+          width: 100%
+          height: auto
+          aspect-ratio: 4 / 3
+          border: none
+        div.mask
+          background: transparentize($clr-contrast, 0.5)
+    div.artist-data
+      @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+      gap: 3vh
+      width: 38%
+      div.input
+        @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+        gap: 15px
+        width: 100%
+        div.image-input
+          width: 100%
+          aspect-ratio: 1 / 1
