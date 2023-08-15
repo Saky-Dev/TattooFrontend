@@ -52,8 +52,8 @@ const AdminAccounts = () => {
           toast.error('No se pudo eliminar el administrador')
         } else {
           toast.error(`Se ha eliminado a ${account}`)
-          const temp = accounts.filter(item => item !== account)
-          setAccounts(temp)
+          const newAccounts = accounts.filter(item => item !== account)
+          setAccounts(newAccounts)
         }
       })
       .catch(() => { throw new ConnectionError() })
@@ -135,7 +135,7 @@ const AdminAccounts = () => {
                 icon={Trash}
                 color='main'
                 name='eliminar'
-                onClick={removeAdmin(account)}
+                onClick={() => { removeAdmin(account) }}
               />
             </div>
           ))}

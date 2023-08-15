@@ -44,7 +44,9 @@ const ENDPOINTS = {
     ADDACOUNT: '/api/admin/add-account',
     REMOVEACOUNT: '/api/admin/remove-account',
     UPLOADTATTOO: '/api/admin/upload-tattoo',
-    REMOVETATTOO: '/api/admin/remove-tattoo'
+    REMOVETATTOO: '/api/admin/remove-tattoo',
+    REMOVEBRANCH: '/api/admin/remove-branch',
+    ADDBRANCH: '/api/admin/add-branch'
   }
 }
 
