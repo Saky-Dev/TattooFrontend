@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import AuthContext from '../../common/context/auth'
+import DetailContext from '../../common/context/detail'
 import TempDataContext from '../../common/context/tempData'
 import IconList from '../../components/icon-list'
 import MainGrid from '../../components/main-grid'
@@ -19,6 +20,7 @@ const Tatto = () => {
   const [tattoosList, setTattoosList] = useState([])
 
   const auth = useContext(AuthContext)
+  const detail = useContext(DetailContext)
   const tempData = useContext(TempDataContext)
 
   const categories = [
@@ -85,6 +87,17 @@ const Tatto = () => {
     }
   }
 
+  const handleViewDetail = id => {
+    const copy = [...tattoosList]
+    const selected = copy.find(picture => picture.id === id)
+
+    detail.setIsVisible(true)
+    detail.setPictureId(id)
+    detail.setPicture(selected.file)
+
+    detail.getPictureDetail()
+  }
+
   useEffect(() => {
     if (tempData.category) {
       const iconElements = [...document.querySelectorAll('ul.icon-list li button')]
@@ -126,7 +139,7 @@ const Tatto = () => {
             <MainGrid
               key={index}
               pictures={pictures}
-              onClick={() => {}}
+              onClick={handleViewDetail}
               masks={pictures.map((picture, i) => (
                 <div className='mask' key={i}>
                   <span className='price'>{`$ ${picture.price.toLocaleString()}`}</span>

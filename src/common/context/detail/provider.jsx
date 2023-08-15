@@ -19,7 +19,7 @@ const DetailProvider = ({ children }) => {
   const [selected, setSelected] = useState(undefined)
   const [tags, setTags] = useState([])
   const [cluster, setCluster] = useState([])
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   const [onCart, setOnCart] = useState([])
 
   const auth = useContext(AuthContext)
@@ -120,7 +120,7 @@ const DetailProvider = ({ children }) => {
   }
 
   const addToCart = () => {
-    if (onCart.length > 4) {
+    if (onCart.length > 4 && selected !== undefined) {
       toast.error('Has alcanzado el límite de tatuajes en carrito')
     } else {
       const newCart = [...onCart, { pictureId, measures: selected }]
