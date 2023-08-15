@@ -1,17 +1,17 @@
 const CATEGORIES = {
-  JAPANESE: { TEXT: 'Japones', VALUE: 'japanese' },
-  DOGS: { TEXT: 'Perros', VALUE: 'dogs' },
-  MOONS: { TEXT: 'Lunas', VALUE: 'moons' },
+  JAPANESE: { TEXT: 'Japones', VALUE: 'japones' },
+  DOGS: { TEXT: 'Perros', VALUE: 'perros' },
+  MOONS: { TEXT: 'Lunas', VALUE: 'lunas' },
   COMICS: { TEXT: 'Comics', VALUE: 'comics' },
-  DEMONS: { TEXT: 'Demonios', VALUE: 'demons' },
-  SKULLS: { TEXT: 'Calaveras', VALUE: 'skulls' },
-  VIDEOGAMES: { TEXT: 'Videojuegos', VALUE: 'videogames' },
-  BUTTERFLIES: { TEXT: 'Mariposas', VALUE: 'butterflies' },
-  ANIME: { TEXT: 'Anime', VALUE: 'anime' },
-  TREES: { TEXT: 'Árboles', VALUE: 'trees' },
-  RELIGION: { TEXT: 'Religiosas', VALUE: 'religion' },
-  OWLS: { TEXT: 'Búhos', VALUE: 'owls' },
-  AXES: { TEXT: 'Hachas', VALUE: 'axes' }
+  DEMONS: { TEXT: 'Demonios', VALUE: 'demonios' },
+  SKULLS: { TEXT: 'Calaveras', VALUE: 'calaveras' },
+  VIDEOGAMES: { TEXT: 'Videojuegos', VALUE: 'videojuegos' },
+  BUTTERFLIES: { TEXT: 'Mariposas', VALUE: 'mariposas' },
+  ANIME: { TEXT: 'Anime', VALUE: 'mangas' },
+  TREES: { TEXT: 'Árboles', VALUE: 'arboles' },
+  RELIGION: { TEXT: 'Religiosas', VALUE: 'religiosos' },
+  OWLS: { TEXT: 'Búhos', VALUE: 'buhos' },
+  AXES: { TEXT: 'Hachas', VALUE: 'hachas' }
 }
 
 export default CATEGORIES

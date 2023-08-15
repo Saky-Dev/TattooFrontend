@@ -38,6 +38,7 @@ const ENDPOINTS = {
   ARTISTS: '/api/tattoo-artists',
   BRANCHES: '/api/branches',
   TOP: '/api/top',
+  DETAIL: '/api/detail',
   ADMIN: {
     VALIDATE: '/api/admin/valid',
     ACCOUNTS: '/api/admin/accounts',
