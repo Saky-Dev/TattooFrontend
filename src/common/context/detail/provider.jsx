@@ -8,13 +8,14 @@ import IconButton from '../../../components/icon-button'
 import Radio from '../../../components/radio'
 import { ENDPOINTS } from '../../const/paths'
 import { ConnectionError, DataError } from '../../const/errors'
-import { Close, Shopping } from '../../const/static/icons'
+import { Close, Shopping, Heart, HeartFilled } from '../../const/static/icons'
 import { toast } from 'react-toastify'
 import './index.sass'
 
 const DetailProvider = ({ children }) => {
   const [pictureId, setPictureId] = useState('')
-  const [picture, setPicture] = useState()
+  const [picture, setPicture] = useState(undefined)
+  const [isFavorite, setIsFavorite] = useState(false)
   const [measures, setMeasures] = useState([])
   const [selected, setSelected] = useState(undefined)
   const [tags, setTags] = useState([])
@@ -26,7 +27,8 @@ const DetailProvider = ({ children }) => {
 
   const reset = () => {
     setPictureId('')
-    setPicture(null)
+    setPicture(undefined)
+    setIsFavorite(false)
     setMeasures([])
     setSelected(undefined)
     setTags([])
@@ -94,9 +96,51 @@ const DetailProvider = ({ children }) => {
       .catch(() => { throw new ConnectionError() })
   }
 
+  const getFavoriteStatus = () => {
+    if (auth.user.isAuthenticated && auth.user.token) {
+      fetch(ENDPOINTS.FAVORITESTATUS, {
+        method: 'POST',
+        body: JSON.stringify({ token: auth.user.token }),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': auth.csrfToken
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (!('status' in data)) { throw new DataError() }
+          if (data.status) { setIsFavorite(true) }
+        })
+        .catch(() => { throw new ConnectionError() })
+    }
+  }
+
+  const toggleFavorite = () => {
+    fetch(ENDPOINTS.TOGGLEFAVORITE, {
+      method: 'POST',
+      body: JSON.stringify({ token: auth.user.token, status: isFavorite }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': auth.csrfToken
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!('success' in data)) { throw new DataError() }
+        if (!data.success) {
+          toast.error(`No se ha podido ${isFavorite ? 'quitar de favoritos' : 'agregar a favoritos'}`)
+        } else {
+          toast.error(`El tatuaje se ha ${isFavorite ? 'quitado de favoritos' : 'agregado a favoritos'}`)
+          setIsFavorite(!isFavorite)
+        }
+      })
+      .catch(() => { throw new ConnectionError() })
+  }
+
   const getPictureDetail = () => {
     try {
       pictureRequest()
+      getFavoriteStatus()
       clusterRequest()
     } catch (error) {
       if (error instanceof ConnectionError) { toast.error(error.message) }
@@ -111,6 +155,7 @@ const DetailProvider = ({ children }) => {
     setPictureId(id)
     setPicture(clicked.file)
 
+    setIsFavorite(false)
     setMeasures([])
     setSelected(undefined)
     setTags([])
@@ -150,6 +195,11 @@ const DetailProvider = ({ children }) => {
             onClick={reset}
           />
           <div className='picture'>
+            <IconButton
+              icon={isFavorite ? Heart : HeartFilled}
+              name={isFavorite ? 'Quitar favoritos' : 'Agregar favoritos'}
+              onClick={toggleFavorite}
+            />
             <img src={`data:image/jpeg;base64,${picture}`} alt='imagen' />
           </div>
           <div className='data'>

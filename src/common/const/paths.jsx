@@ -40,6 +40,8 @@ const ENDPOINTS = {
   TOP: '/api/top',
   DETAIL: '/api/detail',
   CLUSTER: '/api/cluster',
+  FAVORITESTATUS: '/api/favorite-status',
+  TOGGLEFAVORITE: '/api/favorite-toggle',
   ADMIN: {
     VALIDATE: '/api/admin/valid',
     ACCOUNTS: '/api/admin/accounts',
