@@ -39,6 +39,7 @@ const ENDPOINTS = {
   BRANCHES: '/api/branches',
   TOP: '/api/top',
   DETAIL: '/api/detail',
+  CLUSTER: '/api/cluster',
   ADMIN: {
     VALIDATE: '/api/admin/valid',
     ACCOUNTS: '/api/admin/accounts',

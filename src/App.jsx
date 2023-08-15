@@ -143,11 +143,11 @@ const AppPreview = () => {
 
 const App = () => (
   <AuthProvider>
-    <DetailProvider>
-      <TempDataProvider>
+    <TempDataProvider>
+      <DetailProvider>
         <AppPreview />
-      </TempDataProvider>
-    </DetailProvider>
+      </DetailProvider>
+    </TempDataProvider>
   </AuthProvider>
 )
 

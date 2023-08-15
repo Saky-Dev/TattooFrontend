@@ -2,6 +2,7 @@
 @import ../../styles/mixins
 
 div.picture-detail
+  @include flexing()
   position: fixed
   width: 100%
   height: 100vh
@@ -17,3 +18,57 @@ div.picture-detail
   &.hidden
     visibility: hidden
     opacity: 0
+  div.container
+    display: grid
+    grid-template-columns: 40% 60%
+    grid-template-rows: 100%
+    position: relative
+    width: 90vw
+    height: 90vh
+    background: $clr-background
+    box-shadow: 0 1px 3px transparentize($clr-contrast, 0.7)
+    button.icon-button
+      position: absolute
+      top: 15px
+      right: 15px
+      img
+        width: 50px
+        height: 50px
+    div.picture
+      width: 100%
+      height: 100%
+      img
+        height: 100%
+        width: 100%
+        object-fit: cover
+    div.data
+      @include flexing($direction: column, $align: flex-start, $justify: flex-start)
+      gap: 3vh
+      width: 100%
+      height: 100%
+      overflow-y: auto
+      padding: 3vh 3vw
+      h3
+        font-size: $fnt-section
+        font-weight: 400
+      h2
+        font-size: $fnt-subtitle
+        font-weight: 400
+      section
+        width: 100%
+        &:not(.add)
+          @include flexing($direction: column, $align: flex-start)
+          gap: 2vh
+        &.add
+          @include flexing($justify: flex-start)
+          gap: 1vw
+          button.main-button
+            @include flexing()
+            gap: 10px
+            padding: 12px 35px
+          span.price
+            font-size: 2em
+            color: $clr-main
+        div.main-grid
+          height: 70vh
+          aspect-ratio: unset

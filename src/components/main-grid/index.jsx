@@ -5,7 +5,7 @@ const MainGrid = ({ pictures = [], onClick = () => {}, masks = [], reverse = fal
     {pictures.map((picture, index) => (
       <button onClick={() => { onClick(picture.id) }} key={index}>
         {masks.length >= index ? masks[index] : <div className='mask' />}
-        <img src={picture.file} alt={`picture-${index}`} />
+        <img src={`data:image/jpeg;base64,${picture.file}`} alt={`picture-${index}`} />
       </button>
     ))}
   </div>

@@ -1,0 +1,38 @@
+@import ../../common/styles/variables
+@import ../../common/styles/mixins
+
+div.radio
+  @include flexing($justify: flex-start)
+  gap: 2vw
+  button
+    @include flexing($justify: flex-start)
+    gap: 10px
+    background: none
+    border: none
+    cursor: pointer
+    &.active
+      div.indicator
+        border: 1px solid $clr-main
+        &::after
+          background: $clr-main
+    div.indicator
+      width: 18px
+      height: 18px
+      border: 1px solid $clr-contrast
+      border-radius: 50%
+      position: relative
+      transition: 0.15s ease
+      &::after
+        position: absolute
+        content: ''
+        width: 10px
+        height: 10px
+        margin: auto
+        left: 0
+        top: 0
+        bottom: 0
+        right: 0
+        border-radius: 50%
+        transition: 0.15s ease
+    span
+      font-size: 1.4em

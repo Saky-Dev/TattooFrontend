@@ -1,0 +1,15 @@
+@import ../../common/styles/variables
+@import ../../common/styles/mixins
+
+ul.simple-list
+  @include flexing($justify: flex-start)
+  gap: 15px
+  list-style: none
+  li
+    button
+      background: $clr-contrast
+      padding: 8px 14px
+      color: $clr-background
+      border: none
+      cursor: pointer
+      font-size: 0.8em
