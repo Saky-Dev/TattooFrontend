@@ -38,25 +38,6 @@ const AppPreview = () => {
     return jsonCookies
   }
 
-  const getCSRFToken = () => {
-    fetch(ENDPOINTS.COOKIE, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!('success' in data)) { throw new DataError() }
-
-        if (!data.success) {
-          throw new ConnectionError()
-        } else {
-          if (!('csrfToken' in data)) { throw new DataError() }
-          auth.setCSRFToken(data.csrfToken)
-        }
-      })
-      .catch(() => { throw new ConnectionError() })
-  }
-
   const validateToken = token => {
     fetch(ENDPOINTS.TOKEN, {
       method: 'POST',
@@ -78,7 +59,6 @@ const AppPreview = () => {
           auth.user.setIsAuthenticated(true)
 
           document.cookie = `token=${token}; path=/; expires=${expTime}`
-          document.cookie = `csrfToken=${auth.csrfToken}; path=/; expires=${expTime}`
         }
       })
       .catch(() => { throw new ConnectionError() })
@@ -89,8 +69,8 @@ const AppPreview = () => {
 
     if (document.cookie) { cookies = parseCookies() }
 
-    if ('csrfToken' in cookies) {
-      auth.setCSRFToken(cookies.csrfToken)
+    if ('csrftoken' in cookies) {
+      auth.setCSRFToken(cookies.csrftoken)
 
       if ('token' in cookies) {
         try {
@@ -100,15 +80,8 @@ const AppPreview = () => {
           if (error instanceof DataError) { console.debug('Unexpected') }
         }
       }
-    } else {
-      try {
-        getCSRFToken()
-      } catch (error) {
-        if (error instanceof ConnectionError) { validateToken(cookies.token) }
-        if (error instanceof DataError) { console.debug('Unexpected') }
-      }
     }
-  })
+  }, [])
 
   return (
     <>

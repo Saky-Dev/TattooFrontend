@@ -27,14 +27,14 @@ const Login = () => {
     const expTime = now + 1000 * 60 * 60 * 24 * 3
 
     auth.user.setToken(token)
-    auth.user.isAuthenticated(true)
+    auth.user.setIsAuthenticated(true)
     document.cookie = `token=${token}; path=/; expires=${expTime}`
     navigate(PATHS.USER.PROFILE)
   }
 
   const saveAdmin = token => {
     auth.user.setToken(token)
-    auth.user.isAuthenticated(true)
+    auth.user.setIsAuthenticated(true)
     auth.user.setIsAdminAccess(true)
     navigate(PATHS.ADMIN.ACCOUNTS)
   }
@@ -52,15 +52,14 @@ const Login = () => {
       .then(data => {
         if (!('success' in data)) { throw new DataError() }
 
-        const toSaveData = { user: saveUser, admin: saveAdmin }
-
         if (!data.success) {
           toast.error('Sin registros del usuario')
         } else {
           if (!('type' in data) || !('token' in data)) { throw new DataError() }
 
           toast.success('Acceso correcto')
-          toSaveData[data.type](data.token)
+          if (data.type === 'admin') { saveAdmin(data.token) }
+          if (data.type === 'user') { saveUser(data.token) }
         }
       })
       .catch(() => { throw new ConnectionError() })

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import AuthContext from '../auth'
 import DetailContext from './context'
 import MainButton from '../../../components/main-button'
@@ -13,12 +13,12 @@ import { toast } from 'react-toastify'
 import './index.sass'
 
 const DetailProvider = ({ children }) => {
-  const [pictureId, setPictureId] = useState('')
+  const [pictureId, setPictureId] = useState(undefined)
   const [picture, setPicture] = useState(undefined)
   const [isFavorite, setIsFavorite] = useState(false)
   const [measures, setMeasures] = useState([])
   const [selected, setSelected] = useState(undefined)
-  const [tags, setTags] = useState([])
+  const [categories, setCategories] = useState([])
   const [cluster, setCluster] = useState([])
   const [isVisible, setIsVisible] = useState(false)
   const [onCart, setOnCart] = useState([])
@@ -26,14 +26,14 @@ const DetailProvider = ({ children }) => {
   const auth = useContext(AuthContext)
 
   const reset = () => {
-    setPictureId('')
+    setPictureId(undefined)
     setPicture(undefined)
     setIsFavorite(false)
     setMeasures([])
     setSelected(undefined)
-    setTags([])
     setCluster([])
     setIsVisible(false)
+    setCategories([])
   }
 
   const divideArrayIntoGroups = pictures => {
@@ -65,8 +65,8 @@ const DetailProvider = ({ children }) => {
         } else {
           if (!('measures' in data) || !('tags' in data)) { throw new DataError() }
 
+          setCategories(data.tags)
           setMeasures(data.measures)
-          setTags(data.tags)
         }
       })
       .catch(() => { throw new ConnectionError() })
@@ -75,7 +75,7 @@ const DetailProvider = ({ children }) => {
   const clusterRequest = () => {
     fetch(ENDPOINTS.CLUSTER, {
       method: 'POST',
-      body: JSON.stringify({ pictureId }),
+      body: JSON.stringify({ pictureId, categories }),
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFToken': auth.csrfToken
@@ -96,7 +96,7 @@ const DetailProvider = ({ children }) => {
       .catch(() => { throw new ConnectionError() })
   }
 
-  const getFavoriteStatus = () => {
+  /* const getFavoriteStatus = () => {
     if (auth.user.isAuthenticated && auth.user.token) {
       fetch(ENDPOINTS.FAVORITESTATUS, {
         method: 'POST',
@@ -135,18 +135,22 @@ const DetailProvider = ({ children }) => {
         }
       })
       .catch(() => { throw new ConnectionError() })
-  }
+  } */
 
   const getPictureDetail = () => {
     try {
       pictureRequest()
-      getFavoriteStatus()
       clusterRequest()
+      // getFavoriteStatus()
     } catch (error) {
       if (error instanceof ConnectionError) { toast.error(error.message) }
       if (error instanceof DataError) { console.debug('Unexpected') }
     }
   }
+
+  useEffect(() => {
+    if (pictureId !== undefined) { getPictureDetail() }
+  }, [pictureId])
 
   const handleChangePicture = id => {
     const copy = [...cluster]
@@ -158,7 +162,7 @@ const DetailProvider = ({ children }) => {
     setIsFavorite(false)
     setMeasures([])
     setSelected(undefined)
-    setTags([])
+    setCategories([])
     setCluster([])
 
     getPictureDetail()
@@ -177,14 +181,26 @@ const DetailProvider = ({ children }) => {
   return (
     <DetailContext.Provider
       value={{
-        setPictureId,
-        getPictureDetail,
-        reset,
-        setIsVisible,
+        pictureId,
+        picture,
+        isFavorite,
+        measures,
+        selected,
+        categories,
+        cluster,
         isVisible,
         onCart,
+        setPictureId,
+        setPicture,
+        setIsFavorite,
+        setMeasures,
+        setSelected,
+        setCategories,
+        setCluster,
+        setIsVisible,
         setOnCart,
-        setPicture
+        getPictureDetail,
+        reset
       }}
     >
       <div className={`picture-detail ${isVisible ? 'visible' : 'hidden'}`}>
@@ -198,7 +214,7 @@ const DetailProvider = ({ children }) => {
             <IconButton
               icon={isFavorite ? Heart : HeartFilled}
               name={isFavorite ? 'Quitar favoritos' : 'Agregar favoritos'}
-              onClick={toggleFavorite}
+              onClick={() => {}}
             />
             <img src={`data:image/jpeg;base64,${picture}`} alt='imagen' />
           </div>
@@ -215,7 +231,7 @@ const DetailProvider = ({ children }) => {
             </section>
             <section className='tags'>
               <h3>Tags</h3>
-              <SimpleList items={tags} />
+              <SimpleList items={categories} />
             </section>
             <section className='add'>
               <MainButton color='main' handleClick={addToCart}>

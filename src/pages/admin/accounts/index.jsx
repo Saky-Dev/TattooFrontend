@@ -25,7 +25,10 @@ const AdminAccounts = () => {
   const getAccounts = () => {
     fetch(ENDPOINTS.ADMIN.ACCOUNTS, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': auth.csrfToken
+      }
     })
       .then(response => response.json())
       .then(data => {
@@ -51,7 +54,7 @@ const AdminAccounts = () => {
         if (!data.success) {
           toast.error('No se pudo eliminar el administrador')
         } else {
-          toast.error(`Se ha eliminado a ${account}`)
+          toast.success(`Se ha eliminado a ${account}`)
           const newAccounts = accounts.filter(item => item !== account)
           setAccounts(newAccounts)
         }

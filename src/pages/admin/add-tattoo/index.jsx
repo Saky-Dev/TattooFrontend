@@ -6,9 +6,9 @@ import MainButton from '../../../components/main-button'
 import GhostButton from '../../../components/ghost-button'
 import Loader from '../../../components/loader'
 import { ValidationError, ConnectionError, DataError } from '../../../common/const/errors'
-import './index.sass'
 import { toast } from 'react-toastify'
 import { ENDPOINTS } from '../../../common/const/paths'
+import './index.sass'
 
 const AdminAddTattoo = () => {
   const [measures, setMearues] = useState([])
@@ -32,7 +32,7 @@ const AdminAddTattoo = () => {
 
   const handleDeleteMeasure = () => {
     const copy = [...measures]
-    copy.shift()
+    copy.pop()
     setMearues(copy)
   }
 
@@ -65,7 +65,7 @@ const AdminAddTattoo = () => {
           toast.error('Error al subir la información')
         } else {
           if (!('categories' in data)) { throw new DataError() }
-          toast.error(`La imagen se subio de forma correcta, clasificada como ${data.categories.map(category => category)}`)
+          toast.success(`La imagen se subio de forma correcta, clasificada como ${data.categories.map(category => category)}`)
 
           setImage(undefined)
           setMearues([])

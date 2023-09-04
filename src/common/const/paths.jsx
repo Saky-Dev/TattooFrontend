@@ -27,7 +27,6 @@ const PATHS = {
 }
 
 const ENDPOINTS = {
-  COOKIE: '/api/cookie',
   TOKEN: '/api/token-validation',
   NEWS: '/api/news',
   LOGIN: '/api/singin',
@@ -43,7 +42,7 @@ const ENDPOINTS = {
   FAVORITESTATUS: '/api/favorite-status',
   TOGGLEFAVORITE: '/api/favorite-toggle',
   ADMIN: {
-    VALIDATE: '/api/admin/valid',
+    VALIDATE: '/api/admin/validate',
     ACCOUNTS: '/api/admin/accounts',
     ADDACOUNT: '/api/admin/add-account',
     REMOVEACOUNT: '/api/admin/remove-account',

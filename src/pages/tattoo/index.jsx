@@ -87,15 +87,19 @@ const Tatto = () => {
     }
   }
 
-  const handleViewDetail = id => {
+  const handleViewDetail = async id => {
     const copy = [...tattoosList]
-    const selected = copy.find(picture => picture.id === id)
+    let selected
+    for (const sub of copy) {
+      selected = sub.find(picture => picture.id === id)
+      if (selected) { break }
+    }
 
-    detail.setIsVisible(true)
-    detail.setPictureId(id)
-    detail.setPicture(selected.file)
-
-    detail.getPictureDetail()
+    if (selected) {
+      detail.setIsVisible(true)
+      detail.setPicture(selected.file)
+      detail.setPictureId(selected.id)
+    }
   }
 
   useEffect(() => {

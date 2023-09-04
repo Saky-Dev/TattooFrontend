@@ -57,13 +57,11 @@ const AuthProvider = ({ children }) => {
 
     try {
       adminRequest()
-
       return true
     } catch (error) {
       if (error instanceof DataError) { console.debug('Unexpected') }
       if (error instanceof ConnectionError) { console.debug('Connection failed') }
       clearUserData()
-
       return false
     }
   }
